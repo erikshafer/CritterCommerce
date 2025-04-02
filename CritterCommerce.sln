@@ -8,11 +8,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".SolutionItems", ".Solution
 		xunit.runner.json = xunit.runner.json
 		README.md = README.md
 		.gitattributes = .gitattributes
+		global.json = global.json
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{B44C0F1C-1571-4969-8E71-1FD59E2BEF01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Api", "src\Catalog\Catalog.Api\Catalog.Api.csproj", "{F808B2D2-6C97-41E1-8FCD-45DDBEED3439}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F808B2D2-6C97-41E1-8FCD-45DDBEED3439} = {B44C0F1C-1571-4969-8E71-1FD59E2BEF01}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F808B2D2-6C97-41E1-8FCD-45DDBEED3439}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F808B2D2-6C97-41E1-8FCD-45DDBEED3439}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F808B2D2-6C97-41E1-8FCD-45DDBEED3439}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F808B2D2-6C97-41E1-8FCD-45DDBEED3439}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
