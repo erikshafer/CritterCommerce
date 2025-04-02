@@ -1,19 +1,23 @@
+using Catalog.Api;
 using Marten;
+using Microsoft.EntityFrameworkCore;
 using Oakton;
 using Oakton.Resources;
 using Wolverine;
+using Wolverine.EntityFrameworkCore;
 using Wolverine.Http;
 using Wolverine.Marten;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ApplyOaktonExtensions();
 
+// Using Weasel to make sure the items table exists
+builder.Services.AddHostedService<DatabaseSchemaCreator>();
+
 // Adding Marten for persistence
 builder.Services.AddMarten(opts =>
     {
-        var connectionString = builder
-            .Configuration
-            .GetConnectionString("postgres");
+        var connectionString = builder.Configuration.GetConnectionString("postgres");
         opts.Connection(connectionString!);
         opts.DatabaseSchemaName = "catalog";
     })
@@ -21,6 +25,14 @@ builder.Services.AddMarten(opts =>
     .IntegrateWithWolverine();
 
 builder.Services.AddResourceSetupOnStartup();
+
+// If you're okay with this, this will register the DbContext as normally,
+// but make some Wolverine specific optimizations at the same time
+builder.Services.AddDbContextWithWolverineIntegration<ItemsDbContext>(opts =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("sqlserver");
+    opts.UseSqlServer(connectionString);
+},"wolverine");
 
 // Wolverine usage is required for WolverineFx.Http
 builder.Host.UseWolverine(opts =>
@@ -30,16 +42,10 @@ builder.Host.UseWolverine(opts =>
 
     // Setting up the outbox on all locally handled background tasks
     opts.Policies.UseDurableLocalQueues();
-
-    // NOT USING
-    // I've added persistent inbox behavior to the "important" local queue
-    // opts.LocalQueue("important")
-    //     .UseDurableInbox();
 });
 
 builder.Services.AddOpenApi(); // TODO: learn what this all entails, it's new to me
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -49,8 +55,6 @@ var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
-
-app.UseHttpsRedirection(); // TODO: Need?
 
 // Let's add in Wolverine HTTP endpoints to the routing tree
 app.MapWolverineEndpoints();
