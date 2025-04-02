@@ -16,6 +16,12 @@ trim_trailing_whitespace = false
 [*.csproj]
 ij_xml_space_inside_empty_tag = true
 
+[*.json]
+indent_size = 2
+
+[*.yml]
+indent_size = 2
+
 ###############################
 # .NET Coding Conventions     #
 ###############################
