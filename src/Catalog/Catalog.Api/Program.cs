@@ -28,7 +28,7 @@ builder.Services.AddResourceSetupOnStartup();
 
 // If you're okay with this, this will register the DbContext as normally,
 // but make some Wolverine specific optimizations at the same time
-builder.Services.AddDbContextWithWolverineIntegration<ItemsDbContext>(opts =>
+builder.Services.AddDbContextWithWolverineIntegration<CatalogDbContext>(opts =>
 {
     var connectionString = builder.Configuration.GetConnectionString("sqlserver");
     opts.UseSqlServer(connectionString);

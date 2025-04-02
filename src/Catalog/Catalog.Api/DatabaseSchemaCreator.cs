@@ -15,9 +15,15 @@ public class DatabaseSchemaCreator : IHostedService
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        var items = new Table(new SqlServerObjectName("sample", "items"));
+        var items = new Table(new SqlServerObjectName("catalog", "items"));
         items.AddColumn<Guid>("id").AsPrimaryKey();
         items.AddColumn<string>("name");
+        items.AddColumn<string>("description");
+        items.AddColumn<string>("brandname");
+        items.AddColumn<string>("categoryname");
+        items.AddColumn<string>("imageurl");
+        items.AddColumn<decimal>("unitprice");
+        items.AddColumn<int>("availablestock");
 
         var connectionString = _configuration.GetConnectionString("sqlserver");
         await using var conn = new SqlConnection(connectionString);
