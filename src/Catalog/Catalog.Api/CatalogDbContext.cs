@@ -18,12 +18,12 @@ public class CatalogDbContext : DbContext
             map.ToTable("items", "catalog");
             map.HasKey(x => x.Id);
             map.Property(x => x.Name);
-            map.Property(x => x.Description);
-            map.Property(x => x.BrandName);
-            map.Property(x => x.CategoryName);
-            map.Property(x => x.ImageUrl);
+            map.Property(x => x.Description).IsRequired(false);
+            map.Property(x => x.BrandName).IsRequired(false);
+            map.Property(x => x.CategoryName).IsRequired(false);
+            map.Property(x => x.ImageUrl).IsRequired(false);
             map.Property(x => x.UnitPrice).HasPrecision(18, 2);
-            map.Property(x => x.AvailableStock);
+            map.Property(x => x.AvailableStock).HasDefaultValue(0);
         });
     }
 }
