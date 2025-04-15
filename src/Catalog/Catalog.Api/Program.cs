@@ -36,14 +36,7 @@ builder.Services.AddDbContextWithWolverineIntegration<CatalogDbContext>(opts =>
 },"catalog"); //  wolverine was old schema, bug????
 
 // Wolverine usage is required for WolverineFx.Http
-builder.Host.UseWolverine(opts =>
-{
-    // This middleware will apply to the HTTP endpoints as well
-    opts.Policies.AutoApplyTransactions();
-
-    // Setting up the outbox on all locally handled background tasks
-    opts.Policies.UseDurableLocalQueues();
-});
+builder.Host.UseWolverine();
 
 builder.Services.AddOpenApi(); // TODO: learn what this all entails, it's new to me
 
