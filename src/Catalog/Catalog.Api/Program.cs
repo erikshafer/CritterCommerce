@@ -60,9 +60,13 @@ app.UseSwaggerUI();
 // Let's add in Wolverine HTTP endpoints to the routing tree
 app.MapWolverineEndpoints();
 
+app.MapGet("/", () => Results.Redirect("/swagger"));
+
 app.MapPost("/items/create", (CreateItemCommand command, IMessageBus bus) => bus.InvokeAsync(command));
 
-// app.MapGet("/items/{id:guid}", (Guid id, IMessageBus bus) => bus.InvokeAsync<Item>(id));
+app.MapGet("/items", (CatalogDbContext db) => db.Items.ToList());
+
+app.MapGet("items/{id:Guid}", (CatalogDbContext db, Guid id) => db.Items.Find(id));
 
 // A lot of Wolverine and Marten diagnostics and administrative tools
 // come through Oakton command line support
