@@ -8,16 +8,16 @@
 
     <ItemGroup>
         <PackageReference Include="EFCore.NamingConventions" Version="9.0.0" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.3" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="WolverineFx.EntityFrameworkCore" Version="3.11.0" />
-        <PackageReference Include="WolverineFx.Http" Version="3.11.0" />
-        <PackageReference Include="WolverineFx.Http.Marten" Version="3.11.0" />
-        <PackageReference Include="WolverineFx.SqlServer" Version="3.11.0" />
+        <PackageReference Include="WolverineFx.EntityFrameworkCore" Version="3.12.2" />
+        <PackageReference Include="WolverineFx.Http" Version="3.12.2" />
+        <PackageReference Include="WolverineFx.Http.Marten" Version="3.12.2" />
+        <PackageReference Include="WolverineFx.SqlServer" Version="3.12.2" />
     </ItemGroup>
 
 </Project>
