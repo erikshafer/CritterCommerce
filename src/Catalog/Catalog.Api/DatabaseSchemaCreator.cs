@@ -21,7 +21,6 @@ public class DatabaseSchemaCreator : IHostedService
         items.AddColumn<Guid>("id").AsPrimaryKey();
         items.AddColumn<string>("name");
         items.AddColumn<string>("description");
-        items.AddColumn<string>("image_url");
 
         var categories = new Table(new PostgresqlObjectName(schema, "categories"));
         categories.AddColumn<Guid>("id").AsPrimaryKey();
@@ -39,6 +38,14 @@ public class DatabaseSchemaCreator : IHostedService
         inventories.AddColumn<Guid>("id").AsPrimaryKey();
         inventories.AddColumn<string>("value");
 
+        var skuReservations = new Table(new PostgresqlObjectName(schema, "sku_reservations"));
+        skuReservations.AddColumn<Guid>("id").AsPrimaryKey();
+        skuReservations.AddColumn<bool>("reserved");
+
+        var media = new Table(new PostgresqlObjectName(schema, "media"));
+        media.AddColumn<Guid>("id").AsPrimaryKey();
+        media.AddColumn<string>("image_url_1");
+
         var connectionString = _configuration.GetConnectionString("postgres");
         await using var conn = new NpgsqlConnection(connectionString);
         await conn.OpenAsync(cancellationToken);
@@ -48,6 +55,8 @@ public class DatabaseSchemaCreator : IHostedService
         await brands.ApplyChangesAsync(conn, cancellationToken);
         await prices.ApplyChangesAsync(conn, cancellationToken);
         await inventories.ApplyChangesAsync(conn, cancellationToken);
+        await skuReservations.ApplyChangesAsync(conn, cancellationToken);
+        await media.ApplyChangesAsync(conn, cancellationToken);
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
