@@ -33,7 +33,7 @@ builder.Services.AddDbContextWithWolverineIntegration<CatalogDbContext>(opts =>
     var connectionString = builder.Configuration.GetConnectionString("postgres");
     opts.UseNpgsql(connectionString!)
         .UseSnakeCaseNamingConvention();
-},"catalog"); //  wolverine was old schema, bug????
+},"catalog");
 
 // Wolverine usage is required for WolverineFx.Http
 builder.Host.UseWolverine(opts =>
