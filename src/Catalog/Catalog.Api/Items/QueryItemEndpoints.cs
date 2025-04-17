@@ -5,6 +5,6 @@ namespace Catalog.Api.Items;
 
 public static class QueryItemEndpoints
 {
-    [WolverineGet("/api/item/{id}")]
+    [WolverineGet("/api/items/{id}")]
     public static Item Get([Entity] Item item) => item;
 }

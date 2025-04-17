@@ -1,6 +1,6 @@
-namespace Catalog.Api.Media;
+namespace Catalog.Api.Multimedia;
 
-public class Multimedia
+public class Media
 {
     public Guid Id { get; set; }
     public string? ImageUrl1 { get; set; }
