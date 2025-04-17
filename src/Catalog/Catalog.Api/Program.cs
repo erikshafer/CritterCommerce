@@ -26,27 +26,20 @@ builder.Services.AddMarten(opts =>
 
 builder.Services.AddResourceSetupOnStartup();
 
-// If you're okay with this, this will register the DbContext as normally,
-// but make some Wolverine specific optimizations at the same time
 builder.Services.AddDbContextWithWolverineIntegration<CatalogDbContext>(opts =>
 {
     var connectionString = builder.Configuration.GetConnectionString("postgres");
     opts.UseNpgsql(connectionString!)
         .UseSnakeCaseNamingConvention();
-},"catalog"); //  wolverine was old schema, bug????
+},"catalog");
 
-// Wolverine usage is required for WolverineFx.Http
 builder.Host.UseWolverine(opts =>
 {
-    // This middleware will apply to the HTTP endpoints as well
     opts.Policies.AutoApplyTransactions();
-
-    // Setting up the outbox on all locally handled background tasks
     opts.Policies.UseDurableLocalQueues();
 });
 
-builder.Services.AddOpenApi(); // TODO: learn what this all entails, it's new to me
-
+builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -57,13 +50,8 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-// Let's add in Wolverine HTTP endpoints to the routing tree
 app.MapWolverineEndpoints();
 
-app.MapPost("/items/create", (CreateItemCommand command, IMessageBus bus) => bus.InvokeAsync(command));
+app.MapGet("/", () => Results.Redirect("/swagger"));
 
-// app.MapGet("/items/{id:guid}", (Guid id, IMessageBus bus) => bus.InvokeAsync<Item>(id));
-
-// A lot of Wolverine and Marten diagnostics and administrative tools
-// come through Oakton command line support
 return await app.RunOaktonCommands(args);
