@@ -1,3 +1,10 @@
+using Catalog.Api.Brands;
+using Catalog.Api.Categories;
+using Catalog.Api.Inventories;
+using Catalog.Api.Items;
+using Catalog.Api.Media;
+using Catalog.Api.Prices;
+using Catalog.Api.SkuReservations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Api;
@@ -59,13 +66,13 @@ public class CatalogDbContext : DbContext
         modelBuilder.Entity<SkuReservation>(map =>
         {
             map.ToTable("sku_reservations", schema);
-            map.HasKey(x => x.Id);
+            map.HasKey(x => x.Unit);
             map.Property(x => x.Reserved).HasDefaultValue(false).IsRequired();
         });
 
-        modelBuilder.Entity<Media>(map =>
+        modelBuilder.Entity<Multimedia>(map =>
         {
-            map.ToTable("media", schema);
+            map.ToTable("multimedia", schema);
             map.HasKey(x => x.Id);
             map.Property(x => x.ImageUrl1).HasColumnName("image_url_1").HasMaxLength(255).IsRequired(false);
         });

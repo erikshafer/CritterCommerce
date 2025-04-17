@@ -42,7 +42,7 @@ public class DatabaseSchemaCreator : IHostedService
         skuReservations.AddColumn<Guid>("id").AsPrimaryKey();
         skuReservations.AddColumn<bool>("reserved");
 
-        var media = new Table(new PostgresqlObjectName(schema, "media"));
+        var media = new Table(new PostgresqlObjectName(schema, "multimedia"));
         media.AddColumn<Guid>("id").AsPrimaryKey();
         media.AddColumn<string>("image_url_1");
 

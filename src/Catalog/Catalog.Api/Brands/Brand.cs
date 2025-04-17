@@ -1,6 +1,6 @@
-namespace Catalog.Api;
+namespace Catalog.Api.Brands;
 
-public class Category
+public class Brand
 {
     public Guid Id { get; set; }
     public string? Name { get; set; }
