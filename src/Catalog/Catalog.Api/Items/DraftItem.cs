@@ -9,12 +9,15 @@ public sealed record DraftItem(string Name);
 
 public sealed record ItemDrafted(Guid Id);
 
-public sealed record ItemDraftedResponse(Guid Id) : CreationResponse("/api/items/" + Id);
+public sealed record ItemDraftedResponse(Guid Id)
+    : CreationResponse("/api/items/" + Id);
 
 public static class DraftItemEndpoint
 {
     [WolverinePost("/api/items")]
-    public static (ItemDraftedResponse, ItemDrafted) Handle(DraftItem command, CatalogDbContext db)
+    public static (ItemDraftedResponse, ItemDrafted) Handle(
+        DraftItem command,
+        CatalogDbContext db)
     {
         var item = new Item
         {
@@ -32,7 +35,7 @@ public static class DraftItemEndpoint
     }
 }
 
-public class ItemDraftedEventHandler
+public class ItemDraftedHandler
 {
     public void Handle(ItemDrafted @event)
     {
