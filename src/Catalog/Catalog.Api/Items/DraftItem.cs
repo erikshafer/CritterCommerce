@@ -9,24 +9,12 @@ public sealed record DraftItem(string Name);
 
 public sealed record ItemDrafted(Guid Id);
 
-public static class DraftItemCommandHandler
+public sealed record ItemDraftedResponse(Guid Id) : CreationResponse("/api/items/" + Id);
+
+public static class DraftItemEndpoint
 {
-    [Transactional]
-    public static ItemDrafted Handle(DraftItem command, CatalogDbContext db)
-    {
-        var item = new Item { Name = command.Name };
-
-        db.Items.Add(item);
-
-        return new ItemDrafted(item.Id);
-    }
-}
-
-public static class DraftItemEndpoints
-{
-    [Transactional]
-    [WolverinePost("/api/items"), AlwaysPublishResponse]
-    public static (ItemDrafted, Insert<Item>) Post(DraftItem command)
+    [WolverinePost("/api/items")]
+    public static (ItemDraftedResponse, ItemDrafted) Handle(DraftItem command, CatalogDbContext db)
     {
         var item = new Item
         {
@@ -35,7 +23,12 @@ public static class DraftItemEndpoints
             Description = string.Empty
         };
 
-        return (new ItemDrafted(item.Id), Storage.Insert(item));
+        db.Items.Add(item);
+
+        return (
+            new ItemDraftedResponse(item.Id),
+            new ItemDrafted(item.Id)
+        );
     }
 }
 
