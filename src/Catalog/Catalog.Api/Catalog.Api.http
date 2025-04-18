@@ -23,9 +23,28 @@ Content-Type: application/json
 ###
 
 # curl -X 'GET'
-#  'http://localhost:5111/api/items/0196460a-8029-40b6-adf4-84073bc5cfb6'
+#  'http://localhost:5111/api/items/01964687-39a2-4390-a315-e4754b18e82c
 #  -H 'accept: application/json'
-GET {{HostAddress}}/api/items/0196460a-8029-40b6-adf4-84073bc5cfb6
+GET {{HostAddress}}/api/items/01964687-39a2-4390-a315-e4754b18e82c
 Accept: application/json
+
+###
+
+# curl -X 'POST'
+#  'http://localhost:5111/api/items/description'
+#  -H 'accept: application/json'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "id": "01964687-39a2-4390-a315-e4754b18e82c",
+#  "description": "There is now a description in the description field. Hooray! Neat. <b>Yeah.</b>"
+#}'
+POST http://localhost:5111/api/items/description
+accept: application/json
+Content-Type: application/json
+
+{
+    "id": "01964687-39a2-4390-a315-e4754b18e82c",
+    "description": "There is now a description in the description field. Hooray! Neat. <b>Yeah!</b>"
+}
 
 ###
