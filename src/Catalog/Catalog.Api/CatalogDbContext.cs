@@ -2,7 +2,7 @@ using Catalog.Api.Brands;
 using Catalog.Api.Categories;
 using Catalog.Api.Inventories;
 using Catalog.Api.Items;
-using Catalog.Api.Media;
+using Catalog.Api.Multimedia;
 using Catalog.Api.Prices;
 using Catalog.Api.SkuReservations;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +20,7 @@ public class CatalogDbContext : DbContext
     public DbSet<Brand> Brands { get; set; }
     public DbSet<Price> Prices { get; set; }
     public DbSet<Inventory> Inventories { get; set; }
+    public DbSet<Media> Medias { get; set; }
     public DbSet<SkuReservation> SkuReservations { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -70,9 +71,9 @@ public class CatalogDbContext : DbContext
             map.Property(x => x.Reserved).HasDefaultValue(false).IsRequired();
         });
 
-        modelBuilder.Entity<Multimedia>(map =>
+        modelBuilder.Entity<Media>(map =>
         {
-            map.ToTable("multimedia", schema);
+            map.ToTable("media", schema);
             map.HasKey(x => x.Id);
             map.Property(x => x.ImageUrl1).HasColumnName("image_url_1").HasMaxLength(255).IsRequired(false);
         });
