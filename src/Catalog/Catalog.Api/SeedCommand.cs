@@ -1,12 +1,12 @@
 using Catalog.Api.Items;
+using JasperFx.CommandLine;
 using JasperFx.Core;
-using Oakton;
 using Spectre.Console;
 
 namespace Catalog.Api;
 
 [Description("Set up some items")]
-public class SeedCommand : OaktonAsyncCommand<NetCoreInput>
+public class SeedCommand : JasperFxAsyncCommand<NetCoreInput>
 {
     public override async Task<bool> Execute(NetCoreInput input)
     {

@@ -14,10 +14,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="WolverineFx.EntityFrameworkCore" Version="3.12.2" />
-        <PackageReference Include="WolverineFx.Http" Version="3.12.2" />
-        <PackageReference Include="WolverineFx.Http.Marten" Version="3.12.2" />
-        <PackageReference Include="WolverineFx.SqlServer" Version="3.12.2" />
+        <PackageReference Include="WolverineFx.EntityFrameworkCore" Version="4.0.0-alpha-1" />
+        <PackageReference Include="WolverineFx.Http" Version="4.0.0-alpha-1" />
+        <PackageReference Include="WolverineFx.Http.Marten" Version="4.0.0-alpha-1" />
+        <PackageReference Include="WolverineFx.SqlServer" Version="4.0.0-alpha-1" />
     </ItemGroup>
 
 </Project>

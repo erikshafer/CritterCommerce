@@ -1,15 +1,15 @@
 using Catalog.Api;
+using JasperFx;
+using JasperFx.Resources;
 using Marten;
 using Microsoft.EntityFrameworkCore;
-using Oakton;
-using Oakton.Resources;
 using Wolverine;
 using Wolverine.EntityFrameworkCore;
 using Wolverine.Http;
 using Wolverine.Marten;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Host.ApplyOaktonExtensions();
+builder.Host.ApplyJasperFxExtensions();
 
 // Using Weasel to make sure the items table exists
 builder.Services.AddHostedService<DatabaseSchemaCreator>(); ;
@@ -54,4 +54,4 @@ app.MapWolverineEndpoints();
 
 app.MapGet("/", () => Results.Redirect("/swagger"));
 
-return await app.RunOaktonCommands(args);
+return await app.RunJasperFxCommands(args);
