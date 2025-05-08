@@ -10,22 +10,22 @@ Accept: application/json
 #  -H 'accept: application/json'
 #  -H 'Content-Type: application/json'
 #  -d '{
-#  "name": "Bubblemonster v4"
+#  "name": "Bubblemonster v5"
 #}'
 POST {{HostAddress}}/api/items
 accept: application/json
 Content-Type: application/json
 
 {
-    "name": "Bubblemonster v4"
+    "name": "Bubblemonster v5"
 }
 
 ###
 
 # curl -X 'GET'
-#  'http://localhost:5111/api/items/0196b139-dbc1-4ec6-894a-c059ef056b8d
+#  'http://localhost:5111/api/items/0196b149-6c89-4490-bfcc-59a24db6dfcb
 #  -H 'accept: application/json'
-GET {{HostAddress}}/api/items/0196b139-dbc1-4ec6-894a-c059ef056b8d
+GET {{HostAddress}}/api/items/0196b149-6c89-4490-bfcc-59a24db6dfcb
 Accept: application/json
 
 ###
@@ -35,7 +35,7 @@ Accept: application/json
 #  -H 'accept: application/json'
 #  -H 'Content-Type: application/json'
 #  -d '{
-#  "id": "0196b139-dbc1-4ec6-894a-c059ef056b8d",
+#  "id": "0196b149-6c89-4490-bfcc-59a24db6dfcb",
 #  "description": "There is now a description in the description field. Hooray! Neat. <b>Yeah.</b>"
 #}'
 POST http://localhost:5111/api/items/description
@@ -43,7 +43,7 @@ accept: application/json
 Content-Type: application/json
 
 {
-    "id": "0196b139-dbc1-4ec6-894a-c059ef056b8d",
+    "id": "0196b149-6c89-4490-bfcc-59a24db6dfcb",
     "description": "There is now a description in the description field. Hooray! Neat. <b>Yeah!</b>"
 }
 
@@ -88,21 +88,37 @@ Content-Type: application/json
 ###
 
 # curl -X 'POST'
-#  'http://localhost:5111/api/assign-sku-to-item'
+#  'http://localhost:5111/api/sku-item-assignments'
 #  -H 'accept: application/json'
 #  -H 'Content-Type: application/json'
 #  -d '{
 #  "sku": 23,
 #  "itemId": "0196b139-dbc1-4ec6-894a-c059ef056b8d"
 #}'
-POST http://localhost:5111/api/assign-sku-to-item
+POST http://localhost:5111/api/sku-item-assignments
 accept: application/json
 Content-Type: application/json
 
 {
-    "sku": 23,
-    "itemId": "0196b139-dbc1-4ec6-894a-c059ef056b8d"
+    "sku": 24,
+    "itemId": "0196b154-3d93-486b-8032-0f30e9679033"
 }
+
+###
+
+# curl -X 'GET'
+#  'http://localhost:5111/api/sku-item-assignments'
+#  -H 'accept: application/json'
+GET http://localhost:5111/api/sku-item-assignments
+accept: application/json
+
+###
+
+# curl -X 'GET'
+#  'http://localhost:5111/api/sku-item-assignments/24'
+#  -H 'accept: application/json'
+GET http://localhost:5111/api/sku-item-assignments/24
+accept: application/json
 
 ###
 

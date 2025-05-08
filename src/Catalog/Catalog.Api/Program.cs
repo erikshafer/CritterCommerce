@@ -63,7 +63,7 @@ app.MapPost("/api/sku-reservations", (ReserveSku cmd, IMessageBus bus) =>
 app.MapPost("/api/sku-reservations/unreserve", (UnreserveSku cmd, IMessageBus bus) =>
     bus.InvokeAsync<SkuUnreserved>(cmd));
 
-app.MapPost("/api/assign-sku-to-item", (AssignSkuToDraftItem cmd, IMessageBus bus) =>
+app.MapPost("/api/sku-item-assignments", (AssignSkuToDraftItem cmd, IMessageBus bus) =>
     bus.InvokeAsync<AssignedSkuToDraftItem>(cmd));
 
 return await app.RunJasperFxCommands(args);

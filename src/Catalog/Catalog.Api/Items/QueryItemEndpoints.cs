@@ -10,10 +10,6 @@ public static class QueryItemEndpoints
     public static Item Get([Entity] Item item) => item;
 
     [WolverineGet("/api/items", Name = "GetItems")]
-    public static async Task<IReadOnlyList<Item>> GetItems(CatalogDbContext db)
-    {
-        var items = await db.Items.AsNoTracking().ToListAsync();
-
-        return items;
-    }
+    public static async Task<IReadOnlyList<Item>> GetItems(CatalogDbContext db) =>
+        await db.Items.AsNoTracking().ToListAsync();
 }
