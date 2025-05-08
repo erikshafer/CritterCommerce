@@ -23,9 +23,9 @@ Content-Type: application/json
 ###
 
 # curl -X 'GET'
-#  'http://localhost:5111/api/items/01964687-39a2-4390-a315-e4754b18e82c
+#  'http://localhost:5111/api/items/0196b139-dbc1-4ec6-894a-c059ef056b8d
 #  -H 'accept: application/json'
-GET {{HostAddress}}/api/items/01964687-39a2-4390-a315-e4754b18e82c
+GET {{HostAddress}}/api/items/0196b139-dbc1-4ec6-894a-c059ef056b8d
 Accept: application/json
 
 ###
@@ -35,7 +35,7 @@ Accept: application/json
 #  -H 'accept: application/json'
 #  -H 'Content-Type: application/json'
 #  -d '{
-#  "id": "01964687-39a2-4390-a315-e4754b18e82c",
+#  "id": "0196b139-dbc1-4ec6-894a-c059ef056b8d",
 #  "description": "There is now a description in the description field. Hooray! Neat. <b>Yeah.</b>"
 #}'
 POST http://localhost:5111/api/items/description
@@ -43,7 +43,7 @@ accept: application/json
 Content-Type: application/json
 
 {
-    "id": "01964687-39a2-4390-a315-e4754b18e82c",
+    "id": "0196b139-dbc1-4ec6-894a-c059ef056b8d",
     "description": "There is now a description in the description field. Hooray! Neat. <b>Yeah!</b>"
 }
 
@@ -87,4 +87,22 @@ Content-Type: application/json
 
 ###
 
+# curl -X 'POST'
+#  'http://localhost:5111/api/assign-sku-to-item'
+#  -H 'accept: application/json'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "sku": 23,
+#  "itemId": "0196b139-dbc1-4ec6-894a-c059ef056b8d"
+#}'
+POST http://localhost:5111/api/assign-sku-to-item
+accept: application/json
+Content-Type: application/json
+
+{
+    "sku": 23,
+    "itemId": "0196b139-dbc1-4ec6-894a-c059ef056b8d"
+}
+
+###
 
