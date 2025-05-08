@@ -22,6 +22,7 @@ public class CatalogDbContext : DbContext
     public DbSet<Inventory> Inventories { get; set; }
     public DbSet<Media> Medias { get; set; }
     public DbSet<SkuReservation> SkuReservations { get; set; }
+    public DbSet<SkuItemAssignment> SkuItemAssignments { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -68,7 +69,8 @@ public class CatalogDbContext : DbContext
         {
             map.ToTable("sku_reservations", schema);
             map.HasKey(x => x.Unit);
-            map.Property(x => x.Reserved).HasDefaultValue(false).IsRequired();
+            map.Property(x => x.IsReserved).HasDefaultValue(false).IsRequired();
+            map.Property(x => x.ReservedByUsername).HasMaxLength(200).HasDefaultValue(false).IsRequired();
         });
 
         modelBuilder.Entity<Media>(map =>
@@ -76,6 +78,13 @@ public class CatalogDbContext : DbContext
             map.ToTable("media", schema);
             map.HasKey(x => x.Id);
             map.Property(x => x.ImageUrl1).HasColumnName("image_url_1").HasMaxLength(255).IsRequired(false);
+        });
+
+        modelBuilder.Entity<SkuItemAssignment>(map =>
+        {
+            map.ToTable("sku_item_assignments", schema);
+            map.HasKey(x => x.Sku);
+            map.Property(x => x.ItemId).HasMaxLength(128).IsRequired();
         });
     }
 }

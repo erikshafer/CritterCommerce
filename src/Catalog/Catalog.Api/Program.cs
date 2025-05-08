@@ -1,4 +1,6 @@
 using Catalog.Api;
+using Catalog.Api.Items;
+using Catalog.Api.SkuReservations;
 using JasperFx;
 using JasperFx.Resources;
 using Marten;
@@ -52,6 +54,16 @@ app.UseSwaggerUI();
 
 app.MapWolverineEndpoints();
 
-app.MapGet("/", () => Results.Redirect("/swagger"));
+app.MapGet("/", ()
+    => Results.Redirect("/swagger"));
+
+app.MapPost("/api/sku-reservations", (ReserveSku cmd, IMessageBus bus) =>
+    bus.InvokeAsync<SkuReserved>(cmd));
+
+app.MapPost("/api/sku-reservations/unreserve", (UnreserveSku cmd, IMessageBus bus) =>
+    bus.InvokeAsync<SkuUnreserved>(cmd));
+
+app.MapPost("/api/sku-item-assignments", (AssignSkuToDraftItem cmd, IMessageBus bus) =>
+    bus.InvokeAsync<AssignedSkuToDraftItem>(cmd));
 
 return await app.RunJasperFxCommands(args);
