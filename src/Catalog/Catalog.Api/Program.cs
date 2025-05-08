@@ -59,4 +59,7 @@ app.MapGet("/", ()
 app.MapPost("/api/sku-reservations", (ReserveSku cmd, IMessageBus bus)
     => bus.InvokeAsync<SkuReserved>(cmd));
 
+app.MapPost("/api/sku-reservations/unreserve", (UnreserveSku cmd, IMessageBus bus)
+    => bus.InvokeAsync<SkuUnreserved>(cmd));
+
 return await app.RunJasperFxCommands(args);
