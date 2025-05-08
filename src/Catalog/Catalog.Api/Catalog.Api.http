@@ -48,3 +48,24 @@ Content-Type: application/json
 }
 
 ###
+
+# curl -X 'POST'
+#  'http://localhost:5111/api/sku-reservations'
+#  -H 'accept: application/json'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "unit": 22,
+#  "username": "erik"
+#}'
+POST http://localhost:5111/api/sku-reservations
+accept: application/json
+Content-Type: application/json
+
+{
+    "unit": 22,
+    "username": "erik"
+}
+
+###
+
+

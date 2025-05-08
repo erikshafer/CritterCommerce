@@ -40,7 +40,8 @@ public class DatabaseSchemaCreator : IHostedService
 
         var skuReservations = new Table(new PostgresqlObjectName(schema, "sku_reservations"));
         skuReservations.AddColumn<int>("unit").AsPrimaryKey();
-        skuReservations.AddColumn<bool>("reserved");
+        skuReservations.AddColumn<bool>("is_reserved");
+        skuReservations.AddColumn<string>("reserved_by_username");
 
         var media = new Table(new PostgresqlObjectName(schema, "media"));
         media.AddColumn<Guid>("id").AsPrimaryKey();

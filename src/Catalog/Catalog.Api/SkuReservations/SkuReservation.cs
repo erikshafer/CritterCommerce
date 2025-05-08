@@ -2,6 +2,7 @@ namespace Catalog.Api.SkuReservations;
 
 public class SkuReservation
 {
-    public int Unit { get; set; }
-    public bool Reserved { get; set; }
+    public required int Unit { get; set; }
+    public required bool IsReserved { get; set; }
+    public required string ReservedByUsername { get; set; }
 }

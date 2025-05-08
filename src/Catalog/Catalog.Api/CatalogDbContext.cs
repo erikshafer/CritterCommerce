@@ -68,7 +68,8 @@ public class CatalogDbContext : DbContext
         {
             map.ToTable("sku_reservations", schema);
             map.HasKey(x => x.Unit);
-            map.Property(x => x.Reserved).HasDefaultValue(false).IsRequired();
+            map.Property(x => x.IsReserved).HasDefaultValue(false).IsRequired();
+            map.Property(x => x.ReservedByUsername).HasMaxLength(200).HasDefaultValue(false).IsRequired();
         });
 
         modelBuilder.Entity<Media>(map =>

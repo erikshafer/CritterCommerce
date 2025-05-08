@@ -1,4 +1,5 @@
 using Catalog.Api;
+using Catalog.Api.SkuReservations;
 using JasperFx;
 using JasperFx.Resources;
 using Marten;
@@ -52,6 +53,10 @@ app.UseSwaggerUI();
 
 app.MapWolverineEndpoints();
 
-app.MapGet("/", () => Results.Redirect("/swagger"));
+app.MapGet("/", ()
+    => Results.Redirect("/swagger"));
+
+app.MapPost("/api/sku-reservations", (ReserveSku cmd, IMessageBus bus)
+    => bus.InvokeAsync<SkuReserved>(cmd));
 
 return await app.RunJasperFxCommands(args);
