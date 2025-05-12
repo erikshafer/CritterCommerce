@@ -8,27 +8,25 @@ using Wolverine.Marten;
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ApplyJasperFxExtensions();
 
-// Adding Marten for persistence
 builder.Services
-    .AddMarten(opts =>
+    .AddMarten(options =>
     {
         var connectionString = builder.Configuration.GetConnectionString("marten");
-        opts.Connection(connectionString!);
-        opts.DatabaseSchemaName = "inventory";
+        options.Connection(connectionString!);
+        options.DatabaseSchemaName = "inventory";
+        options.DisableNpgsqlLogging = true;
     })
-    // Optionally add Marten/Postgresql integration with Wolverine's outbox
+    .UseLightweightSessions()
     .IntegrateWithWolverine();
 
-builder.Services.AddResourceSetupOnStartup();
-
-builder.Host.UseWolverine(opts =>
+builder.Host.UseWolverine(options =>
 {
-    opts.Policies.AutoApplyTransactions();
-    opts.Policies.UseDurableLocalQueues();
+    options.Policies.AutoApplyTransactions();
+    options.Policies.UseDurableLocalQueues();
 });
 
-builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddWolverineHttp();
