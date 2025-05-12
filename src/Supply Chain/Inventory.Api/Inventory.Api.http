@@ -2,11 +2,18 @@
 
 ###
 
-# curl -X 'GET'
-#  'http://localhost:5121/'
-#  -H 'accept: */*'
-GET {{HostAddress}}/
+GET {{HostAddress}}
 accept: */*
+
+###
+
+POST {{HostAddress}}/api/inventory
+accept: application/json
+Content-Type: application/json
+
+{
+    "sku": "36606"
+}
 
 ###
 
