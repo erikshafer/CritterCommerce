@@ -19,6 +19,9 @@ builder.Services
     .UseLightweightSessions()
     .IntegrateWithWolverine();
 
+// Do all the necessary database setup on startup
+builder.Services.AddResourceSetupOnStartup();
+
 builder.Host.UseWolverine(options =>
 {
     options.Policies.AutoApplyTransactions();

@@ -1,0 +1,12 @@
+@HostAddress = http://localhost:5121
+
+###
+
+# curl -X 'GET'
+#  'http://localhost:5121/'
+#  -H 'accept: */*'
+GET {{HostAddress}}/
+accept: */*
+
+###
+
