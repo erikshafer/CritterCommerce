@@ -1,0 +1,19 @@
+@HostAddress = http://localhost:5121
+
+###
+
+GET {{HostAddress}}
+accept: */*
+
+###
+
+POST {{HostAddress}}/api/inventory
+accept: application/json
+Content-Type: application/json
+
+{
+    "sku": "36606"
+}
+
+###
+

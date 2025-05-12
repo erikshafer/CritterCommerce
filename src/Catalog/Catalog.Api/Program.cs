@@ -13,7 +13,7 @@ using Wolverine.Marten;
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ApplyJasperFxExtensions();
 
-// Using Weasel to make sure the items table exists
+// Using Weasel to make sure the catalog-related table exists
 builder.Services.AddHostedService<DatabaseSchemaCreator>(); ;
 
 // Adding Marten for persistence
