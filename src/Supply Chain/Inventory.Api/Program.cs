@@ -41,7 +41,10 @@ app.UseSwaggerUI();
 
 app.MapWolverineEndpoints();
 
-app.MapGet("/", ()
-    => Results.Redirect("/swagger"));
+app.MapGet("/", (HttpResponse response) =>
+{
+    response.Headers.Append("Location", "/swagger");
+    response.StatusCode = StatusCodes.Status301MovedPermanently;
+}).ExcludeFromDescription();
 
 return await app.RunJasperFxCommands(args);
