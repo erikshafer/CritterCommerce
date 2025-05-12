@@ -18,4 +18,8 @@
         <PackageReference Include="WolverineFx.Marten" Version="4.0.0-alpha-1" />
     </ItemGroup>
     
+    <ItemGroup>
+      <ProjectReference Include="..\Inventory\Inventory.csproj" />
+    </ItemGroup>
+    
 </Project>
