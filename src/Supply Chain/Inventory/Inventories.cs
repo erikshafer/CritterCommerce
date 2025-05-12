@@ -4,6 +4,12 @@ namespace Inventory;
 
 public record InventoryInitialized(string Sku);
 
+public record InventoryMarkedReady(string InventoryId);
+
+public record InventoryIncremented(string InventoryId, int Quantity);
+
+public record InventoryDecremented(string InventoryId, int Quantity);
+
 public enum InventoryStatus
 {
     Unset = 0,
