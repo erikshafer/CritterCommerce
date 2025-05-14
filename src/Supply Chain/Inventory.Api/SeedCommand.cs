@@ -3,7 +3,7 @@ using Marten;
 
 namespace Inventory.Api;
 
-[Description("Set up some providers and patients")]
+[Description("Set up some inventory streams and events")]
 public class SeedCommand : JasperFxAsyncCommand<NetCoreInput>
 {
     public override async Task<bool> Execute(NetCoreInput input)
@@ -15,11 +15,44 @@ public class SeedCommand : JasperFxAsyncCommand<NetCoreInput>
         await store.Advanced.Clean.DeleteAllDocumentsAsync();
         await store.Advanced.Clean.DeleteAllEventDataAsync();
 
-        // bulk inserts to the store ala await store.BulkInsertAsync(...);
-
         await using var session = store.LightweightSession();
 
-        // more
+        const string sku1 = "11001";
+        const string sku2 = "11002";
+        const string sku3 = "11003";
+
+        var inv1 = session.Events.StartStream<Inventory>(new InventoryInitialized(sku1)).Id;
+        var inv2 = session.Events.StartStream<Inventory>(new InventoryInitialized(sku2)).Id;
+        var inv3 = session.Events.StartStream<Inventory>(new InventoryInitialized(sku3)).Id;
+
+        await session.SaveChangesAsync();
+
+        session.Events.Append(inv1, new InventorySkuVerified(DateTimeOffset.Now.AddHours(-1).AddMinutes(1)));
+        session.Events.Append(inv2, new InventorySkuVerified(DateTimeOffset.Now.AddHours(-1).AddMinutes(2)));
+        session.Events.Append(inv3, new InventorySkuVerified(DateTimeOffset.Now.AddHours(-1).AddMinutes(3)));
+
+        await session.SaveChangesAsync();
+
+        session.Events.Append(inv1, new InventoryMarkedReady());
+        session.Events.Append(inv2, new InventoryMarkedReady());
+        session.Events.Append(inv3, new InventoryMarkedReady());
+
+        await session.SaveChangesAsync();
+
+        session.Events.Append(inv1, new InventoryQuantityEstablished(100));
+        session.Events.Append(inv2, new InventoryQuantityEstablished(22));
+        session.Events.Append(inv3, new InventoryQuantityEstablished(40));
+
+        await session.SaveChangesAsync();
+
+        session.Events.Append(inv1, new InventoryDecremented(1));
+        session.Events.Append(inv1, new InventoryDecremented(1));
+        session.Events.Append(inv1, new InventoryDecremented(1));
+        session.Events.Append(inv1, new InventoryDecremented(3));
+        session.Events.Append(inv1, new InventoryDecremented(4));
+
+        session.Events.Append(inv2, new InventoryDecremented(1));
+        session.Events.Append(inv2, new InventoryDecremented(1));
 
         await session.SaveChangesAsync();
 

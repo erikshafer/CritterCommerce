@@ -4,11 +4,15 @@ namespace Inventory;
 
 public record InventoryInitialized(string Sku);
 
-public record InventoryMarkedReady(string InventoryId);
+public record InventorySkuVerified(DateTimeOffset VerifiedAt);
 
-public record InventoryIncremented(string InventoryId, int Quantity);
+public record InventoryMarkedReady();
 
-public record InventoryDecremented(string InventoryId, int Quantity);
+public record InventoryQuantityEstablished(int Quantity);
+
+public record InventoryIncremented(int Quantity);
+
+public record InventoryDecremented(int Quantity);
 
 public enum InventoryStatus
 {
