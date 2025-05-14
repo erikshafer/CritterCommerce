@@ -33,15 +33,9 @@ public class SeedCommand : JasperFxAsyncCommand<NetCoreInput>
 
         await session.SaveChangesAsync();
 
-        session.Events.Append(inv1, new InventoryMarkedReady());
-        session.Events.Append(inv2, new InventoryMarkedReady());
-        session.Events.Append(inv3, new InventoryMarkedReady());
-
-        await session.SaveChangesAsync();
-
-        session.Events.Append(inv1, new InventoryQuantityEstablished(100));
-        session.Events.Append(inv2, new InventoryQuantityEstablished(22));
-        session.Events.Append(inv3, new InventoryQuantityEstablished(40));
+        session.Events.Append(inv1, new InventoryMarkedReady(100));
+        session.Events.Append(inv2, new InventoryMarkedReady(22));
+        session.Events.Append(inv3, new InventoryMarkedReady(40));
 
         await session.SaveChangesAsync();
 
@@ -55,6 +49,8 @@ public class SeedCommand : JasperFxAsyncCommand<NetCoreInput>
         session.Events.Append(inv2, new InventoryDecremented(1));
 
         await session.SaveChangesAsync();
+
+        session.Events.Append(inv1, new InventoryIncremented(1));
 
         return true;
     }

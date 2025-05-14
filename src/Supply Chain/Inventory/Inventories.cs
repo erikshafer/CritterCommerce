@@ -6,9 +6,7 @@ public record InventoryInitialized(string Sku);
 
 public record InventorySkuVerified(DateTimeOffset VerifiedAt);
 
-public record InventoryMarkedReady();
-
-public record InventoryQuantityEstablished(int Quantity);
+public record InventoryMarkedReady(int StartingQuantity);
 
 public record InventoryIncremented(int Quantity);
 
