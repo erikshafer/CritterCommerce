@@ -1,8 +1,10 @@
 using JasperFx;
+using JasperFx.Core;
 using JasperFx.Events.Daemon;
 using JasperFx.Resources;
 using Marten;
 using Wolverine;
+using Wolverine.ErrorHandling;
 using Wolverine.Http;
 using Wolverine.Marten;
 
@@ -36,6 +38,12 @@ builder.Host.UseWolverine(opts =>
     // middleware to any endpoint or handler that uses persistence services
     opts.Policies.AutoApplyTransactions();
     opts.Policies.UseDurableLocalQueues();
+
+    // Retry policies if a Marten concurrency exception is encountered
+    opts.OnException<ConcurrencyException>()
+        .RetryOnce()
+        .Then.RetryWithCooldown(100.Milliseconds(), 250.Milliseconds())
+        .Then.Discard();
 });
 
 builder.Services.AddEndpointsApiExplorer();
