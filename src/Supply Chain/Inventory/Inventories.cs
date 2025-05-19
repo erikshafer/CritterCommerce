@@ -1,5 +1,4 @@
-﻿using Marten;
-using Wolverine;
+﻿using Wolverine;
 using Wolverine.Marten;
 
 namespace Inventory;
