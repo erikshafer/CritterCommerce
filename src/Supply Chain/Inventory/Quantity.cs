@@ -31,6 +31,10 @@ public sealed record Quantity
 
     public Quantity Add(int another) => new(Value + another);
 
+    public Quantity Subtract(Quantity another) => Subtract(another.Value);
+
+    public Quantity Subtract(int another) => new(Value - another);
+
     public bool HasSameValue(Quantity another) => Value == another.Value;
 
     public static implicit operator int(Quantity quantity) => quantity.Value;

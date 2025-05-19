@@ -27,30 +27,33 @@ public class SeedCommand : JasperFxAsyncCommand<NetCoreInput>
 
         await session.SaveChangesAsync();
 
-        session.Events.Append(inv1, new InventorySkuVerified(DateTimeOffset.Now.AddHours(-1).AddMinutes(1)));
-        session.Events.Append(inv2, new InventorySkuVerified(DateTimeOffset.Now.AddHours(-1).AddMinutes(2)));
-        session.Events.Append(inv3, new InventorySkuVerified(DateTimeOffset.Now.AddHours(-1).AddMinutes(3)));
-
-        await session.SaveChangesAsync();
-
-        session.Events.Append(inv1, new InventoryMarkedReady(100));
-        session.Events.Append(inv2, new InventoryMarkedReady(22));
-        session.Events.Append(inv3, new InventoryMarkedReady(40));
+        session.Events.Append(inv1, new InventoryMarkedUsable(100));
+        session.Events.Append(inv2, new InventoryMarkedUsable(22));
+        session.Events.Append(inv3, new InventoryMarkedUsable(40));
 
         await session.SaveChangesAsync();
 
         session.Events.Append(inv1, new InventoryDecremented(1));
-        session.Events.Append(inv1, new InventoryDecremented(1));
-        session.Events.Append(inv1, new InventoryDecremented(1));
-        session.Events.Append(inv1, new InventoryDecremented(3));
-        session.Events.Append(inv1, new InventoryDecremented(4));
+        session.Events.Append(inv1, new InventoryDecremented(1)); // 2
+        session.Events.Append(inv1, new InventoryDecremented(1)); // 3
+        session.Events.Append(inv1, new InventoryDecremented(2)); // 5
+        session.Events.Append(inv1, new InventoryDecremented(1)); // 6
+        session.Events.Append(inv1, new InventoryDecremented(2)); // 8
+        session.Events.Append(inv1, new InventoryDecremented(1)); // 9
+        session.Events.Append(inv1, new InventoryDecremented(1)); // 10
 
         session.Events.Append(inv2, new InventoryDecremented(1));
         session.Events.Append(inv2, new InventoryDecremented(1));
 
         await session.SaveChangesAsync();
 
-        session.Events.Append(inv1, new InventoryIncremented(1));
+        session.Events.Append(inv1, new InventoryIncremented(2)); // should be 20, not 2, resulting in...
+
+        await session.SaveChangesAsync();
+
+        session.Events.Append(inv1, new PhysicalInventoryCountCorrection(110)); // ... a correction!
+
+        await session.SaveChangesAsync();
 
         return true;
     }
