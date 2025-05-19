@@ -27,9 +27,9 @@ public class SeedCommand : JasperFxAsyncCommand<NetCoreInput>
 
         await session.SaveChangesAsync();
 
-        session.Events.Append(inv1, new InventoryMarkedUsable(100));
-        session.Events.Append(inv2, new InventoryMarkedUsable(22));
-        session.Events.Append(inv3, new InventoryMarkedUsable(40));
+        session.Events.Append(inv1, new InventoryValidatedForUse());
+        session.Events.Append(inv2, new InventoryValidatedForUse());
+        session.Events.Append(inv3, new InventoryValidatedForUse());
 
         await session.SaveChangesAsync();
 

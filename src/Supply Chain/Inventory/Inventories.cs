@@ -4,21 +4,25 @@ using Wolverine.Marten;
 
 namespace Inventory;
 
-public record InventoryInitialized(string Sku);
+public record InventoryInitialized(string Sku); // evt
 
-public record InventoryMarkedUsable(int StartingQuantity);
+public record ValidateInventoryBeforeLaunch(Guid InventoryId); // cmd
 
-public record InventoryIncremented(int Quantity);
+public record InventoryValidatedForUse; // evt
 
-public record InventoryDecremented(int Quantity);
+public record InventoryIncremented(int Quantity); // evt
 
-public record PhysicalInventoryCountCorrection(int Quantity);
+public record InventoryDecremented(int Quantity); // evt
+
+public record PhysicalInventoryCountCorrection(int Quantity); // evt
 
 public enum InventoryStatus
 {
     Unset = 0,
     Initialized = 1,
-    Usable = 2
+    Validated = 2,
+    Launched = 4,
+    Inactive = 8
 }
 
 public class Inventory
@@ -36,13 +40,12 @@ public class Inventory
     public Quantity Quantity { get; set; }
     public InventoryStatus Status { get; set; }
 
-    public bool IsUsable() => Status == InventoryStatus.Usable;
+    public bool IsUsable() => Status == InventoryStatus.Validated;
     public bool HasStock() => Quantity.Value > 0;
 
-    public void Apply(InventoryMarkedUsable usable)
+    public void Apply(InventoryValidatedForUse validated)
     {
-        Quantity = new (usable.StartingQuantity);
-        Status = InventoryStatus.Usable;
+        Status = InventoryStatus.Validated;
     }
 
     public void Apply(InventoryIncremented incremented)
@@ -61,62 +64,25 @@ public class Inventory
     }
 }
 
-public record MarkInventoryAsUsable(Guid InventoryId, int StartingQuantity);
+public record InventoryReadyForInitialQuantity(Guid InventoryId);
 
-public static class MarkInventoryAsUsableHandler1
-{
-    public static async Task Handle1(MarkInventoryAsUsable command, IDocumentSession session)
-    {
-        var stream = await session
-            .Events
-            .FetchForExclusiveWriting<Inventory>(command.InventoryId);
-        var inventory = stream.Aggregate;
-
-        if (inventory?.IsUsable() is false)
-            stream.AppendOne(new InventoryMarkedUsable(command.StartingQuantity));
-
-        await session.SaveChangesAsync();
-    }
-}
-
-public static class MarkInventoryAsUsableHandler2
-{
-    [AggregateHandler]
-    public static IEnumerable<object> Handle(MarkInventoryAsUsable command, Inventory inventory)
-    {
-        if (inventory.IsUsable())
-            yield break; // just a crude (i.e., bad) example
-
-        yield return new InventoryMarkedUsable(command.StartingQuantity);
-    }
-}
-
-public record Data;
-
-public interface ISomeService
-{
-    Task<Data> FindDataAsync();
-}
-
-public record SomeInventoryMessage(Guid InventoryId);
-
-public static class MarkInventoryAsUsableHandler3
+public static class MarkInventoryAsUsableHandler
 {
     [AggregateHandler]
     public static async Task<(Events, OutgoingMessages)> Handle(
-        MarkInventoryAsUsable command,
+        ValidateInventoryBeforeLaunch command,
         Inventory inventory,
-        ISomeService service)
+        IVerifySkuService service)
     {
-        var data = await service.FindDataAsync();
+        var skuIsNotInUse = await service.VerifySkuIsNotInUse(inventory.Sku);
 
         var messages = new OutgoingMessages();
         var events = new Events();
 
         if (inventory.IsUsable())
         {
-            events += new InventoryMarkedUsable(command.StartingQuantity);
-            messages.Add(new SomeInventoryMessage(inventory.Id));
+            events += new InventoryValidatedForUse();
+            messages.Add(new InventoryReadyForInitialQuantity(inventory.Id));
         }
 
         // This results in both* new events being captured
