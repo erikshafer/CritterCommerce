@@ -16,7 +16,8 @@ public static class InitializeInventoryCommandEndpoint
     [WolverinePost("/api/inventory")]
     public static (CreationResponse<Guid>, IStartStream) Post(InitializeInventoryCommand command)
     {
-        var initialized = new InventoryInitialized(command.Sku); // event
+        var streamId = Guid.CreateVersion7();
+        var initialized = new InventoryInitialized(streamId, command.Sku); // event
         var start = MartenOps.StartStream<Inventory>(initialized); // event stream starts
 
         var response = new CreationResponse<Guid>("/api/inventory/" + start.StreamId, start.StreamId);

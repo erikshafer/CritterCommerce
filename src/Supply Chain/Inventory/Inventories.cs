@@ -1,9 +1,10 @@
-﻿using Wolverine;
+﻿using Marten.Schema;
+using Wolverine;
 using Wolverine.Marten;
 
 namespace Inventory;
 
-public record InventoryInitialized(string Sku); // evt
+public record InventoryInitialized(Guid Id, string Sku); // evt
 
 public record ValidateInventoryBeforeLaunch(Guid InventoryId); // cmd
 
@@ -26,21 +27,24 @@ public enum InventoryStatus
 
 public class Inventory
 {
+    public Inventory() { }
+
     public Inventory(InventoryInitialized initialized)
     {
         Sku = new(initialized.Sku);
-        Quantity = Quantity.IsZero;
+        Quantity = 0;
         Status = InventoryStatus.Initialized;
+        Version = 1;
     }
 
+    [Identity]
     public Guid Id { get; set; }
     public int Version { get; set; }
-    public Sku Sku { get; set; }
-    public Quantity Quantity { get; set; }
+    public string Sku { get; set; } = string.Empty;
+    public int Quantity { get; set; }
     public InventoryStatus Status { get; set; }
 
     public bool IsUsable() => Status == InventoryStatus.Validated;
-    public bool HasStock() => Quantity.Value > 0;
 
     public void Apply(InventoryValidatedForUse validated)
     {
@@ -49,17 +53,17 @@ public class Inventory
 
     public void Apply(InventoryIncremented incremented)
     {
-        Quantity = Quantity.Add(incremented.Quantity);
+        Quantity += incremented.Quantity;
     }
 
     public void Apply(InventoryDecremented decremented)
     {
-        Quantity = Quantity.Subtract(decremented.Quantity);
+        Quantity -= decremented.Quantity;
     }
 
     public void Apply(PhysicalInventoryCountCorrection correction)
     {
-        Quantity = new(correction.Quantity);
+        Quantity = correction.Quantity;
     }
 }
 

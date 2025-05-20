@@ -21,7 +21,7 @@ builder.Services.AddMarten(opts =>
         opts.DisableNpgsqlLogging = true;
 
         // A recent optimization
-        opts.Projections.UseIdentityMapForAggregates = true;
+        // opts.Projections.UseIdentityMapForAggregates = true;
 
         // opts.Projections.Snapshot<Inventory.Inventory>(SnapshotLifecycle.Inline);
         opts.Projections.Add<Inventory.InventoryProjection>(ProjectionLifecycle.Inline);
