@@ -10,15 +10,15 @@
         <PackageReference Include="EFCore.NamingConventions" Version="9.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.2" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="WolverineFx" Version="4.0.0-alpha-1" />
-        <PackageReference Include="WolverineFx.EntityFrameworkCore" Version="4.0.0-alpha-1" />
-        <PackageReference Include="WolverineFx.Http" Version="4.0.0-alpha-1" />
-        <PackageReference Include="WolverineFx.Http.Marten" Version="4.0.0-alpha-1" />
-        <PackageReference Include="WolverineFx.SqlServer" Version="4.0.0-alpha-1" />
+        <PackageReference Include="WolverineFx" Version="4.0.0-beta-1" />
+        <PackageReference Include="WolverineFx.EntityFrameworkCore" Version="4.0.0-beta-1" />
+        <PackageReference Include="WolverineFx.Http" Version="4.0.0-beta-1" />
+        <PackageReference Include="WolverineFx.Http.Marten" Version="4.0.0-beta-1" />
+        <PackageReference Include="WolverineFx.SqlServer" Version="4.0.0-beta-1" />
     </ItemGroup>
 
 </Project>
