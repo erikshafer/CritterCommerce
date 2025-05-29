@@ -1,6 +1,7 @@
 using Marten;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;
+using Wolverine.Http.Marten;
 using Wolverine.Persistence;
 
 namespace Inventory.Api;
@@ -22,5 +23,11 @@ public static class QueryInventoryEndpoints
         return invoice == null
             ? Results.NotFound()
             : Results.Ok(invoice);
+    }
+
+    [WolverineGet("/api/inventory/read-model-2/{id}",  Name = "GetInventoryReadModel2")]
+    public static InventoryReadModel GetReadModel2([Document] InventoryReadModel invoice)
+    {
+        return invoice;
     }
 }
