@@ -1,10 +1,9 @@
+using Inventory;
 using JasperFx;
 using JasperFx.Core;
-using JasperFx.Events.Daemon;
 using JasperFx.Events.Projections;
 using JasperFx.Resources;
 using Marten;
-using Marten.Events.Projections;
 using Wolverine;
 using Wolverine.ErrorHandling;
 using Wolverine.Http;
@@ -24,6 +23,7 @@ builder.Services.AddMarten(opts =>
         opts.Projections.UseIdentityMapForAggregates = true;
 
         opts.Projections.AggregatorFor<Inventory.Inventory>();
+        opts.Projections.Add<InventoryProjection>(ProjectionLifecycle.Inline);
     })
     // Another performance optimization if you're starting from scratch
     .UseLightweightSessions()
