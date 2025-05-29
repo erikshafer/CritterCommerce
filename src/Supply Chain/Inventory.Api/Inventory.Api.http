@@ -17,3 +17,8 @@ Content-Type: application/json
 
 ###
 
+GET {{HostAddress}}/api/inventory/01971d2a-bbb5-4ed2-b5f8-6e4a3cc704c3
+accept: application/json
+
+###
+

@@ -30,9 +30,9 @@ public class SeedCommand : JasperFxAsyncCommand<NetCoreInput>
 
         await session.SaveChangesAsync();
 
-        session.Events.Append(streamId1, new InventoryValidatedForUse());
-        session.Events.Append(streamId2, new InventoryValidatedForUse());
-        session.Events.Append(streamId3, new InventoryValidatedForUse());
+        session.Events.Append(streamId1, new InventoryMarkedReady());
+        session.Events.Append(streamId2, new InventoryMarkedReady());
+        session.Events.Append(streamId3, new InventoryMarkedReady());
 
         await session.SaveChangesAsync();
 
@@ -51,10 +51,6 @@ public class SeedCommand : JasperFxAsyncCommand<NetCoreInput>
         await session.SaveChangesAsync();
 
         session.Events.Append(streamId1, new InventoryIncremented(2)); // should be 20, not 2, resulting in...
-
-        await session.SaveChangesAsync();
-
-        session.Events.Append(streamId1, new PhysicalInventoryCountCorrection(110)); // ... a correction!
 
         await session.SaveChangesAsync();
 

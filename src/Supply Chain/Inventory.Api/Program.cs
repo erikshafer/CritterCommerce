@@ -21,15 +21,12 @@ builder.Services.AddMarten(opts =>
         opts.DisableNpgsqlLogging = true;
 
         // A recent optimization
-        // opts.Projections.UseIdentityMapForAggregates = true;
+        opts.Projections.UseIdentityMapForAggregates = true;
 
-        // opts.Projections.Snapshot<Inventory.Inventory>(SnapshotLifecycle.Inline);
-        opts.Projections.Add<Inventory.InventoryProjection>(ProjectionLifecycle.Inline);
+        opts.Projections.AggregatorFor<Inventory.Inventory>();
     })
     // Another performance optimization if you're starting from scratch
     .UseLightweightSessions()
-    // Run projections in the background
-    .AddAsyncDaemon(DaemonMode.HotCold)
     // This adds configuration with Wolverine's transactional outbox and
     // Marten middleware support to Wolverine
     .IntegrateWithWolverine();
