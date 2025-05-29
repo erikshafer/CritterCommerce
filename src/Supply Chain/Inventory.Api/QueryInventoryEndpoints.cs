@@ -2,14 +2,14 @@ using Marten;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;
 using Wolverine.Http.Marten;
-using Wolverine.Persistence;
+using Wolverine.Marten;
 
 namespace Inventory.Api;
 
 public static class QueryInventoryEndpoints
 {
     [WolverineGet("/api/inventory/{id}", Name = "GetInventory")]
-    public static Inventory GetEntity([Entity] Inventory inventory) => inventory;
+    public static Inventory GetEntity(Guid id, [ReadAggregate] Inventory inventory) => inventory;
 
     [WolverineGet("/api/inventory/read-model/{id}",  Name = "GetInventoryReadModel")]
     [ProducesResponseType(404)]
