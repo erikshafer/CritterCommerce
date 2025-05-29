@@ -26,8 +26,5 @@ public static class QueryInventoryEndpoints
     }
 
     [WolverineGet("/api/inventory/read-model-2/{id}",  Name = "GetInventoryReadModel2")]
-    public static InventoryReadModel GetReadModel2([Document] InventoryReadModel invoice)
-    {
-        return invoice;
-    }
+    public static InventoryReadModel GetReadModel2([Document] InventoryReadModel invoice) => invoice;
 }
