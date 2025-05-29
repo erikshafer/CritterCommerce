@@ -3,7 +3,7 @@ using Wolverine.Marten;
 
 namespace Inventory.Api;
 
-public record InitializeInventoryCommand(string Sku);
+public record InitializeInventory(string Sku);
 
 /// <summary>
 /// This is just one way to quickly start an event stream in
@@ -11,10 +11,10 @@ public record InitializeInventoryCommand(string Sku);
 /// this is one way to greatly reduce the boilerplate you normally
 /// would have to write.
 /// </summary>
-public static class InitializeInventoryCommandEndpoint
+public static class InitializeInventoryEndpoint
 {
-    [WolverinePost("/api/inventory")]
-    public static (CreationResponse<Guid>, IStartStream) Post(InitializeInventoryCommand command)
+    [WolverinePost("/api/inventory", Name = "InitializeInventory")]
+    public static (CreationResponse<Guid>, IStartStream) Post(InitializeInventory command)
     {
         var streamId = Guid.CreateVersion7();
         var initialized = new InventoryInitialized(streamId, command.Sku); // event
