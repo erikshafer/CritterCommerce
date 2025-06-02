@@ -17,10 +17,10 @@ builder.Host.ApplyJasperFxExtensions();
 builder.Services.AddHostedService<DatabaseSchemaCreator>(); ;
 
 // Adding Marten for persistence
+var martenConnectionString = builder.Configuration.GetConnectionString("marten");
 builder.Services.AddMarten(opts =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("marten");
-    opts.Connection(connectionString!);
+    opts.Connection(martenConnectionString!);
     opts.DatabaseSchemaName = "catalog";
 })
 // Optionally add Marten/Postgresql integration with Wolverine's outbox
@@ -28,12 +28,19 @@ builder.Services.AddMarten(opts =>
 
 builder.Services.AddResourceSetupOnStartup();
 
+var postgresConnectionString = builder.Configuration.GetConnectionString("postgres");
 builder.Services.AddDbContextWithWolverineIntegration<CatalogDbContext>(opts =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("postgres");
-    opts.UseNpgsql(connectionString!)
-        .UseSnakeCaseNamingConvention();
-},"catalog");
+    opts
+        .UseNpgsql(postgresConnectionString)
+        .UseSnakeCaseNamingConvention(),
+    "catalog");
+
+// builder.Services.AddDbContextWithWolverineIntegration<CatalogDbContext>(opts =>
+// {
+//     var connectionString = builder.Configuration.GetConnectionString("postgres");
+//     opts.UseNpgsql(connectionString!)
+//         .UseSnakeCaseNamingConvention();
+// },"catalog");
 
 builder.Host.UseWolverine(opts =>
 {
@@ -41,7 +48,6 @@ builder.Host.UseWolverine(opts =>
     opts.Policies.UseDurableLocalQueues();
 });
 
-builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -54,8 +60,11 @@ app.UseSwaggerUI();
 
 app.MapWolverineEndpoints();
 
-app.MapGet("/", ()
-    => Results.Redirect("/swagger"));
+app.MapGet("/", (HttpResponse response) =>
+{
+    response.Headers.Append("Location", "/swagger");
+    response.StatusCode = StatusCodes.Status301MovedPermanently;
+}).ExcludeFromDescription();
 
 app.MapPost("/api/sku-reservations", (ReserveSku cmd, IMessageBus bus) =>
     bus.InvokeAsync<SkuReserved>(cmd));

@@ -1,6 +1,6 @@
 using Npgsql;
 using Weasel.Postgresql;
-using Weasel.Postgresql.Tables;
+using Table = Weasel.Postgresql.Tables.Table;
 
 namespace Catalog.Api;
 

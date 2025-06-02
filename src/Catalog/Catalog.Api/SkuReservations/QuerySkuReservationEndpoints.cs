@@ -5,6 +5,6 @@ namespace Catalog.Api.SkuReservations;
 
 public class QuerySkuReservationEndpoints
 {
-    [WolverineGet("/api/sku-reservation/{id}")]
+    [WolverineGet("/api/sku-reservation/{id}", Name = "GetSkuReservation")]
     public static SkuReservation Get([Entity] SkuReservation sku) => sku;
 }
