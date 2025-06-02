@@ -1,4 +1,5 @@
 @HostAddress = http://localhost:5121
+@InventoryId = 01973202-ccdd-4df6-8ffb-201e7634e3bf
 
 ###
 
@@ -17,7 +18,17 @@ Content-Type: application/json
 
 ###
 
-GET {{HostAddress}}/api/inventory/01971d2a-bbb5-4ed2-b5f8-6e4a3cc704c3
+GET {{HostAddress}}/api/inventory/{{InventoryId}}
+accept: application/json
+
+###
+
+GET http://localhost:5121/api/inventory/read-model/{{InventoryId}}
+accept: application/json
+
+###
+
+GET http://localhost:5121/api/inventory/read-model-2/{{InventoryId}}
 accept: application/json
 
 ###
