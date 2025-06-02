@@ -49,7 +49,6 @@ builder.Host.UseWolverine(opts =>
 });
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 
 // To add Wolverine.HTTP services to the IoC container
