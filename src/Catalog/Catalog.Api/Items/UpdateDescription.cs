@@ -11,7 +11,7 @@ public sealed record DescriptionUpdatedResponse(Guid Id, bool Accepted)
 
 public static class UpdateDescriptionEndpoint
 {
-    [WolverinePost("/api/items/description")]
+    [WolverinePost("/api/items/description", Name = "UpdateDescription")]
     public static (DescriptionUpdatedResponse, DescriptionUpdated) Handle(
         UpdateDescription command,
         CatalogDbContext db)

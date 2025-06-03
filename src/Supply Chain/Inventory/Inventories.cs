@@ -1,42 +1,62 @@
-﻿using Marten;
+﻿using Wolverine;
+using Wolverine.Marten;
 
 namespace Inventory;
 
-public record InventoryInitialized(string Sku);
+public record InventoryInitialized(Guid Id, string Sku); // evt
 
-public record InventoryMarkedReady(string InventoryId);
+public record InventoryMarkedReady; // evt
 
-public record InventoryIncremented(string InventoryId, int Quantity);
+public record InventoryIncremented(int Quantity); // evt
 
-public record InventoryDecremented(string InventoryId, int Quantity);
-
-public enum InventoryStatus
-{
-    Unset = 0,
-    Initialized = 1,
-    Ready = 2,
-    InStock = 3,
-    OutOfStock = 4
-}
+public record InventoryDecremented(int Quantity); // evt
 
 public class Inventory
 {
-    public Guid Id { get; set; }
-    public Sku Sku { get; set; }
-    public Quantity Quantity { get; set; }
-    public InventoryStatus Status { get; set; }
-
-    // Referencing Marten here as a shorthand example. I prefer decoupling
-    // the two (domain model / aggregate and libraries / frameworks), but
-    // you can do so!
-    public static async Task<InventoryInitialized> Initialize(Sku sku, IQuerySession session)
+    public Inventory(InventoryInitialized initialized)
     {
-        // scaffolding
+        Sku = new(initialized.Sku);
+        Quantity = 0;
+        Version = 1;
+    }
 
-        var verifiedSku = await session.LoadAsync<SkuView>(sku.Value);
+    public Guid Id { get; set; }
+    public int Version { get; set; }
+    public string Sku { get; set; }
+    public int Quantity { get; set; }
 
-        return new InventoryInitialized(sku.Value);
+    public void Apply(InventoryIncremented incremented)
+    {
+        Quantity += incremented.Quantity;
+    }
+
+    public void Apply(InventoryDecremented decremented)
+    {
+        Quantity -= decremented.Quantity;
     }
 }
 
-public sealed record SkuView(string Value);
+public record InventoryReadyForInitialQuantity(Guid InventoryId);
+
+public sealed record PerformInventoryReview(Guid InventoryId, int QuantityChange);
+
+public static class PerformInventoryReviewHandler
+{
+    [AggregateHandler]
+    public static (Events, OutgoingMessages) Handle(PerformInventoryReview review, Inventory inventory)
+    {
+        var messages = new OutgoingMessages();
+        var events = new Events();
+
+        // some <business logic> involving readiness
+        // may check another system, require human intervention, etc.
+        // and if all looks good...
+
+        events += new InventoryMarkedReady();
+        messages.Add(new InventoryReadyForInitialQuantity(inventory.Id));
+
+        // This results in both* new events being captured
+        // and the SomeInventoryMessage message going out
+        return (events, messages);
+    }
+}

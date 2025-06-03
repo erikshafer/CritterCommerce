@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+    <PropertyGroup>
+        <LangVersion>12</LangVersion>
+        <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+        <NoWarn>1570;1571;1572;1573;1574;1587;1591;1701;1702;1711;1735;0618</NoWarn>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <WolverineVersion>4.0.0</WolverineVersion>
+        <MartenVersion>8.0.0</MartenVersion>
+        <Authors>Erik Shafer</Authors>
+        <RepositoryUrl>https://github.com/erikshafer/crittercommerce</RepositoryUrl>
+        <PackageProjectUrl>https://event-sourcing.dev/</PackageProjectUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    </PropertyGroup>
+</Project>
