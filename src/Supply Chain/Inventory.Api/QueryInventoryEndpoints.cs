@@ -8,8 +8,16 @@ namespace Inventory.Api;
 
 public static class QueryInventoryEndpoints
 {
+    [WolverineGet("/api/inventory", Name = "GetAllInventory")]
+    public static async Task<IReadOnlyList<Inventory>> GetAllEntities(IDocumentSession session) =>
+        await session.Query<Inventory>().ToListAsync();
+
     [WolverineGet("/api/inventory/{id}", Name = "GetInventory")]
     public static Inventory GetEntity(Guid id, [ReadAggregate] Inventory inventory) => inventory;
+
+    [WolverineGet("/api/inventory/read-model", Name = "GetAllInventoryReadModels")]
+    public static async Task<IReadOnlyList<InventoryReadModel>> GetAllReadModels(IDocumentSession session) =>
+        await session.Query<InventoryReadModel>().ToListAsync();
 
     [WolverineGet("/api/inventory/read-model/{id}",  Name = "GetInventoryReadModel")]
     [ProducesResponseType(404)]
