@@ -18,7 +18,7 @@ public static class InitializeInventoryEndpoint
     {
         var streamId = Guid.CreateVersion7(); // create stream id
         var initialized = new InventoryInitialized(streamId, command.Sku); // event
-        var start = MartenOps.StartStream<Inventory>(initialized); // event stream starts
+        var start = MartenOps.StartStream<InventoryItem>(initialized); // event stream starts
 
         var response = new CreationResponse<Guid>("/api/inventory/" + start.StreamId, start.StreamId);
 
