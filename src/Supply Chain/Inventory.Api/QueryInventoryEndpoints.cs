@@ -8,23 +8,61 @@ namespace Inventory.Api;
 
 public static class QueryInventoryEndpoints
 {
-    [WolverineGet("/api/inventory/{id}", Name = "GetInventory")]
-    public static Inventory GetEntity(Guid id, [ReadAggregate] Inventory inventory) => inventory;
+    [WolverineGet("/api/inventory", Name = "All InventoryItems")]
+    public static async Task<IReadOnlyList<InventoryItem>> GetAllDomainModels(IDocumentSession session) =>
+        await session.Query<InventoryItem>().ToListAsync();
 
-    [WolverineGet("/api/inventory/read-model/{id}",  Name = "GetInventoryReadModel")]
+
+
+    [WolverineGet("/api/inventory/{id}", Name = "InventoryItem domain model (inline)")]
+    public static InventoryItem GetDomainModelById(Guid id, [ReadAggregate] InventoryItem inventoryItem) => inventoryItem;
+
+
+
+    [WolverineGet("/api/inventory/live-aggregate/{id}",  Name = "Live Aggregation of InventoryItem")]
     [ProducesResponseType(404)]
-    [ProducesResponseType(200, Type = typeof(InventoryReadModel))]
-    public static async Task<IResult> GetReadModel(
+    [ProducesResponseType(200, Type = typeof(InventoryItem))]
+    public static async Task<IResult> GetLiveAggregationOfDomainModel(
         Guid id,
         IQuerySession session,
         CancellationToken ct)
     {
-        var invoice = await session.LoadAsync<InventoryReadModel>(id, ct);
-        return invoice == null
+        var aggregatedInventoryStream = await session.Events.AggregateStreamAsync<InventoryItem>(id, token: ct);
+        return aggregatedInventoryStream == null
             ? Results.NotFound()
-            : Results.Ok(invoice);
+            : Results.Ok(aggregatedInventoryStream);
     }
 
-    [WolverineGet("/api/inventory/read-model-2/{id}",  Name = "GetInventoryReadModel2")]
-    public static InventoryReadModel GetReadModel2([Document] InventoryReadModel invoice) => invoice;
+
+
+    [WolverineGet("/api/inventory/sku", Name = "All Inventory SKU read models")]
+    public static async Task<IReadOnlyList<InventorySku>> GetAllInventorySkuReadModels(IDocumentSession session) =>
+        await session.Query<InventorySku>().ToListAsync();
+
+
+
+    [WolverineGet("/api/inventory/sku/stream-id/{id}",  Name = "Inventory SKU read model by stream ID 1")]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(200, Type = typeof(InventorySku))]
+    public static async Task<IResult> GetInventorySkuReadModelByStreamId1(
+        Guid id,
+        IQuerySession session,
+        CancellationToken ct)
+    {
+        var readModel = await session.LoadAsync<InventorySku>(id, ct);
+        return readModel == null
+            ? Results.NotFound()
+            : Results.Ok(readModel);
+    }
+
+
+
+    // [WolverineGet("/api/inventory/sku/stream-id/{id}",  Name = "Inventory SKU read model by stream ID 2")]
+    // public static InventorySku GetInventorySkuReadModelByStreamId2([Document] InventorySku invoice) => invoice;
+
+
+
+    [WolverineGet("/api/inventory/sku/{sku}", Name = "Inventory SKU by SKU")]
+    public static async Task<InventorySku> GetInventorySkuReadModelBySku(string sku, IDocumentSession session) =>
+        await session.Query<InventorySku>().FirstAsync(x => x.Sku == sku);
 }
