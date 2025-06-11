@@ -11,4 +11,6 @@
         <PackageReference Include="WolverineFx.Http.Marten" Version="4.2.0" />
     </ItemGroup>
 
+    <Import Project="../../../Analysis.Build.props" />
+
 </Project>
