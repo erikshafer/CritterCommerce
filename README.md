@@ -2,18 +2,53 @@
 
 [![blog](https://img.shields.io/badge/blog-event--sourcing.dev-blue)](https://www.event-sourcing.dev/) [![Twitter Follow](https://img.shields.io/twitter/url?label=reach%20me%20%40Faelor&style=social&url=https%3A%2F%2Ftwitter.com%2Ffaelor)](https://twitter.com/faelor)
 
+
 # 🪄 Ecommerce with the Critter Stack 🛒
 
-Also known as **CritterCommerce**. This is a collection of use cases leveraging the __Critter Stack__, which consists of [Wolverine](https://wolverinefx.io/) + [Marten](https://martendb.io/) + [others](https://github.com/jasperfx).
 
-Our aim with this repository is to demonstrate concepts such as event-driven architecture, event sourcing, vertical-slice modules, and other concepts that can accelerate your .NET software development while making it more robust than conventional frameworks and libraries you may be used to.
+## 🤔 What is this repository? <a id='1.0'></a>
 
-## 🚧 Work In Progress
+This repository's goal is to demonstrate how event-driven concepts and orthogonal patterns don't require convoluted or custom implementations which dampen your team's software development. By leveraging the __Critter Stack__, which consists of [Wolverine](https://wolverinefx.io/) + [Marten](https://martendb.io/) from [JasperFX](https://jasperfx.net/), you can super-charge your .NET development while simplifying your codebase and test cases.
 
-This is a WIP.
+Get ready to unlock success with Event Driven Architectures through the Critter Stack!
+
+### 🛒 Ecommerce <a id='1.1'></a>
+
+The "domain" of this effort is ecommerce, as it provides an assortment of use cases that vary in complexity, ranging from listing the details of a single product to the ever-shifting dynamics of the retail supply chain. 
+
+We will use an assortment of features in the Critter Stack long with using modern .NET conventions to best help you understand how to leverage these techniques in your own software projects.
+
+
+## 🚧 Roadmap <a id='2.0'></a>
+
+This entire effort is considered a work-in-progress (WIP).
+
+Details are being worked out and will be shared soon.
+
+
+## 🏞️ Value Streams <a id='3.0'></a>
+
+Value Streams are a core concept in [Team Topologies](https://teamtopologies.com/). To grossly simplify, think departments, divisions, or teams within a company.  That is, *organizing business and technology teams for fast flow.*
+
+These value streams are how the overall .NET solution will be broken down. For example, as of 2025-06-11, there is a `Catalog` and `Supply Chain` solution folders to separate the ~~teams~~ value streams of our imaginary ecommerce business.
+
+
+## 🏫 Resources <a id='9.0'></a>
+
+Blogs, articles, and other resources will be listed here. 🚧
+
+### Tools Used <a id='9.1'></a>
+
+I've been a large fan of [JetBrains](https://www.jetbrains.com/)' suite of Integrated Development Environments (IDEs) for the better part of a decade. That includes their dotnet IDE called [Rider](https://www.jetbrains.com/rider/) which is used to work on this effort.
+
+<img src="https://img.shields.io/badge/Rider-000000?style=for-the-badge&logo=Rider&logoColor=white" alt="jetbrains rider">
+
 
 ## 👷‍♂️ Maintainer <a id='10.0'></a>
 
 Erik "Faelor" Shafer
 
-blog: www.event-sourcing.dev
+- linkedin: [in/erikshafer](https://www.linkedin.com/in/erikshafer/)
+- blog: [event-sourcing.dev](https://www.event-sourcing.dev)
+- youtube: [yt/event-sourcing](https://www.youtube.com/@event-sourcing)
+- bluesky: [erikshafer](https://bsky.app/profile/erikshafer.bsky.social)
