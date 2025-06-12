@@ -1,4 +1,5 @@
 using JasperFx.Events;
+using Wolverine.Marten;
 
 namespace Inventory.Receiving;
 
@@ -120,4 +121,38 @@ public enum ShipmentStatus
     Expected = 1,
     Received = 2,
     Putaway = 4
+}
+
+/* commands */
+
+public record ReceiveInboundShipment(Guid ShipmentId, string ReceivedBy);
+public record PutawayInboundShipment(Guid ShipmentId, Guid LocationId, string PutawayBy);
+
+public static class InboundShipmentHandler
+{
+    [AggregateHandler]
+    public static Events Handle(ReceiveInboundShipment command, InboundShipment shipment)
+    {
+        var events = new Events();
+
+        shipment.ReceiveShipment(command.ReceivedBy);
+        events += new InboundShipmentReceived(command.ReceivedBy, DateTime.UtcNow);
+
+        return events;
+    }
+
+    [AggregateHandler]
+    public static Events Handle(PutawayInboundShipment command, InboundShipment shipment)
+    {
+        var events = new Events();
+
+        shipment.PutawayShipment(command.LocationId, command.PutawayBy);
+        events += new InboundShipmentPutaway(
+            command.LocationId,
+            command.PutawayBy,
+            DateTime.UtcNow
+        );
+
+        return events;
+    }
 }
