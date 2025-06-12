@@ -1,11 +1,12 @@
 using Marten;
 using Marten.Events.Aggregation;
+// ReSharper disable UnusedType.Global
 
 namespace Inventory;
 
+[Flags]
 public enum FulfillmentCenterLocation
 {
-    Unset = 0,
     OmahaNeUsa = 1,
     AustinTxUsa = 2,
     BellevueWaUsa = 4,
