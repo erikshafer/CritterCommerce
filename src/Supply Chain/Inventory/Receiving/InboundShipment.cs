@@ -127,9 +127,39 @@ public enum ShipmentStatus
 
 public record ReceiveInboundShipment(Guid ShipmentId, string ReceivedBy);
 public record PutawayInboundShipment(Guid ShipmentId, Guid LocationId, string PutawayBy);
+public record ScheduleInboundOrder(Guid ShipmentId, string ShipmentNumber, DateTime ExpectedArrival);
+public record AddInboundShipmentLineItem(Guid ShipmentId, string Sku, int ExpectedQuantity);
+public record RecordLineItemQuantity(Guid ShipmentId, string Sku, int ReceivedQuantity);
 
 public static class InboundShipmentHandler
 {
+    [AggregateHandler]
+    public static Events Handle(ScheduleInboundOrder command)
+    {
+        var events = new Events();
+        events += new InboundOrderScheduled(command.ShipmentId, command.ShipmentNumber, command.ExpectedArrival);
+        return events;
+    }
+
+    [AggregateHandler]
+    public static Events Handle(AddInboundShipmentLineItem command, InboundShipment shipment)
+    {
+        var events = new Events();
+        events += new InboundShipmentLineItemAdded(command.Sku, command.ExpectedQuantity);
+        return events;
+    }
+
+    [AggregateHandler]
+    public static Events Handle(RecordLineItemQuantity command, InboundShipment shipment)
+    {
+        var events = new Events();
+
+        shipment.RecordLineItemQuantity(command.Sku, command.ReceivedQuantity);
+        events += new LineItemQuantityReceived(command.Sku, command.ReceivedQuantity);
+
+        return events;
+    }
+
     [AggregateHandler]
     public static Events Handle(ReceiveInboundShipment command, InboundShipment shipment)
     {
