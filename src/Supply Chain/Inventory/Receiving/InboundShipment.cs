@@ -23,7 +23,7 @@ public class InboundShipment
     public string PutawayBy { get; private set; }
     public DateTime? PutawayAt { get; private set; }
 
-    public Dictionary<string, LineItem> LineItems { get; private set; } = new();
+    public Dictionary<string, ReceivingLineItem> LineItems { get; private set; } = new();
 
     /* factory method for creation; can use metadata inside IEvent */
 
@@ -46,8 +46,7 @@ public class InboundShipment
 
     public void Apply(InboundShipmentLineItemAdded @event)
     {
-        LineItems[@event.Sku] =
-            new LineItem(Sku: @event.Sku, ExpectedQuantity: @event.ExpectedQuantity, ReceivedQuantity: 0);
+        LineItems[@event.Sku] = new ReceivingLineItem(@event.Sku, @event.ExpectedQuantity, 0);
     }
 
     public void Apply(InboundShipmentReceived @event)
@@ -113,8 +112,6 @@ public class InboundShipment
         return LineItems.Values.All(item => item.ReceivedQuantity > 0);
     }
 }
-
-public record LineItem(string Sku, int ExpectedQuantity, int ReceivedQuantity);
 
 public enum ShipmentStatus
 {
