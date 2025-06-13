@@ -22,6 +22,13 @@ builder.Services.AddMarten(options =>
         options.DatabaseSchemaName = "inventory";
         options.DisableNpgsqlLogging = true;
 
+        // For development, automatically applies schema changes
+        // In production, you might want to be more conservative
+        // TODO
+        // options.AutoCreateSchemaObjects = builder.Environment.IsDevelopment()
+        //     ? AutoCreate.All
+        //     : AutoCreate.CreateOrUpdate;
+
         // A recent optimization
         options.Projections.UseIdentityMapForAggregates = true;
 
@@ -29,6 +36,24 @@ builder.Services.AddMarten(options =>
         // stream projections faster by building one stream at a time
         // Does require new table migrations for Marten 7 users though
         options.Events.UseOptimizedProjectionRebuilds = true;
+
+        // Event store archiving configuration (for long-term storage management)
+        // options.Events.StreamIdentity = StreamIdentity.AsGuid; // TODO
+
+        // TODO
+        // Event Store specific configurations
+        // options.Events.MetadataConfig.EnableAll();
+        // options.Events.MetadataConfig.HeadersEnabled = true;
+        // options.Events.MetadataConfig.CausationIdEnabled = true;
+        // options.Events.MetadataConfig.CorrelationIdEnabled = true;
+
+        // TODO
+        // For better development experience - shows more detailed SQL
+        // if (builder.Environment.IsDevelopment())
+        // {
+        //     options.Advanced.Migrator.TableCreation = CreationStyle.CreateIfNotExists; // default is DropThenCreate IIRC
+        //     options.Logger(new ConsoleMartenLogger());
+        // }
 
         // The inline projections, with snapshots.
         // With every commit, such as appending an event, updating all associated
@@ -43,7 +68,7 @@ builder.Services.AddMarten(options =>
         // Docs for async daemon: https://martendb.io/events/projections/async-daemon.html#async-projections-daemon
         options.Projections.Add<InventorySkuProjection>(ProjectionLifecycle.Async);
         options.Projections.Add<InventoryQuantityOnHandProjection>(ProjectionLifecycle.Async);
-        options.Projections.Add<InboundShipmentExpectedQuantityProjection>(ProjectionLifecycle.Async);
+        // options.Projections.Add<InboundShipmentExpectedQuantityProjection>(ProjectionLifecycle.Async); // TODO
 
         // Before we forget, let's add some indexes to our projections' read models,
         // AKA "Documents", which are made possible by Marten's Document Store functionality.
@@ -54,6 +79,10 @@ builder.Services.AddMarten(options =>
             .Index(x => new { x.Sku, x.QuantityOnHand })
             .Duplicate(x => x.Sku)
             .Duplicate(x => x.QuantityOnHand!);
+        // TODO
+        // options.Schema.For<InboundShipmentExpectedQuantityView>()
+        //     .Index(x => x.Id)
+        //     .Duplicate(x => x.Sku);
     })
     // Turn on the async daemon in "Solo" mode
     .AddAsyncDaemon(DaemonMode.Solo)
@@ -99,4 +128,25 @@ app.MapGet("/", (HttpResponse response) =>
     response.StatusCode = StatusCodes.Status301MovedPermanently;
 }).ExcludeFromDescription();
 
+#pragma warning disable CA2007
+// Add this after your existing MapGet
+if (app.Environment.IsDevelopment())
+{
+    app.MapPost("/dev/rebuild-projections", async (IDocumentStore store) =>
+    {
+        using var daemon = await store.BuildProjectionDaemonAsync();
+        await daemon.RebuildProjectionAsync<InventorySkuProjection>(CancellationToken.None);
+        await daemon.RebuildProjectionAsync<InventoryQuantityOnHandProjection>(CancellationToken.None);
+        await daemon.RebuildProjectionAsync<InboundShipmentExpectedQuantityProjection>(CancellationToken.None);
+        return Results.Ok("Projections rebuilt");
+    }).ExcludeFromDescription();
+
+    app.MapPost("/dev/reset-database", async (IDocumentStore store) =>
+    {
+        await store.Advanced.Clean.CompletelyRemoveAllAsync();
+        return Results.Ok("Database reset");
+    }).ExcludeFromDescription();
+}
+
 return await app.RunJasperFxCommands(args);
+#pragma warning restore CA2007

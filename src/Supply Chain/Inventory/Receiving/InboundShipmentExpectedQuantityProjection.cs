@@ -9,12 +9,12 @@ public class InboundShipmentExpectedQuantityView
 }
 
 // TODO: may want to make this a SingleStreamProjection instead of MultiStreamProjection
-public class InboundShipmentExpectedQuantityProjection : MultiStreamProjection<InboundShipmentExpectedQuantityView, string>
+public class InboundShipmentExpectedQuantityProjection : MultiStreamProjection<InboundShipmentExpectedQuantityView, Guid>
 {
     public InboundShipmentExpectedQuantityProjection()
     {
-        Identity<InboundOrderScheduled>(x => x.Id.ToString()); // needing to ToString() this
-        Identity<InboundShipmentLineItemAdded>(x => x.Sku); // Using SKU as identity for line items
+        Identity<InboundOrderScheduled>(x => x.Id);
+        // Identity<InboundShipmentLineItemAdded>(x => x.Sku); // Using SKU as identity for line items // TODO
     }
 
     public void Apply(InboundOrderScheduled @event, InboundShipmentExpectedQuantityView view)
