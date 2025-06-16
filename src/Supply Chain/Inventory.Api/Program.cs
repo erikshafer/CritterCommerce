@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Inventory;
 using JasperFx;
 using JasperFx.Core;
@@ -17,7 +18,8 @@ builder.Host.ApplyJasperFxExtensions();
 
 builder.Services.AddMarten(options =>
     {
-        var connectionString = builder.Configuration.GetConnectionString("marten");
+        var connectionString = builder.Configuration.GetConnectionString("marten")
+                               ?? throw new Exception("Marten connection string not found");
         options.Connection(connectionString!);
         options.DatabaseSchemaName = "inventory";
         options.DisableNpgsqlLogging = true;
@@ -34,7 +36,14 @@ builder.Services.AddMarten(options =>
         // With every commit, such as appending an event, updating all associated
         // projections will be batched in a single call to the Postgres database.
         // However, you sacrifice some event metadata usage by doing this.
-        options.Projections.Snapshot<InventoryItem>(SnapshotLifecycle.Inline);
+        options.Projections
+            .Snapshot<InventoryItem>(SnapshotLifecycle.Inline)
+            .Identity(x => x.Id)
+            .Duplicate(x => x.Sku);
+        options.Projections
+            .Snapshot<InventorySku>(SnapshotLifecycle.Inline)
+            .Identity(x => x.Id)
+            .Duplicate(x => x.Sku);
 
         // The async projections with snapshotting.
         // An async daemon will be running in the background, which yes it can be
@@ -61,18 +70,16 @@ builder.Services.AddMarten(options =>
 // Do all the necessary database setup on startup
 builder.Services.AddResourceSetupOnStartup();
 
+builder.Services.ConfigureSystemTextJsonForWolverineOrMinimalApi(o =>
+{
+    o.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+});
+
 builder.Host.UseWolverine(opts =>
 {
     // This is almost an automatic default to have Wolverine apply transactional
     // middleware to any endpoint or handler that uses persistence services
     opts.Policies.AutoApplyTransactions();
-    opts.Policies.UseDurableLocalQueues();
-
-    // Retry policies if a Marten concurrency exception is encountered
-    opts.OnException<ConcurrencyException>()
-        .RetryOnce()
-        .Then.RetryWithCooldown(100.Milliseconds(), 250.Milliseconds())
-        .Then.Discard();
 });
 
 builder.Services.AddEndpointsApiExplorer();
