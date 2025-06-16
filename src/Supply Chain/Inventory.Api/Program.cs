@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Inventory;
 using JasperFx;
 using JasperFx.Core;
@@ -15,44 +16,37 @@ using Wolverine.Marten;
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ApplyJasperFxExtensions();
 
-builder.Services.AddMarten(opts =>
+builder.Services.AddMarten(options =>
     {
-        var connectionString = builder.Configuration.GetConnectionString("marten");
-        opts.Connection(connectionString!);
-        opts.DatabaseSchemaName = "inventory";
-        opts.DisableNpgsqlLogging = true;
+        var connectionString = builder.Configuration.GetConnectionString("marten")
+                               ?? throw new Exception("Marten connection string not found");
+        options.Connection(connectionString!);
+        options.DatabaseSchemaName = "inventory";
+        options.DisableNpgsqlLogging = true;
 
         // A recent optimization
-        opts.Projections.UseIdentityMapForAggregates = true;
+        options.Projections.UseIdentityMapForAggregates = true;
 
         // Opts into a mode where Marten is able to rebuild single
         // stream projections faster by building one stream at a time
         // Does require new table migrations for Marten 7 users though
-        opts.Events.UseOptimizedProjectionRebuilds = true;
+        options.Events.UseOptimizedProjectionRebuilds = true;
 
         // The inline projections, with snapshots.
         // With every commit, such as appending an event, updating all associated
-        // projections will be batched in a single called to the Postgres database.
-        // You however sacrifice some event metadata usage by doing this.
-        opts.Projections.Snapshot<InventoryItem>(SnapshotLifecycle.Inline);
+        // projections will be batched in a single call to the Postgres database.
+        // However, you sacrifice some event metadata usage by doing this.
+        options.Projections
+            .Snapshot<InventoryItem>(SnapshotLifecycle.Inline)
+            .Identity(x => x.Id)
+            .Duplicate(x => x.Sku);
 
         // The async projections with snapshotting.
         // An async daemon will be running in the background, which yes it can be
         // configured and tweaked, and will process all registered projections
         // associated with what has recently been appended to the event store in PostgreSQL.
         // Docs for async daemon: https://martendb.io/events/projections/async-daemon.html#async-projections-daemon
-        opts.Projections.Add<InventorySkuProjection>(ProjectionLifecycle.Async);
-        opts.Projections.Add<InventoryQuantityOnHandProjection>(ProjectionLifecycle.Async);
-
-        // Before we forget, let's add some indexes to our projections' read models,
-        // AKA "Documents", which are made possible by Marten's Document Store functionality.
-        opts.Schema.For<InventorySku>()
-            .UniqueIndex(UniqueIndexType.Computed, x => x.Sku)
-            .Duplicate(x => x.Sku);
-        opts.Schema.For<InventoryQuantityOnHand>()
-            .Index(x => new { x.Sku, x.QuantityOnHand })
-            .Duplicate(x => x.Sku)
-            .Duplicate(x => x.QuantityOnHand!);
+        options.Projections.Add<InboundShipmentExpectedQuantityProjection>(ProjectionLifecycle.Async);
     })
     // Turn on the async daemon in "Solo" mode
     .AddAsyncDaemon(DaemonMode.Solo)
@@ -64,6 +58,11 @@ builder.Services.AddMarten(opts =>
 
 // Do all the necessary database setup on startup
 builder.Services.AddResourceSetupOnStartup();
+
+builder.Services.ConfigureSystemTextJsonForWolverineOrMinimalApi(o =>
+{
+    o.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+});
 
 builder.Host.UseWolverine(opts =>
 {
