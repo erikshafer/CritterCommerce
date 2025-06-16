@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Inventory;
+using Inventory.Receiving;
 using JasperFx;
 using JasperFx.Core;
 using JasperFx.Events.Daemon;
@@ -7,7 +8,6 @@ using JasperFx.Events.Projections;
 using JasperFx.Resources;
 using Marten;
 using Marten.Events.Projections;
-using Marten.Schema;
 using Wolverine;
 using Wolverine.ErrorHandling;
 using Wolverine.Http;
@@ -46,7 +46,7 @@ builder.Services.AddMarten(options =>
         // configured and tweaked, and will process all registered projections
         // associated with what has recently been appended to the event store in PostgreSQL.
         // Docs for async daemon: https://martendb.io/events/projections/async-daemon.html#async-projections-daemon
-        options.Projections.Add<InboundShipmentExpectedQuantityProjection>(ProjectionLifecycle.Async);
+        options.Projections.Add<ExpectedQuantityAnticipatedProjection>(ProjectionLifecycle.Async);
     })
     // Turn on the async daemon in "Solo" mode
     .AddAsyncDaemon(DaemonMode.Solo)
