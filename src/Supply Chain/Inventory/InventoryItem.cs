@@ -19,9 +19,6 @@ public record InventoryDecremented(int Quantity);
 /// But again, you're not leveraging all the types of projection mechanisms that Marten offers
 /// by having this be a bit more "free form" and primarily leveraged for live aggregations
 /// when needed. However, that may suit your needs just fine!
-///
-/// If you try to .Add<>)() this to your projections configuration, Marten will yell at you:
-/// The type 'Inventory.Inventory' must be convertible to 'JasperFx.Events.Projections.ProjectionBase'
 /// </summary>
 public class InventoryItem
 {
