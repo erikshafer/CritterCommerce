@@ -40,24 +40,13 @@ builder.Services.AddMarten(options =>
             .Snapshot<InventoryItem>(SnapshotLifecycle.Inline)
             .Identity(x => x.Id)
             .Duplicate(x => x.Sku);
-        options.Projections
-            .Snapshot<InventorySku>(SnapshotLifecycle.Inline)
-            .Identity(x => x.Id)
-            .Duplicate(x => x.Sku);
 
         // The async projections with snapshotting.
         // An async daemon will be running in the background, which yes it can be
         // configured and tweaked, and will process all registered projections
         // associated with what has recently been appended to the event store in PostgreSQL.
         // Docs for async daemon: https://martendb.io/events/projections/async-daemon.html#async-projections-daemon
-        options.Projections.Add<InventorySkuProjection>(ProjectionLifecycle.Async);
         options.Projections.Add<InboundShipmentExpectedQuantityProjection>(ProjectionLifecycle.Async);
-
-        // Before we forget, let's add some indexes to our projections' read models,
-        // AKA "Documents", which are made possible by Marten's Document Store functionality.
-        options.Schema.For<InventorySku>()
-            .UniqueIndex(UniqueIndexType.Computed, x => x.Sku)
-            .Duplicate(x => x.Sku);
     })
     // Turn on the async daemon in "Solo" mode
     .AddAsyncDaemon(DaemonMode.Solo)
