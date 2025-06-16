@@ -32,8 +32,8 @@ builder.Services.AddMarten(options =>
 
         // The inline projections, with snapshots.
         // With every commit, such as appending an event, updating all associated
-        // projections will be batched in a single called to the Postgres database.
-        // You however sacrifice some event metadata usage by doing this.
+        // projections will be batched in a single call to the Postgres database.
+        // However, you sacrifice some event metadata usage by doing this.
         options.Projections.Snapshot<InventoryItem>(SnapshotLifecycle.Inline);
 
         // The async projections with snapshotting.
@@ -42,7 +42,6 @@ builder.Services.AddMarten(options =>
         // associated with what has recently been appended to the event store in PostgreSQL.
         // Docs for async daemon: https://martendb.io/events/projections/async-daemon.html#async-projections-daemon
         options.Projections.Add<InventorySkuProjection>(ProjectionLifecycle.Async);
-        options.Projections.Add<InventoryQuantityOnHandProjection>(ProjectionLifecycle.Async);
         options.Projections.Add<InboundShipmentExpectedQuantityProjection>(ProjectionLifecycle.Async);
 
         // Before we forget, let's add some indexes to our projections' read models,
@@ -50,10 +49,6 @@ builder.Services.AddMarten(options =>
         options.Schema.For<InventorySku>()
             .UniqueIndex(UniqueIndexType.Computed, x => x.Sku)
             .Duplicate(x => x.Sku);
-        options.Schema.For<InventoryQuantityOnHand>()
-            .Index(x => new { x.Sku, x.QuantityOnHand })
-            .Duplicate(x => x.Sku)
-            .Duplicate(x => x.QuantityOnHand!);
     })
     // Turn on the async daemon in "Solo" mode
     .AddAsyncDaemon(DaemonMode.Solo)
