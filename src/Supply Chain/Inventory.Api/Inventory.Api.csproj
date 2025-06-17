@@ -22,6 +22,4 @@
       <ProjectReference Include="..\Inventory\Inventory.csproj" />
     </ItemGroup>
 
-    <Import Project="../../../Analysis.Build.props" />
-
 </Project>

@@ -27,6 +27,7 @@ public static class DraftItemEndpoint
         };
 
         db.Items.Add(item);
+        db.SaveChanges();
 
         return (
             new ItemDraftedResponse(item.Id),

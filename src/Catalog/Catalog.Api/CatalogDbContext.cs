@@ -15,23 +15,23 @@ public class CatalogDbContext : DbContext
     {
     }
 
-    public DbSet<Item> Items { get; set; }
-    public DbSet<Category> Categories { get; set; }
-    public DbSet<Brand> Brands { get; set; }
-    public DbSet<Price> Prices { get; set; }
-    public DbSet<Inventory> Inventories { get; set; }
-    public DbSet<Media> Medias { get; set; }
-    public DbSet<SkuReservation> SkuReservations { get; set; }
-    public DbSet<SkuItemAssignment> SkuItemAssignments { get; set; }
+    public DbSet<Item> Items { get; set; } = null!;
+    public DbSet<Category> Categories { get; set; } = null!;
+    public DbSet<Brand> Brands { get; set; } = null!;
+    public DbSet<Price> Prices { get; set; } = null!;
+    public DbSet<Inventory> Inventories { get; set; } = null!;
+    public DbSet<Media> Medias { get; set; } = null!;
+    public DbSet<SkuReservation> SkuReservations { get; set; } = null!;
+    public DbSet<SkuItemAssignment> SkuItemAssignments { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        const string schema = "catalog";
+        modelBuilder.HasDefaultSchema("catalog");
 
         // Your typical EF Core mappings
         modelBuilder.Entity<Item>(map =>
         {
-            map.ToTable("items", schema);
+            map.ToTable("items");
             map.HasKey(x => x.Id);
             map.Property(x => x.Name).HasMaxLength(200).IsRequired();
             map.Property(x => x.Description).HasMaxLength(1_000).IsRequired(false);
@@ -39,35 +39,35 @@ public class CatalogDbContext : DbContext
 
         modelBuilder.Entity<Category>(map =>
         {
-            map.ToTable("categories", schema);
+            map.ToTable("categories");
             map.HasKey(x => x.Id);
             map.Property(x => x.Name).HasMaxLength(200).IsRequired();
         });
 
         modelBuilder.Entity<Brand>(map =>
         {
-            map.ToTable("brands", schema);
+            map.ToTable("brands");
             map.HasKey(x => x.Id);
             map.Property(x => x.Name).HasMaxLength(200).IsRequired();
         });
 
         modelBuilder.Entity<Price>(map =>
         {
-            map.ToTable("prices", schema);
+            map.ToTable("prices");
             map.HasKey(x => x.Id);
             map.Property(x => x.Value).HasPrecision(18, 2).HasDefaultValue(0m).IsRequired();
         });
 
         modelBuilder.Entity<Inventory>(map =>
         {
-            map.ToTable("inventories", schema);
+            map.ToTable("inventories");
             map.HasKey(x => x.Id);
             map.Property(x => x.Value).HasDefaultValue(0).IsRequired();
         });
 
         modelBuilder.Entity<SkuReservation>(map =>
         {
-            map.ToTable("sku_reservations", schema);
+            map.ToTable("sku_reservations");
             map.HasKey(x => x.Unit);
             map.Property(x => x.IsReserved).HasDefaultValue(false).IsRequired();
             map.Property(x => x.ReservedByUsername).HasMaxLength(200).HasDefaultValue(false).IsRequired();
@@ -75,14 +75,14 @@ public class CatalogDbContext : DbContext
 
         modelBuilder.Entity<Media>(map =>
         {
-            map.ToTable("media", schema);
+            map.ToTable("media");
             map.HasKey(x => x.Id);
             map.Property(x => x.ImageUrl1).HasColumnName("image_url_1").HasMaxLength(255).IsRequired(false);
         });
 
         modelBuilder.Entity<SkuItemAssignment>(map =>
         {
-            map.ToTable("sku_item_assignments", schema);
+            map.ToTable("sku_item_assignments");
             map.HasKey(x => x.Sku);
             map.Property(x => x.ItemId).HasMaxLength(128).IsRequired();
         });

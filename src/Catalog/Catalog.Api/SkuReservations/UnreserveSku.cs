@@ -13,7 +13,7 @@ public static class UnreserveSkuHandler
         var existingSku = await db.SkuReservations.FirstOrDefaultAsync(x => x.Unit == command.Unit);
 
         if (existingSku is null)
-            throw new NullReferenceException($"SKU '{existingSku.Unit}' not found");
+            throw new NullReferenceException($"SKU '{existingSku!.Unit}' not found");
 
         if (existingSku.IsReserved is false)
             throw new Exception($"SKU '{existingSku.Unit}' is not reserved");
