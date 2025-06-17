@@ -14,13 +14,13 @@ public record LineItemQuantityReceived(string Sku, int ReceivedQuantity);
 public class InboundShipment
 {
     public Guid Id { get; private set; }
-    public string ShipmentNumber { get; private set; }
+    public string ShipmentNumber { get; private set; } = null!;
     public DateTime ExpectedArrival { get; private set; }
     public ShipmentStatus Status { get; private set; }
-    public string ReceivedBy { get; private set; }
+    public string ReceivedBy { get; private set; } = null!;
     public DateTime? ReceivedAt { get; private set; }
     public Guid? LocationId { get; private set; }
-    public string PutawayBy { get; private set; }
+    public string PutawayBy { get; private set; } = null!;
     public DateTime? PutawayAt { get; private set; }
 
     public Dictionary<string, ReceivingLineItem> LineItems { get; private set; } = new();

@@ -1,7 +1,4 @@
 ﻿using JasperFx.Events;
-using JasperFx.Events.Projections;
-using Wolverine;
-using Wolverine.Marten;
 
 namespace Inventory;
 
@@ -13,7 +10,7 @@ public record InventoryDecremented(int Quantity);
 
 /// <summary>
 /// Just a plain ole "aggregate". It has nothing to inherit or interfaced with from Marten.
-/// This could be a really rich domain model with several, well guarded and potentially
+/// This could be a really rich domain model with several, well-guarded and potentially
 /// complex operations that may not fit well in a simple + specific "read model" projection.
 /// But again, you're not leveraging all the types of projection mechanisms that Marten offers
 /// by having this be a bit more "free form" and primarily leveraged for live aggregations
@@ -30,7 +27,7 @@ public record InventoryItem
 
     public Guid Id { get; set; }
     public int Version { get; set; }
-    public string Sku { get; set; }
+    public string Sku { get; set; } = null!;
     public int Quantity { get; set; }
 
     public void Apply(InventoryIncremented incremented)
