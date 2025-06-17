@@ -9,7 +9,9 @@ var postgresConnectionString = builder.Configuration.GetConnectionString("postgr
 
 builder.Services.AddDbContext<CatalogDbContext>(options =>
 {
-    options.UseNpgsql(postgresConnectionString);
+    options.UseNpgsql(
+        postgresConnectionString,
+        x => x.MigrationsHistoryTable("__EFMigrationsHistory", "catalog"));
     options.UseSnakeCaseNamingConvention();
 });
 
@@ -22,6 +24,8 @@ builder.Services.AddSwaggerGen();
 
 
 var app = builder.Build();
+
+app.ApplyEfDbMigration();
 
 app.UseSwagger();
 app.UseSwaggerUI();
