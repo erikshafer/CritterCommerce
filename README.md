@@ -32,6 +32,27 @@ Value Streams are a core concept in [Team Topologies](https://teamtopologies.com
 
 These value streams are how the overall .NET solution will be broken down. For example, as of 2025-06-11, there is a `Catalog` and `Supply Chain` solution folders to separate the ~~teams~~ value streams of our imaginary ecommerce business.
 
+### Proposed breakdown of value streams and their modules <a id='3.1'></a>
+
+| Value Stream     | Module       | Wolverine | Marten | event sourced | EF Core | RabbitMQ | Kafka | Misc.               |
+|------------------|--------------|-----------|--------|---------------|---------|----------|-------|---------------------|
+| 📝 Catalog       | Products     | ✅         | 🔴     | 🔴            | ✅       | TBD      | TBD   | AKA items           |
+| 📝 Catalog       | Prices       | ✅         | ✅      | ✅             | 🔴      | TBD      | TBD   |                     |
+| 📝 Catalog       | Listings     | ✅         | ✅      | ✅             | 🔴      | TBD      | TBD   |                     |
+| 📝 Catalog       | Marketplaces | ✅         | ✅      | ✅             | 🔴      | TBD      | TBD   | AKA channels        |
+| 🚚 Supply Chain  | Procurement  | ✅         | ✅      | ✅             | 🔴      | TBD      | TBD   |                     |
+| 🚚 Supply Chain  | Inventory    | ✅         | ✅      | ✅             | 🔴      | TBD      | TBD   |                     |
+| 🚚 Supply Chain  | Suppliers    | ✅         | TBD    | TBD           | TBD     | TBD      | TBD   | AKA vendors         |
+| 📦 Customer      | Orders       | ✅         | ✅      | ✅             | 🔴      | TBD      | TBD   |                     |
+| 📦 Customer      | Fulfillment  | ✅         | ✅      | ✅             | 🔴      | TBD      | TBD   |                     |
+| 📦 Customer      | Support      | ✅         | ✅      | ✅             | 🔴      | TBD      | TBD   |                     |
+| 📦 Customer      | Returns      | ✅         | ✅      | ✅             | 🔴      | TBD      | TBD   |                     |
+| 🏪 Retail        | Storefront   | TBD       | TBD    | TBD           | TBD     | TBD      | TBD   | Blazor frontend?    |
+| 🏪 Retail        | Cart         | ✅         | ✅      | ✅             | TBD     | TBD      | TBD   |                     |
+| 🔬 Data Analysis |              |           |        |               |         |          |       | AI, or something 🔥 |
+| 💭 Others TBD    |              |           |        |               |         |          |       |                     |
+| 💭 Others TBD    |              |           |        |               |         |          |       |                     |
+
 
 ## 🏫 Resources <a id='9.0'></a>
 
