@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Catalog.Api.Migrations
+namespace Legacy.Catalog.Api.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -13,11 +13,11 @@ namespace Catalog.Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "catalog");
+                name: "legacy_catalog");
 
             migrationBuilder.CreateTable(
                 name: "brands",
-                schema: "catalog",
+                schema: "legacy_catalog",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -30,7 +30,7 @@ namespace Catalog.Api.Migrations
 
             migrationBuilder.CreateTable(
                 name: "categories",
-                schema: "catalog",
+                schema: "legacy_catalog",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -43,7 +43,7 @@ namespace Catalog.Api.Migrations
 
             migrationBuilder.CreateTable(
                 name: "inventories",
-                schema: "catalog",
+                schema: "legacy_catalog",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -56,7 +56,7 @@ namespace Catalog.Api.Migrations
 
             migrationBuilder.CreateTable(
                 name: "items",
-                schema: "catalog",
+                schema: "legacy_catalog",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -70,7 +70,7 @@ namespace Catalog.Api.Migrations
 
             migrationBuilder.CreateTable(
                 name: "media",
-                schema: "catalog",
+                schema: "legacy_catalog",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -83,7 +83,7 @@ namespace Catalog.Api.Migrations
 
             migrationBuilder.CreateTable(
                 name: "prices",
-                schema: "catalog",
+                schema: "legacy_catalog",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -96,7 +96,7 @@ namespace Catalog.Api.Migrations
 
             migrationBuilder.CreateTable(
                 name: "sku_item_assignments",
-                schema: "catalog",
+                schema: "legacy_catalog",
                 columns: table => new
                 {
                     sku = table.Column<int>(type: "integer", nullable: false)
@@ -110,7 +110,7 @@ namespace Catalog.Api.Migrations
 
             migrationBuilder.CreateTable(
                 name: "sku_reservations",
-                schema: "catalog",
+                schema: "legacy_catalog",
                 columns: table => new
                 {
                     unit = table.Column<int>(type: "integer", nullable: false)
@@ -129,35 +129,35 @@ namespace Catalog.Api.Migrations
         {
             migrationBuilder.DropTable(
                 name: "brands",
-                schema: "catalog");
+                schema: "legacy_catalog");
 
             migrationBuilder.DropTable(
                 name: "categories",
-                schema: "catalog");
+                schema: "legacy_catalog");
 
             migrationBuilder.DropTable(
                 name: "inventories",
-                schema: "catalog");
+                schema: "legacy_catalog");
 
             migrationBuilder.DropTable(
                 name: "items",
-                schema: "catalog");
+                schema: "legacy_catalog");
 
             migrationBuilder.DropTable(
                 name: "media",
-                schema: "catalog");
+                schema: "legacy_catalog");
 
             migrationBuilder.DropTable(
                 name: "prices",
-                schema: "catalog");
+                schema: "legacy_catalog");
 
             migrationBuilder.DropTable(
                 name: "sku_item_assignments",
-                schema: "catalog");
+                schema: "legacy_catalog");
 
             migrationBuilder.DropTable(
                 name: "sku_reservations",
-                schema: "catalog");
+                schema: "legacy_catalog");
         }
     }
 }

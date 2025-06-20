@@ -3,7 +3,7 @@ using Wolverine.Attributes;
 using Wolverine.Http;
 using Wolverine.Persistence;
 
-namespace Catalog.Api.Items;
+namespace Legacy.Catalog.Api.Items;
 
 public sealed record DraftItem(string Name);
 
