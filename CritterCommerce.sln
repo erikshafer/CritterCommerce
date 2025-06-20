@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{B44C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Api", "src\Catalog\Catalog.Api\Catalog.Api.csproj", "{F808B2D2-6C97-41E1-8FCD-45DDBEED3439}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Supply Chain", "Supply Chain", "{914DC55A-E4DE-4CEA-9ACE-4A908FB2E0B7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Inventory", "Inventory", "{914DC55A-E4DE-4CEA-9ACE-4A908FB2E0B7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Api", "src\Supply Chain\Inventory.Api\Inventory.Api.csproj", "{4BF8EE44-B5B9-4847-8D89-396FC99D2485}"
 EndProject
