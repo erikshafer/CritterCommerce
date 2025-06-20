@@ -19,9 +19,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Api", "src\Catalog\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Inventory", "Inventory", "{914DC55A-E4DE-4CEA-9ACE-4A908FB2E0B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Api", "src\Supply Chain\Inventory.Api\Inventory.Api.csproj", "{4BF8EE44-B5B9-4847-8D89-396FC99D2485}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Api", "src\Inventory\Inventory.Api\Inventory.Api.csproj", "{4BF8EE44-B5B9-4847-8D89-396FC99D2485}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory", "src\Supply Chain\Inventory\Inventory.csproj", "{15D6F33F-EDCF-4F47-B7AE-490E20DDD3FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory", "src\Inventory\Inventory\Inventory.csproj", "{15D6F33F-EDCF-4F47-B7AE-490E20DDD3FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
