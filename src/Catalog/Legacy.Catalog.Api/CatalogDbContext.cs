@@ -1,13 +1,13 @@
-using Catalog.Api.Brands;
-using Catalog.Api.Categories;
-using Catalog.Api.Inventories;
-using Catalog.Api.Items;
-using Catalog.Api.Multimedia;
-using Catalog.Api.Prices;
-using Catalog.Api.SkuReservations;
+using Legacy.Catalog.Api.Brands;
+using Legacy.Catalog.Api.Categories;
+using Legacy.Catalog.Api.Inventories;
+using Legacy.Catalog.Api.Items;
+using Legacy.Catalog.Api.Multimedia;
+using Legacy.Catalog.Api.Prices;
+using Legacy.Catalog.Api.SkuReservations;
 using Microsoft.EntityFrameworkCore;
 
-namespace Catalog.Api;
+namespace Legacy.Catalog.Api;
 
 public class CatalogDbContext : DbContext
 {
@@ -26,7 +26,7 @@ public class CatalogDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasDefaultSchema("catalog");
+        modelBuilder.HasDefaultSchema("legacy_catalog");
 
         // Your typical EF Core mappings
         modelBuilder.Entity<Item>(map =>

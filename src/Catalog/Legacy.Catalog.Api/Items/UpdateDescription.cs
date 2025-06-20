@@ -1,6 +1,6 @@
 using Wolverine.Http;
 
-namespace Catalog.Api.Items;
+namespace Legacy.Catalog.Api.Items;
 
 public sealed record UpdateDescription(Guid Id, string Description);
 

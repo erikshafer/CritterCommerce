@@ -1,4 +1,4 @@
-namespace Catalog.Api.Inventories;
+namespace Legacy.Catalog.Api.Inventories;
 
 public class Inventory
 {

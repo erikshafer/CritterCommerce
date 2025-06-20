@@ -1,4 +1,4 @@
-namespace Catalog.Api.Items;
+namespace Legacy.Catalog.Api.Items;
 
 public class SkuItemAssignment
 {

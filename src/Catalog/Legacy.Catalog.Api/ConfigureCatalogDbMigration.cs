@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace Catalog.Api;
+namespace Legacy.Catalog.Api;
 
 internal static class ConfigureCatalogDbMigration
 {

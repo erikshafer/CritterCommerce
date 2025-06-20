@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Wolverine.Http;
 using Wolverine.Persistence;
 
-namespace Catalog.Api.Items;
+namespace Legacy.Catalog.Api.Items;
 
 public static class QueryItemEndpoints
 {

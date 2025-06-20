@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".SolutionItems", ".Solution
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{B44C0F1C-1571-4969-8E71-1FD59E2BEF01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Api", "src\Catalog\Catalog.Api\Catalog.Api.csproj", "{F808B2D2-6C97-41E1-8FCD-45DDBEED3439}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Legacy.Catalog.Api", "src\Catalog\Legacy.Catalog.Api\Legacy.Catalog.Api.csproj", "{F808B2D2-6C97-41E1-8FCD-45DDBEED3439}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Inventory", "Inventory", "{914DC55A-E4DE-4CEA-9ACE-4A908FB2E0B7}"
 EndProject

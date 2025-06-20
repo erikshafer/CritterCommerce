@@ -1,4 +1,4 @@
-namespace Catalog.Api.SkuReservations;
+namespace Legacy.Catalog.Api.SkuReservations;
 
 public class SkuReservation
 {
