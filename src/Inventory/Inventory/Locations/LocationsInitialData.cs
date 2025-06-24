@@ -3,11 +3,11 @@ using Marten.Schema;
 
 namespace Inventory.Locations;
 
-public class LocationsSeedData : IInitialData
+public class LocationsInitialData : IInitialData
 {
     private readonly object[] _initialData;
 
-    public LocationsSeedData(params object[] initialData)
+    public LocationsInitialData(params object[] initialData)
     {
         _initialData = initialData;
     }
