@@ -10,7 +10,7 @@ builder.Services.AddMarten(options =>
 {
     var martenConnectionString = builder.Configuration.GetConnectionString("marten")
                                  ?? throw new Exception("Marten connection string not found");
-    options.Connection(martenConnectionString!);
+    options.Connection(martenConnectionString);
     options.DatabaseSchemaName = "catalog";
 });
 

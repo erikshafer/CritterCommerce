@@ -14,7 +14,7 @@ public class ShipmentView
 
 public class ShipmentViewProjection : SingleStreamProjection<ShipmentView, Guid>
 {
-    public ShipmentView Create(ShipmentScheduled @event) => new ShipmentView
+    public ShipmentView Create(FreightShipmentScheduled @event) => new ShipmentView
     {
         Id = @event.ShipmentId,
         Origin = @event.Origin,
@@ -22,13 +22,13 @@ public class ShipmentViewProjection : SingleStreamProjection<ShipmentView, Guid>
         Status = "Scheduled"
     };
 
-    public void Apply(ShipmentView view, ShipmentPickedUp @event)
+    public void Apply(ShipmentView view, FreightShipmentPickedUp @event)
     {
         view.Status = "InTransit";
         view.PickedUpAt = @event.PickedUpAt;
     }
 
-    public void Apply(ShipmentView view, ShipmentDelivered @event)
+    public void Apply(ShipmentView view, FreightShipmentDelivered @event)
     {
         view.Status = "Delivered";
         view.DeliveredAt = @event.DeliveredAt;

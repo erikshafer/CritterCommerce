@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Inventory;
 using Inventory.Inbound;
+using Inventory.Locations;
 using Inventory.Receiving;
 using JasperFx;
 using JasperFx.Core;
@@ -9,6 +10,7 @@ using JasperFx.Events.Projections;
 using JasperFx.Resources;
 using Marten;
 using Marten.Events.Projections;
+using Marten.Schema;
 using Wolverine;
 using Wolverine.ErrorHandling;
 using Wolverine.Http;
@@ -54,7 +56,14 @@ builder.Services.AddMarten(options =>
         // Docs for async daemon: https://martendb.io/events/projections/async-daemon.html#async-projections-daemon
         options.Projections.Add<ExpectedQuantityAnticipatedProjection>(ProjectionLifecycle.Async);
         options.Projections.Add<DailyShipmentsProjection>(ProjectionLifecycle.Async);
+
+        options.RegisterDocumentType<Location>();
+        options.Schema.For<Location>()
+            .Duplicate(x => x.Name)
+            .Duplicate(x => x.Code);
     })
+    // Initializing (seeding) some data for the document store side
+    .InitializeWith(new LocationsInitialData(LocationsDatasets.MapFulfillmentCentersToLocations()))
     // Turn on the async daemon in "Solo" mode
     .AddAsyncDaemon(DaemonMode.Solo)
     // Another performance optimization if you're starting from scratch
