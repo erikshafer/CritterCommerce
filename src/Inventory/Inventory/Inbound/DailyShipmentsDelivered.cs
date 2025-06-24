@@ -14,10 +14,10 @@ public class DailyShipmentsProjection : MultiStreamProjection<DailyShipmentsDeli
     public DailyShipmentsProjection()
     {
         // Group events by the DateOnly key as string (extracted from DeliveredAt)
-        Identity<ShipmentDelivered>(e => e.DeliveredAt.ToString("yyyy-MM-dd"));
+        Identity<FreightShipmentDelivered>(e => e.DeliveredAt.ToString("yyyy-MM-dd"));
     }
 
-    public DailyShipmentsDelivered Create(ShipmentDelivered @event)
+    public DailyShipmentsDelivered Create(FreightShipmentDelivered @event)
     {
         // Create a new view for the date if none exists
         return new DailyShipmentsDelivered
@@ -28,7 +28,7 @@ public class DailyShipmentsProjection : MultiStreamProjection<DailyShipmentsDeli
         };
     }
 
-    public void Apply(ShipmentDelivered @event, DailyShipmentsDelivered view)
+    public void Apply(FreightShipmentDelivered @event, DailyShipmentsDelivered view)
     {
         // Increment the count for this date
         view.DeliveredCount += 1;
