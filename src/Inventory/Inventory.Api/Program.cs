@@ -61,7 +61,10 @@ builder.Services.AddMarten(options =>
     .UseLightweightSessions()
     // This adds configuration with Wolverine's transactional outbox and
     // Marten middleware support to Wolverine
-    .IntegrateWithWolverine();
+    .IntegrateWithWolverine(config =>
+    {
+        config.UseWolverineManagedEventSubscriptionDistribution = true;
+    });
 
 // Do all the necessary database setup on startup
 builder.Services.AddResourceSetupOnStartup();
