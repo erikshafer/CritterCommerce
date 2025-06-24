@@ -23,6 +23,8 @@ public class FreightShipment
     public DateTime? CancelledAt { get; private set; }
     public string? CancellationReason { get; private set; }
 
+    public bool HasBeenPickedUp() => PickedUpAt.HasValue;
+
     public static FreightShipment Create(FreightShipmentScheduled @event)
     {
         return new FreightShipment
