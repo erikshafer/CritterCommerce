@@ -66,6 +66,7 @@ public enum FreightShipmentStatus
 
 /* commands */
 
+public record ScheduleShipment(string Origin, string Destination);
 public record NotifyDispatchCenter(Guid ShipmentId, string Pickedup);
 public record PickupShipment(DateTime Timestamp);
 
@@ -73,6 +74,20 @@ public record PickupShipment(DateTime Timestamp);
 
 public static class FreightShipmentHandler
 {
+    [AggregateHandler]
+    public static IEnumerable<object> Handle(ScheduleShipment cmd, FreightShipment shipment)
+    {
+        if (shipment.Status is FreightShipmentStatus.Delivered
+                            or FreightShipmentStatus.Cancelled
+                            or FreightShipmentStatus.InTransit)
+            throw new InvalidOperationException("Cannot schedule shipment");
+
+        var id = Guid.NewGuid();
+        var scheduledAt = DateTime.UtcNow;
+
+        yield return new ShipmentScheduled(id, shipment.Origin, shipment.Destination, scheduledAt);
+    }
+
     [AggregateHandler]
     public static IEnumerable<object> Handle(PickupShipment cmd, FreightShipment shipment)
     {
