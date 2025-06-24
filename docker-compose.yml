@@ -1,6 +1,7 @@
 services:
   postgresql:
-    image: "postgres:latest"
+    container_name: critter-commerce-db
+    image: postgres:latest
     ports:
       - "5433:5432"
     environment:
