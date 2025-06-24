@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Inventory;
+using Inventory.Inbound;
 using Inventory.Receiving;
 using JasperFx;
 using JasperFx.Core;
@@ -21,11 +22,10 @@ builder.Services.AddMarten(options =>
         var connectionString = builder.Configuration.GetConnectionString("marten")
                                ?? throw new Exception("Marten connection string not found");
         options.Connection(connectionString!);
+        options.AutoCreateSchemaObjects = AutoCreate.All; // Dev mode: create tables if missing
         options.DatabaseSchemaName = "inventory";
         options.DisableNpgsqlLogging = true;
-
-        // A recent optimization
-        options.Projections.UseIdentityMapForAggregates = true;
+        options.Projections.UseIdentityMapForAggregates = true; // A recent optimization
 
         // Opts into a mode where Marten is able to rebuild single
         // stream projections faster by building one stream at a time
@@ -41,12 +41,19 @@ builder.Services.AddMarten(options =>
             .Identity(x => x.Id)
             .Duplicate(x => x.Sku);
 
+        // Inline projection, no snapshots.
+        // Note that this is different from aggregating a domain model like
+        // FreightShipment using AggregateStreamAsync<T>. Instead, we're producing a
+        // derived view (or read model) designed for fast queries, based on a subset of event data.
+        options.Projections.Add<ShipmentViewProjection>(ProjectionLifecycle.Inline);
+
         // The async projections with snapshotting.
         // An async daemon will be running in the background, which yes it can be
         // configured and tweaked, and will process all registered projections
         // associated with what has recently been appended to the event store in PostgreSQL.
         // Docs for async daemon: https://martendb.io/events/projections/async-daemon.html#async-projections-daemon
         options.Projections.Add<ExpectedQuantityAnticipatedProjection>(ProjectionLifecycle.Async);
+        options.Projections.Add<DailyShipmentsProjection>(ProjectionLifecycle.Async);
     })
     // Turn on the async daemon in "Solo" mode
     .AddAsyncDaemon(DaemonMode.Solo)

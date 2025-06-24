@@ -16,7 +16,7 @@ public class InboundShipment
     public Guid Id { get; private set; }
     public string ShipmentNumber { get; private set; } = null!;
     public DateTime ExpectedArrival { get; private set; }
-    public ShipmentStatus Status { get; private set; }
+    public InboundShipmentStatus Status { get; private set; }
     public string ReceivedBy { get; private set; } = null!;
     public DateTime? ReceivedAt { get; private set; }
     public Guid? LocationId { get; private set; }
@@ -41,7 +41,7 @@ public class InboundShipment
         Id = @event.Id;
         ShipmentNumber = @event.ShipmentNumber;
         ExpectedArrival = @event.ExpectedArrival;
-        Status = ShipmentStatus.Expected;
+        Status = InboundShipmentStatus.Expected;
     }
 
     public void Apply(InboundShipmentLineItemAdded @event)
@@ -51,7 +51,7 @@ public class InboundShipment
 
     public void Apply(InboundShipmentReceived @event)
     {
-        Status = ShipmentStatus.Received;
+        Status = InboundShipmentStatus.Received;
         ReceivedBy = @event.ReceivedBy;
         ReceivedAt = @event.ReceivedAt;
     }
@@ -66,7 +66,7 @@ public class InboundShipment
 
     public void Apply(InboundShipmentPutaway @event)
     {
-        Status = ShipmentStatus.Putaway;
+        Status = InboundShipmentStatus.Putaway;
         LocationId = @event.LocationId;
         PutawayBy = @event.PutawayBy;
         PutawayAt = @event.PutawayAt;
@@ -76,7 +76,7 @@ public class InboundShipment
 
     public void ReceiveShipment(string receivedBy)
     {
-        if (Status != ShipmentStatus.Expected)
+        if (Status != InboundShipmentStatus.Expected)
             throw new InvalidOperationException("Shipment can only be received when in Expected status");
 
         var @event = new InboundShipmentReceived(receivedBy, DateTime.UtcNow);
@@ -85,7 +85,7 @@ public class InboundShipment
 
     public void RecordLineItemQuantity(string sku, int receivedQuantity)
     {
-        if (Status != ShipmentStatus.Received)
+        if (Status != InboundShipmentStatus.Received)
             throw new InvalidOperationException("Can only record quantities for received shipments");
 
         if (!LineItems.ContainsKey(sku))
@@ -97,7 +97,7 @@ public class InboundShipment
 
     public void PutawayShipment(Guid locationId, string putawayBy)
     {
-        if (Status != ShipmentStatus.Received)
+        if (Status != InboundShipmentStatus.Received)
             throw new InvalidOperationException("Can only putaway received shipments");
 
         if (!AllQuantitiesReceived())
@@ -113,7 +113,7 @@ public class InboundShipment
     }
 }
 
-public enum ShipmentStatus
+public enum InboundShipmentStatus
 {
     Expected = 1,
     Received = 2,
