@@ -2,8 +2,6 @@ using JasperFx.Events;
 
 namespace Inventory.Api.Receiving;
 
-/* events, the source of truth */
-
 public record InboundOrderScheduled(Guid Id, string ShipmentNumber, DateTime ExpectedArrival);
 public record InboundShipmentReceived(string ReceivedBy, DateTime ReceivedAt);
 public record InboundShipmentLineItemAdded(string Sku, int ExpectedQuantity);
