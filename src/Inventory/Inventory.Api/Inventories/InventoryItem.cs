@@ -9,11 +9,7 @@ public record InventoryDecremented(int Quantity);
 public record InventoryItem
 {
     public static InventoryItem Create(IEvent<InventoryInitialized> initialized) =>
-        new InventoryItem()
-        {
-            Id = initialized.StreamId,
-            Sku = initialized.Data.Sku
-        };
+        new() { Id = initialized.StreamId, Sku = initialized.Data.Sku };
 
     public Guid Id { get; set; }
     public int Version { get; set; }
