@@ -1,6 +1,6 @@
 namespace Inventory;
 
-public class DomainException(string message) : Exception(message);
+public class InventoryDomainException(string message) : Exception(message);
 
 /***
  *

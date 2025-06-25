@@ -1,4 +1,4 @@
-namespace Inventory.FulfillmentCenters;
+namespace Inventory.Api.FulfillmentCenters;
 
 public sealed class FulfillmentCenter
 {

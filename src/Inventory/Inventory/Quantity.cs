@@ -9,7 +9,7 @@ public sealed record Quantity
     public Quantity(int value)
     {
         if (int.IsNegative(value))
-            throw new DomainException("Quantity value cannot be negative");
+            throw new InventoryDomainException("Quantity value cannot be negative");
 
         Value = value;
     }
@@ -19,10 +19,10 @@ public sealed record Quantity
         var wasParsed = int.TryParse(value, out int result);
 
         if (wasParsed is false)
-            throw new DomainException("Could not parse string value into an integer");
+            throw new InventoryDomainException("Could not parse string value into an integer");
 
         if (int.IsNegative(result))
-            throw new DomainException("Quantity value cannot be negative");
+            throw new InventoryDomainException("Quantity value cannot be negative");
 
         Value = result;
     }

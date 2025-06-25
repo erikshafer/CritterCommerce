@@ -1,4 +1,4 @@
-namespace Inventory.Receiving;
+namespace Inventory.Api.Receiving;
 
 public sealed record ReceivingLineItem
 {

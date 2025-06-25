@@ -1,7 +1,7 @@
 using Wolverine.Http;
 using Wolverine.Marten;
 
-namespace Inventory.Api;
+namespace Inventory.Api.Inventories.Endpoints;
 
 public record InitializeInventory(string Sku);
 

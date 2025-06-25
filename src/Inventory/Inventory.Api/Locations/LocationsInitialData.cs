@@ -1,7 +1,7 @@
 using Marten;
 using Marten.Schema;
 
-namespace Inventory.Locations;
+namespace Inventory.Api.Locations;
 
 public class LocationsInitialData : IInitialData
 {
@@ -20,18 +20,3 @@ public class LocationsInitialData : IInitialData
         await session.SaveChangesAsync(cancellation);
     }
 }
-
-public static class LocationsDatasets
-{
-    public static Location[] MapFulfillmentCentersToLocations() =>
-        FulfillmentCenters.FulfillmentCenter.List().Select(source =>
-                new Location
-                {
-                    Id = Guid.NewGuid(),
-                    LegacyId = source.Id,
-                    Name = source.Name,
-                    Code = source.Shorthand
-                })
-            .ToArray();
-}
-

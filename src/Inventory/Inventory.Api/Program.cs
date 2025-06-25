@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
-using Inventory;
-using Inventory.Inbound;
-using Inventory.Locations;
-using Inventory.Receiving;
+using Inventory.Api.Inbound.Projections;
+using Inventory.Api.Inventories;
+using Inventory.Api.Receiving.Projections;
+using Inventory.Api.Locations;
 using JasperFx;
 using JasperFx.Core;
 using JasperFx.Events.Daemon;
@@ -10,7 +10,6 @@ using JasperFx.Events.Projections;
 using JasperFx.Resources;
 using Marten;
 using Marten.Events.Projections;
-using Marten.Schema;
 using Wolverine;
 using Wolverine.ErrorHandling;
 using Wolverine.Http;
@@ -23,7 +22,7 @@ builder.Services.AddMarten(options =>
     {
         var connectionString = builder.Configuration.GetConnectionString("marten")
                                ?? throw new Exception("Marten connection string not found");
-        options.Connection(connectionString!);
+        options.Connection(connectionString);
         options.AutoCreateSchemaObjects = AutoCreate.All; // Dev mode: create tables if missing
         options.DatabaseSchemaName = "inventory";
         options.DisableNpgsqlLogging = true;
@@ -59,11 +58,12 @@ builder.Services.AddMarten(options =>
 
         options.RegisterDocumentType<Location>();
         options.Schema.For<Location>()
-            .Duplicate(x => x.Name)
-            .Duplicate(x => x.Code);
+            .Duplicate(x => x.Name);
     })
     // Initializing (seeding) some data for the document store side
-    .InitializeWith(new LocationsInitialData(LocationsDatasets.MapFulfillmentCentersToLocations()))
+    .InitializeWith(new LocationsInitialData(
+        LocationsDatasets.MapFulfillmentCentersToLocations,
+        LocationsDatasets.SupplierWarehouseLocations))
     // Turn on the async daemon in "Solo" mode
     .AddAsyncDaemon(DaemonMode.Solo)
     // Another performance optimization if you're starting from scratch
