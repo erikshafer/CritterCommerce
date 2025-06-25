@@ -1,7 +1,7 @@
 using JasperFx.Events;
 using Marten.Events.Aggregation;
 
-namespace Inventory.Receiving;
+namespace Inventory.Api.Receiving;
 
 public record ExpectedQuantityAnticipated
 {

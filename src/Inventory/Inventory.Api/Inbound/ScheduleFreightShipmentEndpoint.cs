@@ -1,9 +1,8 @@
-using Inventory.Inbound;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;
 using Wolverine.Marten;
 
-namespace Inventory.Api;
+namespace Inventory.Api.Inbound;
 
 public static class ScheduleFreightShipmentEndpoint
 {

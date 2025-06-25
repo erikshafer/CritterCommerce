@@ -1,6 +1,6 @@
 using Marten.Events.Aggregation;
 
-namespace Inventory.Inbound;
+namespace Inventory.Api.Inbound;
 
 public class ShipmentView
 {

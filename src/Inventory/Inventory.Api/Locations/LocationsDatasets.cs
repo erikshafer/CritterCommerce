@@ -1,4 +1,4 @@
-namespace Inventory.Locations;
+namespace Inventory.Api.Locations;
 
 public static class LocationsDatasets
 {

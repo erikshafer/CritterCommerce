@@ -1,7 +1,7 @@
 using Marten;
 using Marten.Schema;
 
-namespace Inventory.Locations;
+namespace Inventory.Api.Locations;
 
 public class LocationsInitialData : IInitialData
 {

@@ -1,8 +1,8 @@
-using Inventory.Locations;
+using Inventory.Api.Locations;
 using Marten;
 using Wolverine.Marten;
 
-namespace Inventory.Inbound;
+namespace Inventory.Api.Inbound;
 
 /* events */
 

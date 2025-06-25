@@ -1,10 +1,9 @@
 using Marten;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;
-using Wolverine.Http.Marten;
 using Wolverine.Marten;
 
-namespace Inventory.Api;
+namespace Inventory.Api.Inventories;
 
 public static class QueryInventoryEndpoints
 {

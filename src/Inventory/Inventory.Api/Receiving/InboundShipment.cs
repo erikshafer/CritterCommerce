@@ -1,7 +1,7 @@
 using JasperFx.Events;
 using Wolverine.Marten;
 
-namespace Inventory.Receiving;
+namespace Inventory.Api.Receiving;
 
 /* events, the source of truth */
 

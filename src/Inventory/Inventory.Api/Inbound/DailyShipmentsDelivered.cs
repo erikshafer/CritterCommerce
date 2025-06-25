@@ -1,6 +1,6 @@
 using Marten.Events.Projections;
 
-namespace Inventory.Inbound;
+namespace Inventory.Api.Inbound;
 
 public class DailyShipmentsDelivered
 {
