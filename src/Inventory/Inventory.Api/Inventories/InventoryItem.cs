@@ -20,13 +20,9 @@ public record InventoryItem
     public string Sku { get; set; } = null!;
     public int Quantity { get; set; }
 
-    public void Apply(InventoryIncremented incremented)
-    {
+    public void Apply(InventoryIncremented incremented) =>
         Quantity += incremented.Quantity;
-    }
 
-    public void Apply(InventoryDecremented decremented)
-    {
+    public void Apply(InventoryDecremented decremented) =>
         Quantity -= decremented.Quantity;
-    }
 }
