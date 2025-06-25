@@ -22,7 +22,7 @@ builder.Services.AddMarten(options =>
     {
         var connectionString = builder.Configuration.GetConnectionString("marten")
                                ?? throw new Exception("Marten connection string not found");
-        options.Connection(connectionString!);
+        options.Connection(connectionString);
         options.AutoCreateSchemaObjects = AutoCreate.All; // Dev mode: create tables if missing
         options.DatabaseSchemaName = "inventory";
         options.DisableNpgsqlLogging = true;
