@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;
 using Wolverine.Marten;
 
-namespace Inventory.Api.Inbound;
+namespace Inventory.Api.Inbound.Endpoints;
 
 public static class ScheduleFreightShipmentEndpoint
 {

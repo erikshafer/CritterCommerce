@@ -9,7 +9,7 @@ public sealed record Sku
     public Sku(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            throw new DomainException("SKU value cannot be empty");
+            throw new InventoryDomainException("SKU value cannot be empty");
     }
 
     public bool HasSameValue(Sku another) => Value == another.Value;

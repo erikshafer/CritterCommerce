@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;
 using Wolverine.Marten;
 
-namespace Inventory.Api.Inventories;
+namespace Inventory.Api.Inventories.Endpoints;
 
 public static class QueryInventoryEndpoints
 {

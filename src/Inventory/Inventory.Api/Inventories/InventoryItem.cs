@@ -1,6 +1,6 @@
 ﻿using JasperFx.Events;
 
-namespace Inventory;
+namespace Inventory.Api.Inventories;
 
 public record InventoryInitialized(Guid Id, string Sku);
 

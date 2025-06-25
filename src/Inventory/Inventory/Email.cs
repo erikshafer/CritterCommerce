@@ -15,13 +15,13 @@ public sealed record Email
     public Email(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            throw new DomainException("Email cannot be null or empty");
+            throw new InventoryDomainException("Email cannot be null or empty");
 
         if (!EmailRegex.IsMatch(value))
-            throw new DomainException("Invalid email format");
+            throw new InventoryDomainException("Invalid email format");
 
         if (value.Length < 254)
-            throw new DomainException("An email cannot be longer than 254 characters per specification IETF RFC 696");
+            throw new InventoryDomainException("An email cannot be longer than 254 characters per specification IETF RFC 696");
 
         Value = value.Trim();
     }

@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
-using Inventory;
-using Inventory.Api.Inbound;
-using Inventory.Api.Receiving;
+using Inventory.Api.Inbound.Projections;
+using Inventory.Api.Inventories;
+using Inventory.Api.Receiving.Projections;
 using Inventory.Api.Locations;
 using JasperFx;
 using JasperFx.Core;
