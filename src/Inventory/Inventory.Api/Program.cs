@@ -59,11 +59,12 @@ builder.Services.AddMarten(options =>
 
         options.RegisterDocumentType<Location>();
         options.Schema.For<Location>()
-            .Duplicate(x => x.Name)
-            .Duplicate(x => x.Code);
+            .Duplicate(x => x.Name);
     })
     // Initializing (seeding) some data for the document store side
-    .InitializeWith(new LocationsInitialData(LocationsDatasets.MapFulfillmentCentersToLocations()))
+    .InitializeWith(new LocationsInitialData(
+        LocationsDatasets.MapFulfillmentCentersToLocations,
+        LocationsDatasets.SupplierWarehouseLocations))
     // Turn on the async daemon in "Solo" mode
     .AddAsyncDaemon(DaemonMode.Solo)
     // Another performance optimization if you're starting from scratch
