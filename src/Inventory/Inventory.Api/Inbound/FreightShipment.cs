@@ -4,8 +4,6 @@ using Wolverine.Marten;
 
 namespace Inventory.Api.Inbound;
 
-/* events */
-
 public record FreightShipmentScheduled(Guid ShipmentId, string Origin, string Destination, DateTime ScheduledAt);
 public record FreightShipmentPickedUp(DateTime PickedUpAt);
 public record FreightShipmentDelivered(DateTime DeliveredAt);
