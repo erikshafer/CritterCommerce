@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Inventory.Api.Documents;
 using Inventory.Api.Inbound.Projections;
 using Inventory.Api.Inventories;
 using Inventory.Api.Receiving.Projections;
@@ -58,12 +59,19 @@ builder.Services.AddMarten(options =>
 
         options.RegisterDocumentType<Location>();
         options.Schema.For<Location>()
+            .Identity(x => x.Id)
             .Duplicate(x => x.Name);
+
+        options.RegisterDocumentType<Vendor>();
+        options.Schema.For<Vendor>()
+            .Identity(x => x.Id)
+            .Duplicate(x => x.Name);
+
+        options.RegisterDocumentType<ProcurementOrder>();
+        options.Schema.For<ProcurementOrder>()
+            .Identity(x => x.Id)
+            .ForeignKey<Vendor>(x => x.VendorId);
     })
-    // Initializing (seeding) some data for the document store side
-    .InitializeWith(new LocationsInitialData(
-        LocationsDatasets.MapFulfillmentCentersToLocations,
-        LocationsDatasets.SupplierWarehouseLocations))
     // Turn on the async daemon in "Solo" mode
     .AddAsyncDaemon(DaemonMode.Solo)
     // Another performance optimization if you're starting from scratch

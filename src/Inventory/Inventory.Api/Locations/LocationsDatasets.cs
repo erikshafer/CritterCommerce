@@ -7,7 +7,6 @@ public static class LocationsDatasets
                 new Location
                 {
                     Id = Guid.NewGuid(),
-                    LegacyId = source.Id,
                     Name = source.Name,
                     Code = source.Shorthand
                 })
