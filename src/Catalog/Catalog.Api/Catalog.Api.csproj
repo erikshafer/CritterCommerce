@@ -11,9 +11,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="WolverineFx.Http" Version="4.2.0" />
-        <PackageReference Include="WolverineFx.Http.Marten" Version="4.2.0" />
-        <PackageReference Include="WolverineFx.Marten" Version="4.2.0" />
+        <PackageReference Include="WolverineFx.Http" Version="4.4.0" />
+        <PackageReference Include="WolverineFx.Http.Marten" Version="4.4.0" />
+        <PackageReference Include="WolverineFx.Marten" Version="4.4.0" />
     </ItemGroup>
 
     <ItemGroup>
