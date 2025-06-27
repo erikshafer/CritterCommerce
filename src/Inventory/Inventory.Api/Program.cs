@@ -15,6 +15,7 @@ using Wolverine;
 using Wolverine.ErrorHandling;
 using Wolverine.Http;
 using Wolverine.Marten;
+using Wolverine.RabbitMQ;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ApplyJasperFxExtensions();
@@ -103,6 +104,14 @@ builder.Host.UseWolverine(opts =>
         .RetryOnce()
         .Then.RetryWithCooldown(100.Milliseconds(), 250.Milliseconds())
         .Then.Discard();
+
+    // Configure Rabbit MQ connection to the connection string
+    // named "rabbit" from IConfiguration. This is *a* way to use
+    // Wolverine + Rabbit MQ using Aspire
+    opts.UseRabbitMqUsingNamedConnection("rabbitmq")
+        // Directs Wolverine to build any declared queues, exchanges, or
+        // bindings with the Rabbit MQ broker as part of bootstrapping time
+        .AutoProvision();
 });
 
 builder.Services.AddEndpointsApiExplorer();
