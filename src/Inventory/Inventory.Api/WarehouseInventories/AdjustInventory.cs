@@ -1,6 +1,6 @@
 using Wolverine.Marten;
 
-namespace Inventory.Api.Inventories;
+namespace Inventory.Api.WarehouseInventories;
 
 public record AdjustInventory(Guid InventoryId, int Quantity);
 

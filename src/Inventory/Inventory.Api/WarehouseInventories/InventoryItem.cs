@@ -1,6 +1,6 @@
 ﻿using JasperFx.Events;
 
-namespace Inventory.Api.Inventories;
+namespace Inventory.Api.WarehouseInventories;
 
 public record InventoryInitialized(Guid Id, string Sku);
 public record InventoryIncremented(int Quantity);
