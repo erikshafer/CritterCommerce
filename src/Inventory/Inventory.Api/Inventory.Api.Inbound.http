@@ -1,0 +1,20 @@
+@HostAddress = http://localhost:5121
+
+###
+
+POST {{HostAddress}}/api/freight-shipments/schedule
+accept: application/json
+Content-Type: application/json
+
+{
+    "origin": "OmahaNeUsa",
+    "destination": "AustinTxUsa"
+}
+
+###
+
+GET {{HostAddress}}/api/freight-shipments/0197c434-b9e8-475f-b848-89e23b434756
+accept: application/json
+
+###
+
