@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Inventory.Api.Documents;
+using Inventory.Api.Inbound;
 using Inventory.Api.Inbound.Projections;
 using Inventory.Api.Locations;
 using Inventory.Api.Receiving.Projections;
@@ -44,11 +45,11 @@ builder.Services.AddMarten(options =>
             .Identity(x => x.Id)
             .Duplicate(x => x.Sku);
 
-        // Inline projection, no snapshots.
-        // Note that this is different from aggregating a domain model like
-        // FreightShipment using AggregateStreamAsync<T>. Instead, we're producing a
-        // derived view (or read model) designed for fast queries, based on a subset of event data.
-        options.Projections.Add<ShipmentViewProjection>(ProjectionLifecycle.Inline);
+        options.Projections
+            .Snapshot<FreightShipment>(SnapshotLifecycle.Inline)
+            .Identity(x => x.Id)
+            .Duplicate(x => x.Origin)
+            .Duplicate(x => x.Destination);
 
         // The async projections with snapshotting.
         // An async daemon will be running in the background, which yes it can be
