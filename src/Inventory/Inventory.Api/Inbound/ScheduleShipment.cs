@@ -1,4 +1,5 @@
 using Inventory.Api.Locations;
+using JasperFx.Core;
 using Marten;
 using Wolverine;
 using Wolverine.Marten;
@@ -33,7 +34,7 @@ public static class ScheduleShipmentHandler
         if (destinationLocation is null)
             throw new InvalidOperationException($"Cannot locate Origin of '{command.Destination}' in our records");
 
-        var id = Guid.NewGuid();
+        var id = CombGuidIdGeneration.NewGuid();
         var scheduledAt = DateTime.UtcNow;
 
         var events = new Events { new FreightShipmentScheduled(id, shipment.Origin, shipment.Destination, scheduledAt) };

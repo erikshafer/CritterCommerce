@@ -1,3 +1,5 @@
+using JasperFx.Core;
+
 namespace Inventory.Api.Locations;
 
 public static class LocationsDatasets
@@ -11,7 +13,7 @@ public static class LocationsDatasets
         FulfillmentCenters.FulfillmentCenter.List().Select(source =>
                 new Location
                 {
-                    Id = Guid.NewGuid(),
+                    Id = CombGuidIdGeneration.NewGuid(),
                     Name = source.Name,
                     Code = source.Shorthand
                 })

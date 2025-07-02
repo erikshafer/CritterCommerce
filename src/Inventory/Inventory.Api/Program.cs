@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Inventory.Api;
 using Inventory.Api.Documents;
 using Inventory.Api.Inbound;
 using Inventory.Api.Inbound.Projections;
@@ -77,9 +78,10 @@ builder.Services.AddMarten(options =>
             .Identity(x => x.Id)
             .ForeignKey<Vendor>(x => x.VendorId);
     })
-    .InitializeWith(
-        new LocationsInitialData(LocationsDatasets.AllLocations()),
-        new VendorsInitialData(VendorsDatasets.Vendors))
+    .InitializeWith(new InitialInventoryDataSet(
+        InitialInventoryDataSet.ConcatDataSets(
+            LocationsDatasets.AllLocations(),
+            VendorsDatasets.Vendors)))
     // Turn on the async daemon in "Solo" mode
     .AddAsyncDaemon(DaemonMode.Solo)
     // Another performance optimization if you're starting from scratch

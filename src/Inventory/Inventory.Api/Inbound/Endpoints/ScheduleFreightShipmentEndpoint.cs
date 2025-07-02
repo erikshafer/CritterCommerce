@@ -1,4 +1,5 @@
 using Inventory.Api.Locations;
+using JasperFx.Core;
 using Marten;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;
@@ -30,7 +31,7 @@ public static class ScheduleFreightShipmentEndpoint
         if (destinationLocation is null)
             throw new InvalidOperationException($"Cannot locate Origin of '{command.Destination}' in our records");
 
-        var id = Guid.NewGuid();
+        var id = CombGuidIdGeneration.NewGuid();
         var scheduledAt = DateTime.UtcNow;
         var scheduled = new FreightShipmentScheduled(id, origin, destination, scheduledAt);
         var start = MartenOps.StartStream<FreightShipment>(scheduled);
