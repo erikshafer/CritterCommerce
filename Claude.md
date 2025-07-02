@@ -567,7 +567,7 @@ public static class ScheduleFreightShipmentEndpoint
         if (destinationLocation is null)
             throw new InvalidOperationException($"Cannot locate Origin of '{command.Destination}' in our records");
 
-        var id = Guid.NewGuid();
+        var id = CombGuidIdGeneration.NewGuid();;
         var scheduledAt = DateTime.UtcNow;
         var scheduled = new FreightShipmentScheduled(id, origin, destination, scheduledAt);
         var start = MartenOps.StartStream<FreightShipment>(scheduled);
@@ -578,4 +578,13 @@ public static class ScheduleFreightShipmentEndpoint
     }
 }
 
+```
+### Identity (ID) Generation
+
+Do not use the standard `Guid.NewGuid()` operation of creating a random identity for an event stream id.
+
+Instead, use Marten's built in COMB GUID Id Generator. It is essentially a combination of GUID with embedded data and timestamp of its creation. This gives us a sequential GUID, with each GUID being sequentially after the previous GUID.  This works great for indexing and sorting. 
+
+```csharp
+var id = CombGuidIdGeneration.NewGuid();
 ```
