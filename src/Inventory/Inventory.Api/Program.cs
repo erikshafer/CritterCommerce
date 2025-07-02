@@ -74,6 +74,9 @@ builder.Services.AddMarten(options =>
             .Identity(x => x.Id)
             .ForeignKey<Vendor>(x => x.VendorId);
     })
+    .InitializeWith(
+        new LocationsInitialData(LocationsDatasets.MapFulfillmentCentersToLocations),
+        new LocationsInitialData(LocationsDatasets.SupplierWarehouseLocations))
     // Turn on the async daemon in "Solo" mode
     .AddAsyncDaemon(DaemonMode.Solo)
     // Another performance optimization if you're starting from scratch

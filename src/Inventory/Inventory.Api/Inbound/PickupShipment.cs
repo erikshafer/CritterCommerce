@@ -13,7 +13,7 @@ public static class PickupShipmentHandler
         if (shipment.Status != FreightShipmentStatus.Scheduled)
             throw new InvalidOperationException("Cannot pick up unscheduled shipment");
 
-        var messages = new OutgoingMessages { new NotifyDispatchCenter(shipment.Id, "PickedUp") };
+        var messages = new OutgoingMessages { new InboundShipmentNotification(shipment.Id, "PickedUp") };
         var events = new Events { new FreightShipmentPickedUp(command.PickedupAt) };
 
         return (events, messages);

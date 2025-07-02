@@ -37,7 +37,7 @@ public static class ScheduleShipmentHandler
         var scheduledAt = DateTime.UtcNow;
 
         var events = new Events { new FreightShipmentScheduled(id, shipment.Origin, shipment.Destination, scheduledAt) };
-        var messages = new OutgoingMessages { new NotifyDispatchCenter(shipment.Id, "Scheduled") };
+        var messages = new OutgoingMessages { new InboundShipmentNotification(shipment.Id, "Scheduled") };
 
         return (events, messages);
     }
