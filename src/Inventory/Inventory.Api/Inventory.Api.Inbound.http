@@ -1,5 +1,4 @@
 @HostAddress = http://localhost:5121
-@FreightInventoryId = 0197c434-b9e8-475f-b848-89e23b434756
 
 ###
 
@@ -12,22 +11,24 @@ Content-Type: application/json
     "destination": "AustinTxUsa"
 }
 
+> {%
+    // Assuming the response contains an 'value' field
+    client.global.set("FreightShipmentId", response.body.value);
+%}
+
 ###
 
-GET {{HostAddress}}/api/freight-shipments/{{FreightInventoryId}}
+GET {{HostAddress}}/api/freight-shipments/{{FreightShipmentId}}
 accept: application/json
 
 ###
 
-POST http://localhost:5121/api/freight-shipments/cancel
+POST {{HostAddress}}/api/freight-shipments/cancel
 accept: */*
 Content-Type: application/json
 
 {
-    "freightShipmentId": "{{FreightInventoryId}}",
+    "freightShipmentId": "{{FreightShipmentId}}",
     "reason": "unknown",
     "cancelledAt": "2025-07-01T01:02:03.780Z"
 }
-
-###
-

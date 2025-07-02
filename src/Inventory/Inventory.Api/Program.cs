@@ -4,6 +4,7 @@ using Inventory.Api.Inbound;
 using Inventory.Api.Inbound.Projections;
 using Inventory.Api.Locations;
 using Inventory.Api.Receiving.Projections;
+using Inventory.Api.Vendors;
 using Inventory.Api.WarehouseInventories;
 using JasperFx;
 using JasperFx.Core;
@@ -77,8 +78,8 @@ builder.Services.AddMarten(options =>
             .ForeignKey<Vendor>(x => x.VendorId);
     })
     .InitializeWith(
-        new LocationsInitialData(LocationsDatasets.MapFulfillmentCentersToLocations),
-        new LocationsInitialData(LocationsDatasets.SupplierWarehouseLocations))
+        new LocationsInitialData(LocationsDatasets.AllLocations()),
+        new VendorsInitialData(VendorsDatasets.Vendors))
     // Turn on the async daemon in "Solo" mode
     .AddAsyncDaemon(DaemonMode.Solo)
     // Another performance optimization if you're starting from scratch

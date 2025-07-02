@@ -1,4 +1,5 @@
 using Inventory.Api.Documents;
+using Inventory.Api.Vendors;
 using Marten;
 using Wolverine;
 using Wolverine.Marten;

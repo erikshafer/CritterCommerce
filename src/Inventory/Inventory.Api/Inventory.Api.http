@@ -1,5 +1,4 @@
 @HostAddress = http://localhost:5121
-@InventoryId = 01973202-ccdd-4df6-8ffb-201e7634e3bf
 
 ###
 
@@ -16,6 +15,11 @@ Content-Type: application/json
     "sku": "36606"
 }
 
+> {%
+    // Assuming the response contains an 'value' field
+    client.global.set("InventoryId", response.body.value);
+%}
+
 ###
 
 GET {{HostAddress}}/api/inventory/{{InventoryId}}
@@ -23,13 +27,7 @@ accept: application/json
 
 ###
 
-GET http://localhost:5121/api/inventory/read-model/{{InventoryId}}
+GET http://localhost:5121/api/inventory/live-aggregate/{{InventoryId}}
 accept: application/json
 
 ###
-
-GET http://localhost:5121/api/inventory/read-model-2/{{InventoryId}}
-accept: application/json
-
-###
-

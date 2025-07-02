@@ -1,13 +1,13 @@
 using Marten;
 using Marten.Schema;
 
-namespace Inventory.Api.Locations;
+namespace Inventory.Api.Vendors;
 
-public class LocationsInitialData : IInitialData
+public class VendorsInitialData : IInitialData
 {
     private readonly object[] _initialData;
 
-    public LocationsInitialData(params object[] initialData)
+    public VendorsInitialData(params object[] initialData)
     {
         _initialData = initialData;
     }
@@ -15,7 +15,7 @@ public class LocationsInitialData : IInitialData
     public async Task Populate(IDocumentStore store, CancellationToken cancellation)
     {
         await using var dirty = store.DirtyTrackedSession();
-        await dirty.DocumentStore.Advanced.Clean.DeleteDocumentsByTypeAsync(typeof(Location), cancellation);
+        await dirty.DocumentStore.Advanced.Clean.DeleteDocumentsByTypeAsync(typeof(Vendor), cancellation);
 
         dirty.Store(_initialData);
         await dirty.SaveChangesAsync(cancellation);

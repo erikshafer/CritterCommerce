@@ -2,6 +2,11 @@ namespace Inventory.Api.Locations;
 
 public static class LocationsDatasets
 {
+    public static Location[] AllLocations() =>
+        MapFulfillmentCentersToLocations
+            .Concat(SupplierWarehouseLocations)
+            .ToArray();
+
     public static readonly Location[] MapFulfillmentCentersToLocations =
         FulfillmentCenters.FulfillmentCenter.List().Select(source =>
                 new Location

@@ -1,4 +1,4 @@
-namespace Inventory.Api.Documents;
+namespace Inventory.Api.Vendors;
 
 public class Vendor
 {
