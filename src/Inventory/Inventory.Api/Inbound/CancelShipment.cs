@@ -10,7 +10,7 @@ public static class CancelShipmentHandler
     [AggregateHandler]
     public static (Events, OutgoingMessages) Handle(CancelShipment command, FreightShipment shipment)
     {
-        if (shipment.Status != FreightShipmentStatus.Cancelled)
+        if (shipment.Status == FreightShipmentStatus.Cancelled)
             throw new InvalidOperationException($"Shipment is already in '{shipment.Status}' status");
 
         var events = new Events { new FreightShipmentCancelled(command.Reason, command.CancelledAt) };

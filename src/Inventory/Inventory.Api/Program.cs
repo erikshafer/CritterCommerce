@@ -137,4 +137,16 @@ app.MapGet("/", (HttpResponse response) =>
     response.StatusCode = StatusCodes.Status301MovedPermanently;
 }).ExcludeFromDescription();
 
+app.MapPost("api/freight-shipments/cancel",
+    (CancelShipment command, IMessageBus bus) => bus.InvokeAsync(command))
+    .WithTags("InboundShipments");
+
+app.MapPost("api/freight-shipments/pickup",
+    (PickupShipment command, IMessageBus bus) => bus.InvokeAsync(command))
+    .WithTags("InboundShipments");
+
+app.MapPost("api/freight-shipments/deliver",
+    (DeliverShipment command, IMessageBus bus) => bus.InvokeAsync(command))
+    .WithTags("InboundShipments");
+
 return await app.RunJasperFxCommands(args);
