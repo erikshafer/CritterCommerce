@@ -27,6 +27,8 @@ builder.Services.AddMarten(options =>
                                ?? throw new Exception("Marten connection string not found");
         options.Connection(connectionString);
         options.AutoCreateSchemaObjects = AutoCreate.All; // Dev mode: create tables if missing
+        options.UseSystemTextJsonForSerialization(); // Opt-in, recommended for new projects
+
         options.DatabaseSchemaName = "inventory";
         options.DisableNpgsqlLogging = true;
         options.Projections.UseIdentityMapForAggregates = true; // A recent optimization
