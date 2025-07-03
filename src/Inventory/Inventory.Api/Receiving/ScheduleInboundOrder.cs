@@ -25,7 +25,7 @@ public static class ScheduleInboundOrderHandler
         return (HandlerContinuation.Continue, order, vendor);
     }
 
-    // [AggregateHandler]
+    [AggregateHandler]
     public static Events Handle(ScheduleInboundOrder command, ReceivedProcurementOrder order, Vendor vendor)
     {
         var events = new Events();
