@@ -32,3 +32,17 @@ Content-Type: application/json
     "reason": "unknown",
     "cancelledAt": "2025-07-01T01:02:03.780Z"
 }
+
+###
+
+POST {{HostAddress}}/api/freight-shipments/pickup
+accept: */*
+Content-Type: application/json
+
+{
+    "freightShipmentId": "{{FreightShipmentId}}",
+    "pickedupAt": "2025-07-03T20:09:35.432Z"
+}
+
+###
+
