@@ -1,8 +1,9 @@
 using System.Text.Json.Serialization;
-using Inventory.Api.Documents;
+using Inventory.Api;
 using Inventory.Api.Inbound;
 using Inventory.Api.Inbound.Projections;
 using Inventory.Api.Locations;
+using Inventory.Api.Procurement;
 using Inventory.Api.Receiving.Projections;
 using Inventory.Api.Vendors;
 using Inventory.Api.WarehouseInventories;
@@ -72,14 +73,17 @@ builder.Services.AddMarten(options =>
             .Identity(x => x.Id)
             .Duplicate(x => x.Name);
 
-        options.RegisterDocumentType<ProcurementOrder>();
-        options.Schema.For<ProcurementOrder>()
+        options.RegisterDocumentType<ReceivedProcurementOrder>();
+        options.Schema.For<ReceivedProcurementOrder>()
             .Identity(x => x.Id)
-            .ForeignKey<Vendor>(x => x.VendorId);
+            .Duplicate(x => x.VendorId) // Consider making this a foreign key to the Vendor docs
+            .Duplicate(x => x.TrackingNumber); // Could add the entire document's properties here, but
     })
-    .InitializeWith(
-        new LocationsInitialData(LocationsDatasets.AllLocations()),
-        new VendorsInitialData(VendorsDatasets.Vendors))
+    .InitializeWith(new InventoryInitialData(
+        InventoryInitialData.ConcatDataSets(
+            LocationsDatasets.Data,
+            VendorsDatasets.Data,
+            ReceivedProcurementOrdersDatasets.Data)))
     // Turn on the async daemon in "Solo" mode
     .AddAsyncDaemon(DaemonMode.Solo)
     // Another performance optimization if you're starting from scratch

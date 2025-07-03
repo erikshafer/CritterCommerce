@@ -23,4 +23,8 @@
       <ProjectReference Include="..\Inventory\Inventory.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Documents\" />
+    </ItemGroup>
+
 </Project>

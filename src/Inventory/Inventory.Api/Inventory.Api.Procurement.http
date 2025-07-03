@@ -1,0 +1,9 @@
+@HostAddress = http://localhost:5121
+@ReceivedProcurementOrders = 1001
+
+###
+
+GET {{HostAddress}}/api/procurement/orders/received/{{ReceivedProcurementOrders}}
+accept: application/json
+
+###
