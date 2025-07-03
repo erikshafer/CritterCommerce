@@ -4,12 +4,12 @@ namespace Inventory.Api.Locations;
 
 public static class LocationsDatasets
 {
-    public static Location[] AllLocations() =>
+    public static Location[] Data =>
         MapFulfillmentCentersToLocations
             .Concat(SupplierWarehouseLocations)
             .ToArray();
 
-    public static readonly Location[] MapFulfillmentCentersToLocations =
+    private static readonly Location[] MapFulfillmentCentersToLocations =
         FulfillmentCenters.FulfillmentCenter.List().Select(source =>
                 new Location
                 {
@@ -19,7 +19,7 @@ public static class LocationsDatasets
                 })
             .ToArray();
 
-    public static readonly Location[] SupplierWarehouseLocations =
+    private static readonly Location[] SupplierWarehouseLocations =
     {
         new() { Id = Guid.Parse("2219b6f7-7883-4629-95d5-1a8a6c74b244"), Name = "Acme Corp." },
         new() { Id = Guid.Parse("331c15b4-b7bd-44d6-a804-b6879f99a65f"), Name = "Stark Industries" },

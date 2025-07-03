@@ -2,7 +2,7 @@ namespace Inventory.Api.Vendors;
 
 public static class VendorsDatasets
 {
-    public static readonly Vendor[] Vendors =
+    public static readonly Vendor[] Data =
     {
         new() { Id = 101, Name = "Acme Corp." },
         new() { Id = 102, Name = "Stark Industries" },

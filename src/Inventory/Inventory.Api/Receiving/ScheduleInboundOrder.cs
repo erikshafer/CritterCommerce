@@ -1,4 +1,4 @@
-using Inventory.Api.Documents;
+using Inventory.Api.Procurement;
 using Inventory.Api.Vendors;
 using Marten;
 using Wolverine;
@@ -10,11 +10,11 @@ public record ScheduleInboundOrder(Guid ShipmentId, string ShipmentNumber, DateT
 
 public static class ScheduleInboundOrderHandler
 {
-    public static async Task<(HandlerContinuation, ProcurementOrder?, Vendor?)> LoadAsync(
+    public static async Task<(HandlerContinuation, ReceivedProcurementOrder?, Vendor?)> LoadAsync(
         ScheduleInboundOrder command,
         IDocumentSession session)
     {
-        var order = await session.LoadAsync<ProcurementOrder>(command.ShipmentNumber);
+        var order = await session.LoadAsync<ReceivedProcurementOrder>(command.ShipmentNumber);
         if (order == null)
             return (HandlerContinuation.Stop, null, null);
 
@@ -26,7 +26,7 @@ public static class ScheduleInboundOrderHandler
     }
 
     // [AggregateHandler]
-    public static Events Handle(ScheduleInboundOrder command, ProcurementOrder order, Vendor vendor)
+    public static Events Handle(ScheduleInboundOrder command, ReceivedProcurementOrder order, Vendor vendor)
     {
         var events = new Events();
         events += new InboundOrderScheduled(command.ShipmentId, command.ShipmentNumber, command.ExpectedArrival);

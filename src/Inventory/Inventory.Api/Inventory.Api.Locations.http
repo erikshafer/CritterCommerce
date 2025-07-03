@@ -1,0 +1,31 @@
+@HostAddress = http://localhost:5121
+@LocationId = 2219b6f7-7883-4629-95d5-1a8a6c74b244
+@LocationName = OmahaNeUsa
+@LocationCode = OMA
+
+###
+
+GET {{HostAddress}}/api/locations
+accept: application/json
+
+###
+
+GET {{HostAddress}}/api/locations/{{LocationId}}
+accept: application/json
+
+###
+
+GET {{HostAddress}}/api/locations/soft-delete/{{LocationId}}
+accept: application/json
+
+###
+
+GET {{HostAddress}}/api/locations/name/{{LocationName}}
+accept: application/json
+
+###
+
+GET {{HostAddress}}/api/locations/code/{{LocationCode}}
+accept: application/json
+
+###
