@@ -2,7 +2,7 @@
 
 ###
 
-POST {{HostAddress}}/api/freight-shipments/schedule
+POST {{HostAddress}}/api/freight-shipments
 accept: application/json
 Content-Type: application/json
 
@@ -23,7 +23,7 @@ accept: application/json
 
 ###
 
-POST {{HostAddress}}/api/freight-shipments/cancel
+POST {{HostAddress}}/api/freight-shipments/{{FreightShipmentId}}/cancel
 accept: */*
 Content-Type: application/json
 
@@ -35,7 +35,7 @@ Content-Type: application/json
 
 ###
 
-POST {{HostAddress}}/api/freight-shipments/pickup
+POST {{HostAddress}}/api/freight-shipments/{{FreightShipmentId}}/pickup
 accept: */*
 Content-Type: application/json
 

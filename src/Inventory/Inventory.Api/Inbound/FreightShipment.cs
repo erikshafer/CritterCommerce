@@ -1,3 +1,5 @@
+using Marten.Schema;
+
 namespace Inventory.Api.Inbound;
 
 public record FreightShipmentScheduled(Guid ShipmentId, string Origin, string Destination, DateTime ScheduledAt);
@@ -7,6 +9,7 @@ public record FreightShipmentCancelled(string Reason, DateTime CancelledAt);
 
 public class FreightShipment
 {
+    [Identity]
     public Guid Id { get; private set; }
     public string Origin { get; private set; } = null!;
     public string Destination { get; private set; } = null!;

@@ -10,7 +10,7 @@ public record ScheduleShipment(string Origin, string Destination);
 
 public static class ScheduleShipmentHandler
 {
-    [WolverinePost("/api/freight-shipments/schedule"), Tags("InboundShipments")]
+    [WolverinePost("/api/freight-shipments"), Tags("InboundShipments")]
     public static (CreationResponse<Guid>, IStartStream) Post(ScheduleShipment command, IDocumentSession session)
     {
         var (origin, destination) = command;
