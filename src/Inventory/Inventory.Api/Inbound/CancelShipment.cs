@@ -9,7 +9,7 @@ public record CancelShipment(string Reason, DateTime CancelledAt);
 
 public static class CancelShipmentHandler
 {
-    [WolverinePost("/api/freight-shipments/{id}/cancel"), Tags("InboundShipments")]
+    [WolverinePost("/api/freight-shipments/{id}/cancel"), Tags(Tags.InboundShipments)]
     public static (Events, OutgoingMessages) Handle(CancelShipment command, [Aggregate] FreightShipment shipment)
     {
         if (shipment.Status == FreightShipmentStatus.Cancelled)

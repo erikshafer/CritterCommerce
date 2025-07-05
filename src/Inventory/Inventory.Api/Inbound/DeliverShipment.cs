@@ -9,7 +9,7 @@ public record DeliverShipment(DateTime DeliveredAt);
 
 public static class DeliverShipmentHandler
 {
-    [WolverinePost("/api/freight-shipments/{id}/deliver"), Tags("InboundShipments")]
+    [WolverinePost("/api/freight-shipments/{id}/deliver"), Tags(Tags.InboundShipments)]
     public static (Events, OutgoingMessages) Handle(DeliverShipment command, [Aggregate] FreightShipment shipment)
     {
         if (shipment.Status == FreightShipmentStatus.Delivered)
