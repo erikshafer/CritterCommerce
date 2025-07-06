@@ -13,7 +13,7 @@ Content-Type: application/json
 
 > {%
     // Assuming the response contains an 'value' field
-    client.global.set("FreightShipmentId", response.body.value);
+    client.global.set("FreightShipmentId", response.body.valueOf());
 %}
 
 ###
