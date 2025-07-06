@@ -36,12 +36,6 @@ builder.Services.AddMarten(options =>
 
         options.DatabaseSchemaName = "inventory";
         options.DisableNpgsqlLogging = true;
-        options.Projections.UseIdentityMapForAggregates = true; // A recent optimization
-
-        // Opts into a mode where Marten is able to rebuild single
-        // stream projections faster by building one stream at a time
-        // Does require new table migrations for Marten 7 users though
-        options.Events.UseOptimizedProjectionRebuilds = true;
 
         // The inline projections, with snapshots.
         // With every commit, such as appending an event, updating all associated

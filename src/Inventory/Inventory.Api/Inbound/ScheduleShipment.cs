@@ -1,3 +1,4 @@
+using FluentValidation;
 using Inventory.Api.Inbound.Queries;
 using JasperFx.Core;
 using Marten;
@@ -5,10 +6,20 @@ using Microsoft.AspNetCore.Mvc;
 using Wolverine.Attributes;
 using Wolverine.Http;
 using Wolverine.Marten;
+// ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 
 namespace Inventory.Api.Inbound;
 
-public record ScheduleShipment(string Origin, string Destination);
+public sealed record ScheduleShipment(string Origin, string Destination);
+
+public sealed class ScheduleShipmentValidator : AbstractValidator<ScheduleShipment>
+{
+    public ScheduleShipmentValidator()
+    {
+        RuleFor(x => x.Origin).NotEmpty();
+        RuleFor(x => x.Destination).NotEmpty();
+    }
+}
 
 public static class ScheduleShipmentHandler
 {
@@ -42,8 +53,9 @@ public static class ScheduleShipmentHandler
         return WolverineContinue.NoProblems;
     }
 
-    [WolverinePost("/api/freight-shipments"), Tags(Tags.InboundShipments)]
-    public static (CreationResponse<Guid>, IStartStream) Post(ScheduleShipment command)
+    [Tags(Tags.InboundShipments)]
+    [WolverinePost("/api/freight-shipments")]
+    public static (IResult, IStartStream) Post(ScheduleShipment command)
     {
         var (origin, destination) = command;
 
@@ -52,8 +64,7 @@ public static class ScheduleShipmentHandler
         var scheduled = new FreightShipmentScheduled(id, origin, destination, scheduledAt);
 
         var start = MartenOps.StartStream<FreightShipment>(scheduled);
-        var response = new CreationResponse<Guid>("/api/freight-shipments/" + start.StreamId, start.StreamId);
 
-        return (response, start);
+        return (Results.Ok(start.StreamId), start);
     }
 }
