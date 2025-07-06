@@ -23,6 +23,29 @@ accept: application/json
 
 ###
 
+POST {{HostAddress}}/api/freight-shipments/{{FreightShipmentId}}/pickup
+accept: */*
+Content-Type: application/json
+
+{
+    "freightShipmentId": "{{FreightShipmentId}}",
+    "pickedupAt": "2025-07-01T20:01:00.432Z"
+}
+
+###
+
+POST {{HostAddress}}/api/freight-shipments/{{FreightShipmentId}}/deliver
+accept: */*
+Content-Type: application/json
+
+{
+    "freightShipmentId": "{{FreightShipmentId}}",
+    "deliveredAt": "2025-07-03T13:13:13.333Z"
+}
+
+
+### NOTE: Cancel
+
 POST {{HostAddress}}/api/freight-shipments/{{FreightShipmentId}}/cancel
 accept: */*
 Content-Type: application/json
@@ -32,17 +55,3 @@ Content-Type: application/json
     "reason": "unknown",
     "cancelledAt": "2025-07-01T01:02:03.780Z"
 }
-
-###
-
-POST {{HostAddress}}/api/freight-shipments/{{FreightShipmentId}}/pickup
-accept: */*
-Content-Type: application/json
-
-{
-    "freightShipmentId": "{{FreightShipmentId}}",
-    "pickedupAt": "2025-07-03T20:09:35.432Z"
-}
-
-###
-

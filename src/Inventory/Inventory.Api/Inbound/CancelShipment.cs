@@ -7,6 +7,7 @@ using Wolverine.Marten;
 namespace Inventory.Api.Inbound;
 
 public record CancelShipment(
+    Guid FreightShipmentId,
     string Reason,
     DateTime CancelledAt
 );

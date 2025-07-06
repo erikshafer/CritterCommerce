@@ -44,14 +44,14 @@ public sealed record FreightShipment(
         current with
         {
             Status = FreightShipmentStatus.Delivered,
-            PickedUpAt = @event.DeliveredAt
+            DeliveredAt = @event.DeliveredAt
         };
 
     public static FreightShipment Apply(FreightShipment current, FreightShipmentCancelled @event) =>
         current with
         {
             Status = FreightShipmentStatus.Cancelled,
-            PickedUpAt = @event.CancelledAt,
+            CancelledAt = @event.CancelledAt,
             CancellationReason = @event.Reason
         };
 }

@@ -24,7 +24,7 @@ public static class PickupShipmentHandler
 {
     public static ProblemDetails Validate(FreightShipment shipment)
     {
-        if (shipment.Status == FreightShipmentStatus.Scheduled)
+        if (shipment.Status == FreightShipmentStatus.InTransit)
             return new ProblemDetails
             {
                 Detail = "Shipment has been picked up and is in transit",

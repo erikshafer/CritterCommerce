@@ -7,6 +7,7 @@ using Wolverine.Marten;
 namespace Inventory.Api.Inbound;
 
 public sealed record DeliverShipment(
+    Guid FreightShipmentId,
     DateTime DeliveredAt
 );
 
