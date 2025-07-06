@@ -13,7 +13,7 @@ public record InitializeInventory(string Sku);
 /// </summary>
 public static class InitializeInventoryEndpoint
 {
-    [WolverinePost("/api/inventory", Name = "InitializeInventory")]
+    [WolverinePost("/api/inventory"), Tags(Tags.WarehouseInventories)]
     public static (CreationResponse<Guid>, IStartStream) Post(InitializeInventory command)
     {
         var streamId = Guid.CreateVersion7(); // create stream id

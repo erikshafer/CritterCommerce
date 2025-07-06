@@ -21,7 +21,3 @@ public static class AdjustInventoryHandler
         yield return new InventoryAdjustmentCompleted(inventoryId, quantity);
     }
 }
-
-/* event notification -- a possible message? -- testing purposes */
-
-public record InventoryAdjustmentCompleted(Guid InventoryId, int Quantity);

@@ -16,7 +16,7 @@ public class ShipmentViewProjection : SingleStreamProjection<ShipmentView, Guid>
 {
     public ShipmentView Create(FreightShipmentScheduled @event) => new ShipmentView
     {
-        Id = @event.ShipmentId,
+        Id = @event.Id,
         Origin = @event.Origin,
         Destination = @event.Destination,
         Status = "Scheduled"

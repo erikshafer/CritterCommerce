@@ -1,15 +1,12 @@
-using Marten.Schema;
-
 namespace Inventory.Api.Inbound;
 
-public record FreightShipmentScheduled(Guid ShipmentId, string Origin, string Destination, DateTime ScheduledAt);
+public record FreightShipmentScheduled(Guid Id, string Origin, string Destination, DateTime ScheduledAt);
 public record FreightShipmentPickedUp(DateTime PickedUpAt);
 public record FreightShipmentDelivered(DateTime DeliveredAt);
 public record FreightShipmentCancelled(string Reason, DateTime CancelledAt);
 
 public class FreightShipment
 {
-    [Identity]
     public Guid Id { get; private set; }
     public string Origin { get; private set; } = null!;
     public string Destination { get; private set; } = null!;
@@ -20,13 +17,11 @@ public class FreightShipment
     public DateTime? CancelledAt { get; private set; }
     public string? CancellationReason { get; private set; }
 
-    public bool HasBeenPickedUp() => PickedUpAt.HasValue;
-
     public static FreightShipment Create(FreightShipmentScheduled @event)
     {
         return new FreightShipment
         {
-            Id = @event.ShipmentId,
+            Id = @event.Id,
             Origin = @event.Origin,
             Destination = @event.Destination,
             Status = FreightShipmentStatus.Scheduled,
