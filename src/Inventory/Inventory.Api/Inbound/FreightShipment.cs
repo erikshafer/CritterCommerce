@@ -5,51 +5,55 @@ public record FreightShipmentPickedUp(DateTime PickedUpAt);
 public record FreightShipmentDelivered(DateTime DeliveredAt);
 public record FreightShipmentCancelled(string Reason, DateTime CancelledAt);
 
-public class FreightShipment
+public sealed record FreightShipment(
+    Guid Id,
+    string Origin,
+    string Destination,
+    FreightShipmentStatus Status,
+    DateTime ScheduledAt,
+    DateTime? PickedUpAt,
+    DateTime? DeliveredAt,
+    DateTime? CancelledAt,
+    string CancellationReason)
 {
-    public Guid Id { get; private set; }
-    public string Origin { get; private set; } = null!;
-    public string Destination { get; private set; } = null!;
-    public FreightShipmentStatus Status { get; private set; }
-    public DateTime ScheduledAt { get; private set; }
-    public DateTime? PickedUpAt { get; private set; }
-    public DateTime? DeliveredAt { get; private set; }
-    public DateTime? CancelledAt { get; private set; }
-    public string? CancellationReason { get; private set; }
-
-    public static FreightShipment Create(FreightShipmentScheduled @event)
+    public FreightShipment() : this(Guid.Empty, string.Empty, string.Empty, FreightShipmentStatus.Scheduled, DateTime.MinValue, null, null, null, null!)
     {
-        return new FreightShipment
+    }
+
+    public static FreightShipment Create(FreightShipmentScheduled @event) =>
+        new (
+            @event.Id,
+            @event.Origin,
+            @event.Destination,
+            FreightShipmentStatus.Scheduled,
+            @event.ScheduledAt,
+            null,
+            null,
+            null,
+            null!
+        );
+
+    public static FreightShipment Apply(FreightShipment current, FreightShipmentPickedUp @event) =>
+        current with
         {
-            Id = @event.Id,
-            Origin = @event.Origin,
-            Destination = @event.Destination,
-            Status = FreightShipmentStatus.Scheduled,
-            ScheduledAt = @event.ScheduledAt
+            Status = FreightShipmentStatus.InTransit,
+            PickedUpAt = @event.PickedUpAt
         };
-    }
 
-    public static FreightShipment Apply(FreightShipment current, FreightShipmentPickedUp @event)
-    {
-        current.Status = FreightShipmentStatus.InTransit;
-        current.PickedUpAt = @event.PickedUpAt;
-        return current;
-    }
+    public static FreightShipment Apply(FreightShipment current, FreightShipmentDelivered @event) =>
+        current with
+        {
+            Status = FreightShipmentStatus.Delivered,
+            PickedUpAt = @event.DeliveredAt
+        };
 
-    public static FreightShipment Apply(FreightShipment current, FreightShipmentDelivered @event)
-    {
-        current.Status = FreightShipmentStatus.Delivered;
-        current.DeliveredAt = @event.DeliveredAt;
-        return current;
-    }
-
-    public static FreightShipment Apply(FreightShipment current, FreightShipmentCancelled @event)
-    {
-        current.Status = FreightShipmentStatus.Cancelled;
-        current.CancelledAt = @event.CancelledAt;
-        current.CancellationReason = @event.Reason;
-        return current;
-    }
+    public static FreightShipment Apply(FreightShipment current, FreightShipmentCancelled @event) =>
+        current with
+        {
+            Status = FreightShipmentStatus.Cancelled,
+            PickedUpAt = @event.CancelledAt,
+            CancellationReason = @event.Reason
+        };
 }
 
 public enum FreightShipmentStatus
