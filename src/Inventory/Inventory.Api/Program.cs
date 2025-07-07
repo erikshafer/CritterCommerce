@@ -20,9 +20,6 @@ using Wolverine.FluentValidation;
 using Wolverine.Http;
 using Wolverine.Http.FluentValidation;
 using Wolverine.Marten;
-using Wolverine.Postgresql;
-using Wolverine.RabbitMQ;
-using Wolverine.Transports;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ApplyJasperFxExtensions();
@@ -118,29 +115,6 @@ builder.Host.UseWolverine(opts =>
         .Then.Discard();
 
     opts.UseFluentValidation();
-
-    // The Rabbit MQ transport supports all three types of listeners
-    opts.UseRabbitMq()
-        // Directs Wolverine to build any declared queues, exchanges, or
-        // bindings with the Rabbit MQ broker as part of bootstrapping time
-        .AutoProvision();
-
-    opts.PersistMessagesWithPostgresql(martenConnectionString, "listeners"); // The durable mode requires some sort of envelope storage
-
-    opts.ListenToRabbitQueue("inline")
-        .ProcessInline() // Process inline, default is with one listener
-        .ListenerCount(5); // But, you can use multiple, parallel listeners
-
-    opts.ListenToRabbitQueue("buffered")
-        .BufferedInMemory(new BufferingLimits(1000, 500)); // Buffer the messages in memory for increased throughput
-
-    opts.ListenToRabbitQueue("durable")
-        .UseDurableInbox(new BufferingLimits(1000, 500)); // Opt into durable inbox mechanics
-
-    opts.ListenToRabbitQueue("ordered")
-        // This option is available on all types of Wolverine
-        // endpoints that can be configured to be a listener
-        .ListenWithStrictOrdering();
 });
 
 builder.Services.AddSwaggerGen();
