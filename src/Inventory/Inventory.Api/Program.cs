@@ -143,16 +143,19 @@ builder.Host.UseWolverine(opts =>
         .ListenWithStrictOrdering();
 });
 
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// To add Wolverine.HTTP services to the IoC container
 builder.Services.AddWolverineHttp();
 
 var app = builder.Build();
 
-app.UseSwagger();
-app.UseSwaggerUI();
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.MapWolverineEndpoints(opts =>
 {
