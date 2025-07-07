@@ -18,6 +18,7 @@ using Wolverine;
 using Wolverine.ErrorHandling;
 using Wolverine.FluentValidation;
 using Wolverine.Http;
+using Wolverine.Http.FluentValidation;
 using Wolverine.Marten;
 using Wolverine.Postgresql;
 using Wolverine.RabbitMQ;
@@ -151,7 +152,13 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.MapWolverineEndpoints();
+app.MapWolverineEndpoints(opts =>
+{
+    // Direct Wolverine.HTTP to use Fluent Validation
+    // middleware to validate any request bodies where
+    // there's a known validator (or many validators)
+    opts.UseFluentValidationProblemDetailMiddleware();
+});
 
 app.MapGet("/", (HttpResponse response) =>
 {
