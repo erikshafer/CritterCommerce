@@ -65,6 +65,7 @@ public static class ScheduleShipmentHandler
 
         var start = MartenOps.StartStream<FreightShipment>(scheduled);
 
-        return (Results.Ok(start.StreamId), start);
+        var location = $"/api/freight-shipments/{start.StreamId}";
+        return (Results.Created(location, start.StreamId), start);
     }
 }
