@@ -1,6 +1,6 @@
 services:
   postgresql:
-    container_name: crittercommerce-db
+    container_name: crittercommerce-postgres
     image: postgres:latest
     ports:
       - "5433:5432"
