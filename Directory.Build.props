@@ -2,6 +2,7 @@
 <Project>
     <PropertyGroup>
         <LangVersion>12</LangVersion>
+        <TargetFramework>net9.0</TargetFramework>
         <NoWarn>1570;1571;1572;1573;1574;1587;1591;1701;1702;1711;1735;0618;CA1062;CA1506;CA2201</NoWarn>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
