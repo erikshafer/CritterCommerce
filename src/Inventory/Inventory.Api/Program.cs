@@ -108,6 +108,8 @@ builder.Host.UseWolverine(opts =>
     // middleware to any endpoint or handler that uses persistence services
     opts.Policies.AutoApplyTransactions();
     opts.Policies.UseDurableLocalQueues();
+    // Opt into the transactional inbox/outbox on all messaging endpoints
+    opts.Policies.UseDurableOutboxOnAllSendingEndpoints();
 
     // Retry policies if a Marten concurrency exception is encountered
     opts.OnException<ConcurrencyException>()
