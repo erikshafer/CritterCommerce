@@ -58,6 +58,7 @@ builder.Services.AddMarten(opts =>
         // Docs for async daemon: https://martendb.io/events/projections/async-daemon.html#async-projections-daemon
         opts.Projections.Add<ExpectedQuantityAnticipatedProjection>(ProjectionLifecycle.Async);
         opts.Projections.Add<DailyShipmentsProjection>(ProjectionLifecycle.Async);
+        opts.Projections.Add<FreightShipmentProjection>(ProjectionLifecycle.Async);
 
         opts.RegisterDocumentType<Location>();
         opts.Schema.For<Location>()

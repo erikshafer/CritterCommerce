@@ -18,6 +18,6 @@ public static class AdjustInventoryHandler
             > 0 => new InventoryIncremented(quantity)
         };
 
-        yield return new InventoryAdjustmentCompleted(inventoryId, quantity);
+        yield return new InventoryAdjustmentNotification(inventoryId, quantity);
     }
 }
