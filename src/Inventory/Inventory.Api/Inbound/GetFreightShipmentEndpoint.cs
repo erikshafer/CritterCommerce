@@ -3,7 +3,7 @@ using Marten.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;
 
-namespace Inventory.Api.Inbound.Endpoints;
+namespace Inventory.Api.Inbound;
 
 public static class GetFreightShipmentEndpoint
 {
