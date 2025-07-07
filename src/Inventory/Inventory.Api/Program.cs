@@ -16,6 +16,7 @@ using Marten;
 using Marten.Events.Projections;
 using Wolverine;
 using Wolverine.ErrorHandling;
+using Wolverine.FluentValidation;
 using Wolverine.Http;
 using Wolverine.Marten;
 using Wolverine.Postgresql;
@@ -28,25 +29,25 @@ builder.Host.ApplyJasperFxExtensions();
 var martenConnectionString = builder.Configuration.GetConnectionString("marten")
                              ?? throw new Exception("Marten connection string not found");
 
-builder.Services.AddMarten(options =>
+builder.Services.AddMarten(opts =>
     {
-        options.Connection(martenConnectionString);
-        options.AutoCreateSchemaObjects = AutoCreate.All; // Dev mode: create tables if missing
-        options.UseSystemTextJsonForSerialization(); // Opt-in, recommended for new projects
+        opts.Connection(martenConnectionString);
+        opts.AutoCreateSchemaObjects = AutoCreate.All; // Dev mode: create tables if missing
+        opts.UseSystemTextJsonForSerialization(); // Opt-in, recommended for new projects
 
-        options.DatabaseSchemaName = "inventory";
-        options.DisableNpgsqlLogging = true;
+        opts.DatabaseSchemaName = "inventory";
+        opts.DisableNpgsqlLogging = true;
 
         // The inline projections, with snapshots.
         // With every commit, such as appending an event, updating all associated
         // projections will be batched in a single call to the Postgres database.
         // However, you sacrifice some event metadata usage by doing this.
-        options.Projections
+        opts.Projections
             .Snapshot<InventoryItem>(SnapshotLifecycle.Inline)
             .Identity(x => x.Id)
             .Duplicate(x => x.Sku);
 
-        options.Projections
+        opts.Projections
             .Snapshot<FreightShipment>(SnapshotLifecycle.Inline)
             .Identity(x => x.Id)
             .Duplicate(x => x.Origin)
@@ -57,21 +58,21 @@ builder.Services.AddMarten(options =>
         // configured and tweaked, and will process all registered projections
         // associated with what has recently been appended to the event store in PostgreSQL.
         // Docs for async daemon: https://martendb.io/events/projections/async-daemon.html#async-projections-daemon
-        options.Projections.Add<ExpectedQuantityAnticipatedProjection>(ProjectionLifecycle.Async);
-        options.Projections.Add<DailyShipmentsProjection>(ProjectionLifecycle.Async);
+        opts.Projections.Add<ExpectedQuantityAnticipatedProjection>(ProjectionLifecycle.Async);
+        opts.Projections.Add<DailyShipmentsProjection>(ProjectionLifecycle.Async);
 
-        options.RegisterDocumentType<Location>();
-        options.Schema.For<Location>()
+        opts.RegisterDocumentType<Location>();
+        opts.Schema.For<Location>()
             .Identity(x => x.Id)
             .Duplicate(x => x.Name);
 
-        options.RegisterDocumentType<Vendor>();
-        options.Schema.For<Vendor>()
+        opts.RegisterDocumentType<Vendor>();
+        opts.Schema.For<Vendor>()
             .Identity(x => x.Id)
             .Duplicate(x => x.Name);
 
-        options.RegisterDocumentType<ReceivedProcurementOrder>();
-        options.Schema.For<ReceivedProcurementOrder>()
+        opts.RegisterDocumentType<ReceivedProcurementOrder>();
+        opts.Schema.For<ReceivedProcurementOrder>()
             .Identity(x => x.Id)
             .Duplicate(x => x.VendorId) // Consider making this a foreign key to the Vendor docs
             .Duplicate(x => x.TrackingNumber); // Could add the entire document's properties here, but
@@ -112,6 +113,8 @@ builder.Host.UseWolverine(opts =>
         .RetryOnce()
         .Then.RetryWithCooldown(100.Milliseconds(), 250.Milliseconds())
         .Then.Discard();
+
+    opts.UseFluentValidation();
 
     // The Rabbit MQ transport supports all three types of listeners
     opts.UseRabbitMq()
