@@ -8,9 +8,8 @@ namespace Inventory.Api.Inbound.Endpoints;
 public static class GetFreightShipmentEndpoint
 {
     [Produces(typeof(FreightShipment))]
-    [WolverineGet("/api/freight-shipments/{id}"), Tags(Tags.InboundShipments)]
-    public static async Task Get(Guid id, IDocumentSession session, HttpContext context)
-    {
+    [Tags(Tags.InboundShipments)]
+    [WolverineGet("/api/freight-shipments/{id:guid}")]
+    public static async Task Get(Guid id, IQuerySession session, HttpContext context) =>
         await session.Json.WriteById<FreightShipment>(id, context);
-    }
 }
