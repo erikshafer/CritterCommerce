@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;
 using Wolverine.Marten;
 
-namespace Inventory.Api.WarehouseInventories.Endpoints;
+namespace Inventory.Api.WarehouseInventories;
 
-public static class QueryInventoryEndpoints
+public static class QueryEndpoints
 {
     [WolverineGet("/api/inventory", Name = "All InventoryItems"), Tags(Tags.WarehouseInventories)]
     public static async Task<IReadOnlyList<InventoryItem>> GetAllDomainModels(IDocumentSession session) =>
