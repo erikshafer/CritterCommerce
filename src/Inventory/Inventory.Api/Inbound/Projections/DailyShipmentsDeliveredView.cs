@@ -2,14 +2,14 @@ using Marten.Events.Projections;
 
 namespace Inventory.Api.Inbound.Projections;
 
-public class DailyShipmentsDelivered
+public class DailyShipmentsDeliveredView
 {
     public string Id { get; set; } = null!;
     public DateOnly DeliveredDate { get; set; }
     public int DeliveredCount { get; set; }
 }
 
-public class DailyShipmentsProjection : MultiStreamProjection<DailyShipmentsDelivered, string>
+public class DailyShipmentsProjection : MultiStreamProjection<DailyShipmentsDeliveredView, string>
 {
     public DailyShipmentsProjection()
     {
@@ -17,10 +17,10 @@ public class DailyShipmentsProjection : MultiStreamProjection<DailyShipmentsDeli
         Identity<FreightShipmentDelivered>(e => e.DeliveredAt.ToString("yyyy-MM-dd"));
     }
 
-    public DailyShipmentsDelivered Create(FreightShipmentDelivered @event)
+    public DailyShipmentsDeliveredView Create(FreightShipmentDelivered @event)
     {
         // Create a new view for the date if none exists
-        return new DailyShipmentsDelivered
+        return new DailyShipmentsDeliveredView
         {
             Id = @event.DeliveredAt.ToString("yyyy-MM-dd"),
             DeliveredDate = DateOnly.FromDateTime(@event.DeliveredAt),
@@ -28,7 +28,7 @@ public class DailyShipmentsProjection : MultiStreamProjection<DailyShipmentsDeli
         };
     }
 
-    public void Apply(FreightShipmentDelivered @event, DailyShipmentsDelivered view)
+    public void Apply(FreightShipmentDelivered @event, DailyShipmentsDeliveredView view)
     {
         // Increment the count for this date
         view.DeliveredCount += 1;

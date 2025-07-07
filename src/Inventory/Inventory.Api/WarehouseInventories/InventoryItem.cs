@@ -6,17 +6,31 @@ public record InventoryInitialized(Guid Id, string Sku);
 public record InventoryIncremented(int Quantity);
 public record InventoryDecremented(int Quantity);
 
-public record InventoryItem
+public sealed record InventoryItem
 {
-    public static InventoryItem Create(IEvent<InventoryInitialized> initialized) =>
-        new() { Id = initialized.StreamId, Sku = initialized.Data.Sku };
-
     public Guid Id { get; set; }
-    public int Version { get; set; }
     public string Sku { get; set; } = null!;
     public int Quantity { get; set; }
 
-    public void Apply(InventoryIncremented incremented) =>
+    public InventoryItem() : this(Guid.Empty, string.Empty, 0)
+    {
+    }
+
+    public InventoryItem(Guid id, string sku, int quantity)
+    {
+        Id = id;
+        Sku = sku;
+        Quantity = quantity;
+    }
+
+    public static InventoryItem Create(IEvent<InventoryInitialized> initialized) =>
+        new (
+            initialized.StreamId,
+            initialized.Data.Sku,
+            0
+        );
+
+    public void Apply(InventoryItem current, InventoryIncremented incremented) =>
         Quantity += incremented.Quantity;
 
     public void Apply(InventoryDecremented decremented) =>

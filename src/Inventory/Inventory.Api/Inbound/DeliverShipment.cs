@@ -43,7 +43,7 @@ public static class DeliverShipmentHandler
         Events events = [];
         OutgoingMessages messages = [];
 
-        events.Add(new FreightShipmentPickedUp(command.DeliveredAt));
+        events.Add(new FreightShipmentDelivered(command.DeliveredAt));
         messages.Add(new InboundShipmentNotification(shipment.Id, "Delivered"));
 
         return (Results.Ok(), events, messages);

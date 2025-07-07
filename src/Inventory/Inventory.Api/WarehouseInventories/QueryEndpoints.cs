@@ -3,21 +3,24 @@ using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;
 using Wolverine.Marten;
 
-namespace Inventory.Api.WarehouseInventories.Endpoints;
+namespace Inventory.Api.WarehouseInventories;
 
-public static class QueryInventoryEndpoints
+public static class QueryEndpoints
 {
-    [WolverineGet("/api/inventory", Name = "All InventoryItems"), Tags(Tags.WarehouseInventories)]
+    [Tags(Tags.WarehouseInventories)]
+    [WolverineGet("/api/inventory", Name = "All InventoryItems")]
     public static async Task<IReadOnlyList<InventoryItem>> GetAllDomainModels(IDocumentSession session) =>
         await session.Query<InventoryItem>().ToListAsync();
 
-    [WolverineGet("/api/inventory/{id}", Name = "InventoryItem domain model (inline)"), Tags(Tags.WarehouseInventories)]
+    [Tags(Tags.WarehouseInventories)]
+    [WolverineGet("/api/inventory/{id}", Name = "InventoryItem domain model (inline)")]
     public static InventoryItem GetDomainModelById(Guid id, [ReadAggregate] InventoryItem inventoryItem) =>
         inventoryItem;
 
-    [WolverineGet("/api/inventory/live-aggregate/{id}", Name = "Live Aggregation of InventoryItem"), Tags(Tags.WarehouseInventories)]
+    [Tags(Tags.WarehouseInventories)]
     [ProducesResponseType(404)]
     [ProducesResponseType(200, Type = typeof(InventoryItem))]
+    [WolverineGet("/api/inventory/live-aggregate/{id}", Name = "Live Aggregation of InventoryItem")]
     public static async Task<IResult> GetLiveAggregationOfDomainModel(
         Guid id,
         IQuerySession session,

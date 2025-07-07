@@ -1,6 +1,6 @@
 services:
   postgresql:
-    container_name: critter-commerce-db
+    container_name: crittercommerce-postgres
     image: postgres:latest
     ports:
       - "5433:5432"
@@ -8,8 +8,3 @@ services:
       - POSTGRES_DATABASE=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-  rabbitmq:
-    image: "rabbitmq:management"
-    ports:
-      - "5672:5672"
-      - "15672:15672"

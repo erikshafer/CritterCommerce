@@ -16,11 +16,10 @@ using Marten;
 using Marten.Events.Projections;
 using Wolverine;
 using Wolverine.ErrorHandling;
+using Wolverine.FluentValidation;
 using Wolverine.Http;
+using Wolverine.Http.FluentValidation;
 using Wolverine.Marten;
-using Wolverine.Postgresql;
-using Wolverine.RabbitMQ;
-using Wolverine.Transports;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ApplyJasperFxExtensions();
@@ -28,25 +27,25 @@ builder.Host.ApplyJasperFxExtensions();
 var martenConnectionString = builder.Configuration.GetConnectionString("marten")
                              ?? throw new Exception("Marten connection string not found");
 
-builder.Services.AddMarten(options =>
+builder.Services.AddMarten(opts =>
     {
-        options.Connection(martenConnectionString);
-        options.AutoCreateSchemaObjects = AutoCreate.All; // Dev mode: create tables if missing
-        options.UseSystemTextJsonForSerialization(); // Opt-in, recommended for new projects
+        opts.Connection(martenConnectionString);
+        opts.AutoCreateSchemaObjects = AutoCreate.All; // Dev mode: create tables if missing
+        opts.UseSystemTextJsonForSerialization(); // Opt-in, recommended for new projects
 
-        options.DatabaseSchemaName = "inventory";
-        options.DisableNpgsqlLogging = true;
+        opts.DatabaseSchemaName = "inventory";
+        opts.DisableNpgsqlLogging = true;
 
         // The inline projections, with snapshots.
         // With every commit, such as appending an event, updating all associated
         // projections will be batched in a single call to the Postgres database.
         // However, you sacrifice some event metadata usage by doing this.
-        options.Projections
+        opts.Projections
             .Snapshot<InventoryItem>(SnapshotLifecycle.Inline)
             .Identity(x => x.Id)
             .Duplicate(x => x.Sku);
 
-        options.Projections
+        opts.Projections
             .Snapshot<FreightShipment>(SnapshotLifecycle.Inline)
             .Identity(x => x.Id)
             .Duplicate(x => x.Origin)
@@ -57,21 +56,22 @@ builder.Services.AddMarten(options =>
         // configured and tweaked, and will process all registered projections
         // associated with what has recently been appended to the event store in PostgreSQL.
         // Docs for async daemon: https://martendb.io/events/projections/async-daemon.html#async-projections-daemon
-        options.Projections.Add<ExpectedQuantityAnticipatedProjection>(ProjectionLifecycle.Async);
-        options.Projections.Add<DailyShipmentsProjection>(ProjectionLifecycle.Async);
+        opts.Projections.Add<ExpectedQuantityAnticipatedProjection>(ProjectionLifecycle.Async);
+        opts.Projections.Add<DailyShipmentsProjection>(ProjectionLifecycle.Async);
+        opts.Projections.Add<FreightShipmentProjection>(ProjectionLifecycle.Async);
 
-        options.RegisterDocumentType<Location>();
-        options.Schema.For<Location>()
+        opts.RegisterDocumentType<Location>();
+        opts.Schema.For<Location>()
             .Identity(x => x.Id)
             .Duplicate(x => x.Name);
 
-        options.RegisterDocumentType<Vendor>();
-        options.Schema.For<Vendor>()
+        opts.RegisterDocumentType<Vendor>();
+        opts.Schema.For<Vendor>()
             .Identity(x => x.Id)
             .Duplicate(x => x.Name);
 
-        options.RegisterDocumentType<ReceivedProcurementOrder>();
-        options.Schema.For<ReceivedProcurementOrder>()
+        opts.RegisterDocumentType<ReceivedProcurementOrder>();
+        opts.Schema.For<ReceivedProcurementOrder>()
             .Identity(x => x.Id)
             .Duplicate(x => x.VendorId) // Consider making this a foreign key to the Vendor docs
             .Duplicate(x => x.TrackingNumber); // Could add the entire document's properties here, but
@@ -106,6 +106,8 @@ builder.Host.UseWolverine(opts =>
     // middleware to any endpoint or handler that uses persistence services
     opts.Policies.AutoApplyTransactions();
     opts.Policies.UseDurableLocalQueues();
+    // Opt into the transactional inbox/outbox on all messaging endpoints
+    opts.Policies.UseDurableOutboxOnAllSendingEndpoints();
 
     // Retry policies if a Marten concurrency exception is encountered
     opts.OnException<ConcurrencyException>()
@@ -113,42 +115,31 @@ builder.Host.UseWolverine(opts =>
         .Then.RetryWithCooldown(100.Milliseconds(), 250.Milliseconds())
         .Then.Discard();
 
-    // The Rabbit MQ transport supports all three types of listeners
-    opts.UseRabbitMq()
-        // Directs Wolverine to build any declared queues, exchanges, or
-        // bindings with the Rabbit MQ broker as part of bootstrapping time
-        .AutoProvision();
-
-    opts.PersistMessagesWithPostgresql(martenConnectionString, "listeners"); // The durable mode requires some sort of envelope storage
-
-    opts.ListenToRabbitQueue("inline")
-        .ProcessInline() // Process inline, default is with one listener
-        .ListenerCount(5); // But, you can use multiple, parallel listeners
-
-    opts.ListenToRabbitQueue("buffered")
-        .BufferedInMemory(new BufferingLimits(1000, 500)); // Buffer the messages in memory for increased throughput
-
-    opts.ListenToRabbitQueue("durable")
-        .UseDurableInbox(new BufferingLimits(1000, 500)); // Opt into durable inbox mechanics
-
-    opts.ListenToRabbitQueue("ordered")
-        // This option is available on all types of Wolverine
-        // endpoints that can be configured to be a listener
-        .ListenWithStrictOrdering();
+    opts.UseFluentValidation();
 });
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// To add Wolverine.HTTP services to the IoC container
 builder.Services.AddWolverineHttp();
 
 var app = builder.Build();
 
-app.UseSwagger();
-app.UseSwaggerUI();
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
-app.MapWolverineEndpoints();
+app.MapWolverineEndpoints(opts =>
+{
+    // Direct Wolverine.HTTP to use Fluent Validation
+    // middleware to validate any request bodies where
+    // there's a known validator (or many validators)
+    opts.UseFluentValidationProblemDetailMiddleware();
+});
 
 app.MapGet("/", (HttpResponse response) =>
 {
