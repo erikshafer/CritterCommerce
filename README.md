@@ -39,7 +39,8 @@ These value streams are how the overall .NET solution will be broken down. For e
 | ⬇️ Below are TBD ⬇️ | ...        | ...       | ...    | ...     | ...        | ...  | ...                    |
 | 🏪 Retail           | Storefront | ...       | ...    | ...     | ...        | ...  | Either frontend or BFF |
 | 🏪 Retail           | Cart       | ✅         | ✅      | ⛔       | ES         | ✅    | ...                    |
-| 📨 Orders           | ...        | ✅         | ✅      | ⛔       | ES         | ✅    | Sagas utilized         |
+| 📨 Orders           | ...        | ✅         | ✅      | ⛔       | ES         | ✅    | Sagas showcased        |
+| 💼 Vendors          | ...        | ✅         | ✅      | ⛔       | ES         | ✅    | Multitenancy showcased |
 
 
 ## 🏫 Resources <a id='9.0'></a>
