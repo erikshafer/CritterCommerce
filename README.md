@@ -5,7 +5,6 @@
 
 # 🪄 Ecommerce with the Critter Stack 🛒
 
-
 ## 🤔 What is this repository? <a id='1.0'></a>
 
 This repository's goal is to demonstrate how event-driven concepts and orthogonal patterns don't require convoluted or custom implementations which dampen your team's software development. By leveraging the __Critter Stack__, which consists of [Wolverine](https://wolverinefx.io/) + [Marten](https://martendb.io/) from [JasperFX](https://jasperfx.net/), you can super-charge your .NET development while simplifying your codebase and test cases.
@@ -18,19 +17,30 @@ The "domain" of this effort is ecommerce, as it provides an assortment of use ca
 
 We will use an assortment of features in the Critter Stack long with using modern .NET conventions to best help you understand how to leverage these techniques in your own software projects.
 
-
 ## 🚧 Roadmap <a id='2.0'></a>
 
-This entire effort is considered a work-in-progress (WIP).
-
-Details are being worked out and will be shared soon.
-
+WIP of the WIP. :)
 
 ## 🏞️ Value Streams <a id='3.0'></a>
 
 Value Streams are a core concept in [Team Topologies](https://teamtopologies.com/). To grossly simplify, think departments, divisions, or teams within a company.  That is, *organizing business and technology teams for fast flow.*
 
 These value streams are how the overall .NET solution will be broken down. For example, as of 2025-06-11, there is a `Catalog` and `Supply Chain` solution folders to separate the ~~teams~~ value streams of our imaginary ecommerce business.
+
+### An example of value streams, their software modules, technologies used, etc. <a id='3.1'></a>
+
+| Value Stream        | Module(s)  | Wolverine | Marten | EF Core | CRUD or ES | CQRS | Additional Notes       |
+|---------------------|------------|-----------|--------|---------|------------|------|------------------------|
+| 📦 Inventory        | Inbound    | ✅         | ✅      | ⛔       | ES         | ✅    | ...                    |
+| 📦 Inventory        | Receiving  | ✅         | ✅      | ⛔       | ES         | ✅    | ...                    |
+| 📦 Inventory        | Warehouse  | ✅         | ✅      | ⛔       | ES         | ✅    | ...                    |
+| 📝 Catalog          | ...        | ✅         | ✅      | ⛔       | ES         | ✅    | ...                    |
+| 📝 Catalog (Legacy) | ...        | ✅         | ⛔      | ✅       | CRUD       | ⛔    | ...                    |
+| ⬇️ Below are TBD ⬇️ | ...        | ...       | ...    | ...     | ...        | ...  | ...                    |
+| 🏪 Retail           | Storefront | ...       | ...    | ...     | ...        | ...  | Either frontend or BFF |
+| 🏪 Retail           | Cart       | ✅         | ✅      | ⛔       | ES         | ✅    | ...                    |
+| 📨 Orders           | ...        | ✅         | ✅      | ⛔       | ES         | ✅    | Sagas utilized         |
+
 
 ## 🏫 Resources <a id='9.0'></a>
 
