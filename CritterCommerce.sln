@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".SolutionItems", ".Solution
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{B44C0F1C-1571-4969-8E71-1FD59E2BEF01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Legacy.Catalog.Api", "src\Catalog\Legacy.Catalog.Api\Legacy.Catalog.Api.csproj", "{F808B2D2-6C97-41E1-8FCD-45DDBEED3439}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Legacy.Catalog.Api", "src\Legacy\Legacy.Catalog.Api\Legacy.Catalog.Api.csproj", "{F808B2D2-6C97-41E1-8FCD-45DDBEED3439}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Inventory", "Inventory", "{914DC55A-E4DE-4CEA-9ACE-4A908FB2E0B7}"
 EndProject
@@ -28,17 +28,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog", "src\Catalog\Cata
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Api", "src\Catalog\Catalog.Api\Catalog.Api.csproj", "{2EED4E0A-9757-4C97-BFCC-188792465E90}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Legacy", "Legacy", "{E54CD82E-0B91-444B-9910-9833EB3E6416}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{F808B2D2-6C97-41E1-8FCD-45DDBEED3439} = {B44C0F1C-1571-4969-8E71-1FD59E2BEF01}
 		{4BF8EE44-B5B9-4847-8D89-396FC99D2485} = {914DC55A-E4DE-4CEA-9ACE-4A908FB2E0B7}
 		{15D6F33F-EDCF-4F47-B7AE-490E20DDD3FA} = {914DC55A-E4DE-4CEA-9ACE-4A908FB2E0B7}
 		{D9F240FB-F301-4F86-979C-26AC20FD8243} = {B44C0F1C-1571-4969-8E71-1FD59E2BEF01}
 		{2EED4E0A-9757-4C97-BFCC-188792465E90} = {B44C0F1C-1571-4969-8E71-1FD59E2BEF01}
+		{F808B2D2-6C97-41E1-8FCD-45DDBEED3439} = {E54CD82E-0B91-444B-9910-9833EB3E6416}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F808B2D2-6C97-41E1-8FCD-45DDBEED3439}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
