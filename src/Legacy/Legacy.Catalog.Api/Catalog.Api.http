@@ -1,17 +1,10 @@
-@HostAddress = http://localhost:5111
+@HostAddress = http://localhost:5102
 
 GET {{HostAddress}}/api/items/
 Accept: application/json
 
 ###
 
-# curl -X 'POST'
-#  'http://localhost:5111/api/items'
-#  -H 'accept: application/json'
-#  -H 'Content-Type: application/json'
-#  -d '{
-#  "name": "Bubblemonster v5"
-#}'
 POST {{HostAddress}}/api/items
 accept: application/json
 Content-Type: application/json
@@ -22,22 +15,11 @@ Content-Type: application/json
 
 ###
 
-# curl -X 'GET'
-#  'http://localhost:5111/api/items/0196b149-6c89-4490-bfcc-59a24db6dfcb
-#  -H 'accept: application/json'
 GET {{HostAddress}}/api/items/0196b149-6c89-4490-bfcc-59a24db6dfcb
 Accept: application/json
 
 ###
 
-# curl -X 'POST'
-#  'http://localhost:5111/api/items/description'
-#  -H 'accept: application/json'
-#  -H 'Content-Type: application/json'
-#  -d '{
-#  "id": "0196b149-6c89-4490-bfcc-59a24db6dfcb",
-#  "description": "There is now a description in the description field. Hooray! Neat. <b>Yeah.</b>"
-#}'
 POST http://localhost:5111/api/items/description
 accept: application/json
 Content-Type: application/json
@@ -49,14 +31,6 @@ Content-Type: application/json
 
 ###
 
-# curl -X 'POST'
-#  'http://localhost:5111/api/sku-reservations'
-#  -H 'accept: application/json'
-#  -H 'Content-Type: application/json'
-#  -d '{
-#  "unit": 22,
-#  "username": "erik"
-#}'
 POST http://localhost:5111/api/sku-reservations
 accept: application/json
 Content-Type: application/json
@@ -68,14 +42,6 @@ Content-Type: application/json
 
 ###
 
-# curl -X 'POST'
-#  'http://localhost:5111/api/sku-reservations/unreserve'
-#  -H 'accept: application/json'
-#  -H 'Content-Type: application/json'
-#  -d '{
-#  "unit": 22,
-#  "username": "erik"
-#}'
 POST http://localhost:5111/api/sku-reservations/unreserve
 accept: application/json
 Content-Type: application/json
@@ -87,14 +53,6 @@ Content-Type: application/json
 
 ###
 
-# curl -X 'POST'
-#  'http://localhost:5111/api/sku-item-assignments'
-#  -H 'accept: application/json'
-#  -H 'Content-Type: application/json'
-#  -d '{
-#  "sku": 23,
-#  "itemId": "0196b139-dbc1-4ec6-894a-c059ef056b8d"
-#}'
 POST http://localhost:5111/api/sku-item-assignments
 accept: application/json
 Content-Type: application/json
@@ -106,17 +64,11 @@ Content-Type: application/json
 
 ###
 
-# curl -X 'GET'
-#  'http://localhost:5111/api/sku-item-assignments'
-#  -H 'accept: application/json'
 GET http://localhost:5111/api/sku-item-assignments
 accept: application/json
 
 ###
 
-# curl -X 'GET'
-#  'http://localhost:5111/api/sku-item-assignments/24'
-#  -H 'accept: application/json'
 GET http://localhost:5111/api/sku-item-assignments/24
 accept: application/json
 
