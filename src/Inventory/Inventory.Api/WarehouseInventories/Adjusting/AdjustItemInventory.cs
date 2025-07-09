@@ -15,14 +15,13 @@ public sealed class AdjustItemInventoryValidator : AbstractValidator<AdjustItemI
     public AdjustItemInventoryValidator()
     {
         RuleFor(x => x.Quantity).NotEmpty();
-        RuleFor(x => x.Quantity).NotEqual(0);
     }
 }
 
 public static class AdjustItemInventoryHandler
 {
     [Tags(Tags.WarehouseInventories)]
-    [WolverinePost("/api/warehouse-inventories/{id}/adjust")]
+    [WolverinePost("/api/warehouse-inventories/{itemInventoryId}/adjust")]
     [AggregateHandler]
     public static (IResult, Events) Handle(AdjustItemInventory command, ItemInventory itemInventory)
     {

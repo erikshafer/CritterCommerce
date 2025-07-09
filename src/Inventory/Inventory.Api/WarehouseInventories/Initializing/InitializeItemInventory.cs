@@ -1,6 +1,8 @@
 using FluentValidation;
 using JasperFx.Core;
+using Marten;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Wolverine.Attributes;
 using Wolverine.Http;
 using Wolverine.Marten;
@@ -19,10 +21,10 @@ public sealed class InitializeItemInventoryValidator : AbstractValidator<Initial
     }
 }
 
-public static class InitializeItemInventoryEndpoint
+public static class InitializeItemInventoryHandler
 {
     [WolverineBefore]
-    public static ProblemDetails CheckOnSkuUsage(InitializeItemInventory command)
+    public static ProblemDetails CheckOnSkuUsage(InitializeItemInventory command, IQuerySession session)
     {
         // Perhaps some business logic like querying a service to
         // check if the incoming SKU is active, etc. :)
@@ -39,7 +41,7 @@ public static class InitializeItemInventoryEndpoint
         var id = CombGuidIdGeneration.NewGuid();
         var initialized = new ItemInventoryInitialized(id, sku, facilityId);
 
-        var start = MartenOps.StartStream<ItemInventory>(initialized);
+        var start = MartenOps.StartStream<ItemInventory>(id, initialized);
 
         var location = $"/api/warehouse-inventories/{start.StreamId}";
         return (Results.Created(location, start.StreamId), start);

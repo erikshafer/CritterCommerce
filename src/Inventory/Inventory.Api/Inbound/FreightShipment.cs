@@ -16,10 +16,6 @@ public sealed record FreightShipment(
     DateTime? CancelledAt,
     string CancellationReason)
 {
-    public FreightShipment() : this(Guid.Empty, string.Empty, string.Empty, FreightShipmentStatus.Scheduled, DateTime.MinValue, null, null, null, null!)
-    {
-    }
-
     public static FreightShipment Create(FreightShipmentScheduled @event) =>
         new (
             @event.Id,

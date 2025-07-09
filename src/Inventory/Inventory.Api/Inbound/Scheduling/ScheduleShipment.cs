@@ -63,7 +63,7 @@ public static class ScheduleShipmentHandler
         var scheduledAt = DateTime.UtcNow;
         var scheduled = new FreightShipmentScheduled(id, origin, destination, scheduledAt);
 
-        var start = MartenOps.StartStream<FreightShipment>(scheduled);
+        var start = MartenOps.StartStream<FreightShipment>(id, scheduled);
 
         var location = $"/api/freight-shipments/{start.StreamId}";
         return (Results.Created(location, start.StreamId), start);
