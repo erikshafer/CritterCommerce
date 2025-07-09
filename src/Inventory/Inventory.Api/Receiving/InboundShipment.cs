@@ -2,13 +2,13 @@ using JasperFx.Events;
 
 namespace Inventory.Api.Receiving;
 
-public record InboundOrderScheduled(Guid Id, string ShipmentNumber, DateTime ExpectedArrival);
-public record InboundShipmentReceived(string ReceivedBy, DateTime ReceivedAt);
-public record InboundShipmentLineItemAdded(string Sku, int ExpectedQuantity);
-public record InboundShipmentPutaway(Guid LocationId, string PutawayBy, DateTime PutawayAt);
-public record LineItemQuantityReceived(string Sku, int ReceivedQuantity);
+public sealed record InboundOrderScheduled(Guid Id, string ShipmentNumber, DateTime ExpectedArrival);
+public sealed record InboundShipmentReceived(string ReceivedBy, DateTime ReceivedAt);
+public sealed record InboundShipmentLineItemAdded(string Sku, int ExpectedQuantity);
+public sealed record InboundShipmentPutaway(Guid LocationId, string PutawayBy, DateTime PutawayAt);
+public sealed record LineItemQuantityReceived(string Sku, int ReceivedQuantity);
 
-public class InboundShipment
+public sealed record InboundShipment
 {
     public Guid Id { get; private set; }
     public string ShipmentNumber { get; private set; } = null!;
@@ -56,9 +56,7 @@ public class InboundShipment
     public void Apply(LineItemQuantityReceived @event)
     {
         if (LineItems.TryGetValue(@event.Sku, out var lineItem))
-        {
             lineItem = lineItem with { ReceivedQuantity = @event.ReceivedQuantity }; // TODO: debug this
-        }
     }
 
     public void Apply(InboundShipmentPutaway @event)
