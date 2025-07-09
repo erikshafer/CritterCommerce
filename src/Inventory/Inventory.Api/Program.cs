@@ -41,7 +41,7 @@ builder.Services.AddMarten(opts =>
         // projections will be batched in a single call to the Postgres database.
         // However, you sacrifice some event metadata usage by doing this.
         opts.Projections
-            .Snapshot<InventoryItem>(SnapshotLifecycle.Inline)
+            .Snapshot<ItemInventory>(SnapshotLifecycle.Inline)
             .Identity(x => x.Id)
             .Duplicate(x => x.Sku);
 

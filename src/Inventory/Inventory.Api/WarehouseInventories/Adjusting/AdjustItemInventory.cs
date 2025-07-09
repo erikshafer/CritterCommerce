@@ -5,23 +5,23 @@ using Wolverine.Marten;
 
 namespace Inventory.Api.WarehouseInventories.Adjusting;
 
-public sealed record AdjustInventory(Guid InventoryId, int Quantity);
+public sealed record AdjustItemInventory(Guid InventoryId, int Quantity);
 
-public sealed class AdjustInventoryValidator : AbstractValidator<AdjustInventory>
+public sealed class AdjustItemInventoryValidator : AbstractValidator<AdjustItemInventory>
 {
-    public AdjustInventoryValidator()
+    public AdjustItemInventoryValidator()
     {
         RuleFor(x => x.Quantity).NotEmpty();
         RuleFor(x => x.Quantity).NotEqual(0);
     }
 }
 
-public static class AdjustInventoryHandler
+public static class AdjustItemInventoryHandler
 {
     [Tags(Tags.WarehouseInventories)]
     [WolverinePost("/api/warehouse-inventories/{id}/adjust")]
     [AggregateHandler]
-    public static (IResult, Events, OutgoingMessages) Handle(AdjustInventory command, InventoryItem inventory)
+    public static (IResult, Events, OutgoingMessages) Handle(AdjustItemInventory command, ItemInventory itemInventory)
     {
         var (_, quantity) = command;
 
@@ -31,10 +31,10 @@ public static class AdjustInventoryHandler
         events.Add(quantity switch
         {
             0 => throw new InvalidOperationException("Zero (0) is invalid for inventory adjustment"),
-            < 0 => new InventoryDecremented(quantity),
-            > 0 => new InventoryIncremented(quantity)
+            < 0 => new ItemInventoryDecremented(quantity),
+            > 0 => new ItemInventoryIncremented(quantity)
         });
-        messages.Add(new InventoryAdjustmentNotification(inventory.Id, quantity));
+        messages.Add(new InventoryAdjustmentNotification(itemInventory.Id, quantity));
 
         return (Results.Ok(), events, messages);
     }

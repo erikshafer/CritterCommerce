@@ -6,11 +6,11 @@ using Wolverine.Marten;
 
 namespace Inventory.Api.WarehouseInventories.Initializing;
 
-public sealed record InitializeInventory(string Sku);
+public sealed record InitializeItemInventory(string Sku, string FacilityId);
 
-public sealed class InitializeInventoryValidator : AbstractValidator<InitializeInventory>
+public sealed class InitializeItemInventoryValidator : AbstractValidator<InitializeItemInventory>
 {
-    public InitializeInventoryValidator()
+    public InitializeItemInventoryValidator()
     {
         RuleFor(x => x.Sku).NotEmpty();
         RuleFor(x => x.Sku).MaximumLength(32);
@@ -18,10 +18,10 @@ public sealed class InitializeInventoryValidator : AbstractValidator<InitializeI
     }
 }
 
-public static class InitializeInventoryEndpoint
+public static class InitializeItemInventoryEndpoint
 {
     [WolverineBefore]
-    public static ProblemDetails CheckOnSkuUsage(InitializeInventory command)
+    public static ProblemDetails CheckOnSkuUsage(InitializeItemInventory command)
     {
         // Perhaps some business logic like querying a service to
         // check if the incoming SKU is active, etc. :)
@@ -31,11 +31,11 @@ public static class InitializeInventoryEndpoint
 
     [Tags(Tags.WarehouseInventories)]
     [WolverinePost("/api/inventory")]
-    public static (IResult, IStartStream) Post(InitializeInventory command)
+    public static (IResult, IStartStream) Post(InitializeItemInventory command)
     {
         var streamId = Guid.CreateVersion7();
-        var initialized = new InventoryInitialized(streamId, command.Sku);
-        var start = MartenOps.StartStream<InventoryItem>(initialized);
+        var initialized = new ItemInventoryInitialized(streamId, command.Sku, command.FacilityId);
+        var start = MartenOps.StartStream<ItemInventory>(initialized);
 
         var location = $"/api/inventory/{start.StreamId}";
         return (Results.Created(location, start.StreamId), start);
