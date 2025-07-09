@@ -1,8 +1,8 @@
 namespace Inventory.Api.Procurement;
 
-public static class ReceivedProcurementOrdersDatasets
+public static class ProcurementOrdersDatasets
 {
-    public static readonly ReceivedProcurementOrder[] Data =
+    public static readonly ProcurementOrder[] Data =
     {
         new() { Id = 1001, VendorId = 101, TrackingNumber = "1234567890001", Origin = "AustinTxUsa", Destination = "OmahaNeUsa", OrderedAt = DateTime.UtcNow, RecordedAt = DateTime.UtcNow.AddMinutes(-5) },
         new() { Id = 1002, VendorId = 102, TrackingNumber = "1234567890002", Origin = "OmahaNeUsa", Destination = "BellevueWaUsa", OrderedAt = DateTime.UtcNow, RecordedAt = DateTime.UtcNow.AddDays(-2).AddMinutes(321) },

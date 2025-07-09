@@ -1,6 +1,6 @@
 namespace Inventory.Api.Procurement;
 
-public class ReceivedProcurementOrder
+public class ProcurementOrder
 {
     public int Id { get; set; }
     public string TrackingNumber { get; set; } = null!;

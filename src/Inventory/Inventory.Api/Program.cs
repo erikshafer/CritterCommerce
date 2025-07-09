@@ -75,8 +75,8 @@ builder.Services.AddMarten(opts =>
             .Identity(x => x.Id)
             .Duplicate(x => x.Name);
 
-        opts.RegisterDocumentType<ReceivedProcurementOrder>();
-        opts.Schema.For<ReceivedProcurementOrder>()
+        opts.RegisterDocumentType<ProcurementOrder>();
+        opts.Schema.For<ProcurementOrder>()
             .Identity(x => x.Id)
             .Duplicate(x => x.VendorId) // Consider making this a foreign key to the Vendor docs
             .Duplicate(x => x.TrackingNumber); // Could add the entire document's properties here, but
@@ -85,7 +85,7 @@ builder.Services.AddMarten(opts =>
         InitialData.ConcatDataSets(
             LocationsDatasets.Data,
             VendorsDatasets.Data,
-            ReceivedProcurementOrdersDatasets.Data)))
+            ProcurementOrdersDatasets.Data)))
     // Turn on the async daemon in "Solo" mode
     .AddAsyncDaemon(DaemonMode.Solo)
     // Another performance optimization if you're starting from scratch
