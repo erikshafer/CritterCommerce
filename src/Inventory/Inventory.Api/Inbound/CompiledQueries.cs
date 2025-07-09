@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 using Inventory.Api.Locations;
 using Marten.Linq;
 
-namespace Inventory.Api.Inbound.Queries;
+namespace Inventory.Api.Inbound;
 
 public class FindLocationByName : ICompiledQuery<Location, Location>
 {

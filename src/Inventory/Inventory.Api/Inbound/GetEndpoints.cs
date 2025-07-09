@@ -5,7 +5,7 @@ using Wolverine.Http;
 
 namespace Inventory.Api.Inbound;
 
-public static class GetFreightShipmentEndpoint
+public static class GetEndpoints
 {
     [Produces(typeof(FreightShipment))]
     [Tags(Tags.InboundShipments)]

@@ -4,7 +4,7 @@ using Wolverine;
 using Wolverine.Http;
 using Wolverine.Marten;
 
-namespace Inventory.Api.Inbound;
+namespace Inventory.Api.Inbound.Delivering;
 
 public sealed record DeliverShipment(
     Guid FreightShipmentId,

@@ -4,7 +4,7 @@ using Wolverine;
 using Wolverine.Http;
 using Wolverine.Marten;
 
-namespace Inventory.Api.Inbound;
+namespace Inventory.Api.Inbound.Cancelling;
 
 public record CancelShipment(
     Guid FreightShipmentId,
