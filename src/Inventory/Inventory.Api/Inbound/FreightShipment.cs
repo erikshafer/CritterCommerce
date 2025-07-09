@@ -1,9 +1,9 @@
 namespace Inventory.Api.Inbound;
 
-public record FreightShipmentScheduled(Guid Id, string Origin, string Destination, DateTime ScheduledAt);
-public record FreightShipmentPickedUp(DateTime PickedUpAt);
-public record FreightShipmentDelivered(DateTime DeliveredAt);
-public record FreightShipmentCancelled(string Reason, DateTime CancelledAt);
+public sealed record FreightShipmentScheduled(Guid Id, string Origin, string Destination, DateTime ScheduledAt);
+public sealed record FreightShipmentPickedUp(DateTime PickedUpAt);
+public sealed record FreightShipmentDelivered(DateTime DeliveredAt);
+public sealed record FreightShipmentCancelled(string Reason, DateTime CancelledAt);
 
 public sealed record FreightShipment(
     Guid Id,

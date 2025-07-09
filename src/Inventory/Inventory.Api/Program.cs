@@ -4,6 +4,7 @@ using Inventory.Api.Inbound;
 using Inventory.Api.Inbound.Views;
 using Inventory.Api.Locations;
 using Inventory.Api.Procurement;
+using Inventory.Api.Receiving;
 using Inventory.Api.Receiving.Views;
 using Inventory.Api.Vendors;
 using Inventory.Api.WarehouseInventories;
@@ -41,15 +42,19 @@ builder.Services.AddMarten(opts =>
         // projections will be batched in a single call to the Postgres database.
         // However, you sacrifice some event metadata usage by doing this.
         opts.Projections
-            .Snapshot<InventoryItem>(SnapshotLifecycle.Inline)
-            .Identity(x => x.Id)
-            .Duplicate(x => x.Sku);
-
-        opts.Projections
             .Snapshot<FreightShipment>(SnapshotLifecycle.Inline)
             .Identity(x => x.Id)
             .Duplicate(x => x.Origin)
             .Duplicate(x => x.Destination);
+
+        opts.Projections
+            .Snapshot<ReceivedShipment>(SnapshotLifecycle.Inline)
+            .Identity(x => x.Id);
+
+        opts.Projections
+            .Snapshot<ItemInventory>(SnapshotLifecycle.Inline)
+            .Identity(x => x.Id)
+            .Duplicate(x => x.Sku);
 
         // The async projections with snapshotting.
         // An async daemon will be running in the background, which yes it can be
@@ -70,8 +75,8 @@ builder.Services.AddMarten(opts =>
             .Identity(x => x.Id)
             .Duplicate(x => x.Name);
 
-        opts.RegisterDocumentType<ReceivedProcurementOrder>();
-        opts.Schema.For<ReceivedProcurementOrder>()
+        opts.RegisterDocumentType<ProcurementOrder>();
+        opts.Schema.For<ProcurementOrder>()
             .Identity(x => x.Id)
             .Duplicate(x => x.VendorId) // Consider making this a foreign key to the Vendor docs
             .Duplicate(x => x.TrackingNumber); // Could add the entire document's properties here, but
@@ -80,7 +85,7 @@ builder.Services.AddMarten(opts =>
         InitialData.ConcatDataSets(
             LocationsDatasets.Data,
             VendorsDatasets.Data,
-            ReceivedProcurementOrdersDatasets.Data)))
+            ProcurementOrdersDatasets.Data)))
     // Turn on the async daemon in "Solo" mode
     .AddAsyncDaemon(DaemonMode.Solo)
     // Another performance optimization if you're starting from scratch

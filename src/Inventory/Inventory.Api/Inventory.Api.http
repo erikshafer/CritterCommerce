@@ -6,28 +6,3 @@ GET {{HostAddress}}
 accept: */*
 
 ###
-
-POST {{HostAddress}}/api/inventory
-accept: application/json
-Content-Type: application/json
-
-{
-    "sku": "36606"
-}
-
-> {%
-    // Assuming the response contains an 'value' field
-    client.global.set("InventoryId", response.body.value);
-%}
-
-###
-
-GET {{HostAddress}}/api/inventory/{{InventoryId}}
-accept: application/json
-
-###
-
-GET http://localhost:5121/api/inventory/live-aggregate/{{InventoryId}}
-accept: application/json
-
-###

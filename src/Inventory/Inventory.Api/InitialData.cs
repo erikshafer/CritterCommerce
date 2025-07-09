@@ -20,7 +20,7 @@ public class InitialData : IInitialData
         await using var dirty = store.DirtyTrackedSession();
         await dirty.DocumentStore.Advanced.Clean.DeleteDocumentsByTypeAsync(typeof(Location), cancellation);
         await dirty.DocumentStore.Advanced.Clean.DeleteDocumentsByTypeAsync(typeof(Vendor), cancellation);
-        await dirty.DocumentStore.Advanced.Clean.DeleteDocumentsByTypeAsync(typeof(ReceivedProcurementOrder), cancellation);
+        await dirty.DocumentStore.Advanced.Clean.DeleteDocumentsByTypeAsync(typeof(ProcurementOrder), cancellation);
         dirty.Store(_initialData);
         await dirty.SaveChangesAsync(cancellation);
     }

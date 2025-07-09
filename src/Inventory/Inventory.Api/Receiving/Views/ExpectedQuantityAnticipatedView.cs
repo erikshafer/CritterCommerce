@@ -6,22 +6,22 @@ namespace Inventory.Api.Receiving.Views;
 public record ExpectedQuantityAnticipatedView
 {
     public Guid Id { get; set; }
+    public string ShipmentNumber { get; set; } = string.Empty;
     public string Sku { get; set; } = string.Empty;
     public int ExpectedQuantity { get; set; }
-    public string ShipmentNumber { get; set; } = string.Empty;
 }
 
 public class ExpectedQuantityAnticipatedProjection : SingleStreamProjection<ExpectedQuantityAnticipatedView, Guid>
 {
-    public static ExpectedQuantityAnticipatedView Create(IEvent<InboundOrderScheduled> @event) =>
+    public static ExpectedQuantityAnticipatedView Create(IEvent<InboundShipmentReceived> @event) =>
         new()
         {
             Id = @event.Id,
+            ShipmentNumber = @event.Data.ShipmentNumber,
             ExpectedQuantity = 0,
-            ShipmentNumber = @event.Data.ShipmentNumber
         };
 
-    public static ExpectedQuantityAnticipatedView Apply(InboundShipmentLineItemAdded @event, ExpectedQuantityAnticipatedView anticipatedView) =>
+    public static ExpectedQuantityAnticipatedView Apply(ReceivedShipmentLineItemAdded @event, ExpectedQuantityAnticipatedView anticipatedView) =>
         anticipatedView with
         {
             Sku = @event.Sku,
