@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace Legacy.Catalog.Api.SkuReservations;
+namespace Legacy.SkuManagement.SkuReservations;
 
 public sealed record ReserveSku(int Unit, string Username);
 
@@ -8,7 +8,7 @@ public sealed record SkuReserved(int Unit, string ReservedByUsername);
 
 public static class ReserveSkuHandler
 {
-    public static async Task<SkuReserved> Handle(ReserveSku command, CatalogDbContext db)
+    public static async Task<SkuReserved> Handle(ReserveSku command, SkuDbContext db)
     {
         var existingSku = await db.SkuReservations.FirstOrDefaultAsync(x => x.Unit == command.Unit);
 

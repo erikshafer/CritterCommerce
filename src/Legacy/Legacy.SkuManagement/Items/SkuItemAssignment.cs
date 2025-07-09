@@ -1,4 +1,4 @@
-namespace Legacy.Catalog.Api.Items;
+namespace Legacy.SkuManagement.Items;
 
 public class SkuItemAssignment
 {
