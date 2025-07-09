@@ -30,7 +30,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Api", "src\Catalog\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Legacy", "Legacy", "{E54CD82E-0B91-444B-9910-9833EB3E6416}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Legacy.SkuManagement", "src\Legacy\Legacy.SkuManagement\Legacy.SkuManagement.csproj", "{7CEF28EC-F10C-4625-BC04-5444D4428700}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Legacy.SkuManagement.Api", "src\Legacy\Legacy.SkuManagement.Api\Legacy.SkuManagement.Api.csproj", "{7CEF28EC-F10C-4625-BC04-5444D4428700}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,8 +1,8 @@
+using Legacy.SkuManagement.Api.SkuReservations;
 using Legacy.SkuManagement.Items;
-using Legacy.SkuManagement.SkuReservations;
 using Microsoft.EntityFrameworkCore;
 
-namespace Legacy.SkuManagement;
+namespace Legacy.SkuManagement.Api;
 
 public class SkuDbContext : DbContext
 {

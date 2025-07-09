@@ -1,4 +1,4 @@
-namespace Legacy.SkuManagement.SkuReservations;
+namespace Legacy.SkuManagement.Api.SkuReservations;
 
 public class SkuReservation
 {

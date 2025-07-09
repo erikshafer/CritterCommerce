@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace Legacy.SkuManagement;
+namespace Legacy.SkuManagement.Api;
 
 internal static class ConfigureSkuDbMigration
 {
