@@ -76,8 +76,8 @@ builder.Services.AddMarten(opts =>
             .Duplicate(x => x.VendorId) // Consider making this a foreign key to the Vendor docs
             .Duplicate(x => x.TrackingNumber); // Could add the entire document's properties here, but
     })
-    .InitializeWith(new InventoryInitialData(
-        InventoryInitialData.ConcatDataSets(
+    .InitializeWith(new InitialData(
+        InitialData.ConcatDataSets(
             LocationsDatasets.Data,
             VendorsDatasets.Data,
             ReceivedProcurementOrdersDatasets.Data)))

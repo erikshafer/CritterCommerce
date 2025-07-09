@@ -6,11 +6,11 @@ using Marten.Schema;
 
 namespace Inventory.Api;
 
-public class InventoryInitialData : IInitialData
+public class InitialData : IInitialData
 {
     private readonly object[] _initialData;
 
-    public InventoryInitialData(params object[] initialData)
+    public InitialData(params object[] initialData)
     {
         _initialData = initialData;
     }
