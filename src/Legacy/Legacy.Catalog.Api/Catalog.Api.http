@@ -1,0 +1,76 @@
+@HostAddress = http://localhost:5102
+
+GET {{HostAddress}}/api/items/
+Accept: application/json
+
+###
+
+POST {{HostAddress}}/api/items
+accept: application/json
+Content-Type: application/json
+
+{
+    "name": "Bubblemonster v5"
+}
+
+###
+
+GET {{HostAddress}}/api/items/0196b149-6c89-4490-bfcc-59a24db6dfcb
+Accept: application/json
+
+###
+
+POST http://localhost:5111/api/items/description
+accept: application/json
+Content-Type: application/json
+
+{
+    "id": "0196b149-6c89-4490-bfcc-59a24db6dfcb",
+    "description": "There is now a description in the description field. Hooray! Neat. <b>Yeah!</b>"
+}
+
+###
+
+POST http://localhost:5111/api/sku-reservations
+accept: application/json
+Content-Type: application/json
+
+{
+    "unit": 22,
+    "username": "erik"
+}
+
+###
+
+POST http://localhost:5111/api/sku-reservations/unreserve
+accept: application/json
+Content-Type: application/json
+
+{
+    "unit": 22,
+    "username": "erik"
+}
+
+###
+
+POST http://localhost:5111/api/sku-item-assignments
+accept: application/json
+Content-Type: application/json
+
+{
+    "sku": 24,
+    "itemId": "0196b154-3d93-486b-8032-0f30e9679033"
+}
+
+###
+
+GET http://localhost:5111/api/sku-item-assignments
+accept: application/json
+
+###
+
+GET http://localhost:5111/api/sku-item-assignments/24
+accept: application/json
+
+###
+

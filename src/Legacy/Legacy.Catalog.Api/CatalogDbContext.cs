@@ -4,7 +4,6 @@ using Legacy.Catalog.Api.Inventories;
 using Legacy.Catalog.Api.Items;
 using Legacy.Catalog.Api.Multimedia;
 using Legacy.Catalog.Api.Prices;
-using Legacy.Catalog.Api.SkuReservations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Legacy.Catalog.Api;
@@ -21,8 +20,6 @@ public class CatalogDbContext : DbContext
     public DbSet<Price> Prices { get; set; } = null!;
     public DbSet<Inventory> Inventories { get; set; } = null!;
     public DbSet<Media> Medias { get; set; } = null!;
-    public DbSet<SkuReservation> SkuReservations { get; set; } = null!;
-    public DbSet<SkuItemAssignment> SkuItemAssignments { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -65,26 +62,11 @@ public class CatalogDbContext : DbContext
             map.Property(x => x.Value).HasDefaultValue(0).IsRequired();
         });
 
-        modelBuilder.Entity<SkuReservation>(map =>
-        {
-            map.ToTable("sku_reservations");
-            map.HasKey(x => x.Unit);
-            map.Property(x => x.IsReserved).HasDefaultValue(false).IsRequired();
-            map.Property(x => x.ReservedByUsername).HasMaxLength(200).HasDefaultValue(false).IsRequired();
-        });
-
         modelBuilder.Entity<Media>(map =>
         {
             map.ToTable("media");
             map.HasKey(x => x.Id);
             map.Property(x => x.ImageUrl1).HasColumnName("image_url_1").HasMaxLength(255).IsRequired(false);
-        });
-
-        modelBuilder.Entity<SkuItemAssignment>(map =>
-        {
-            map.ToTable("sku_item_assignments");
-            map.HasKey(x => x.Sku);
-            map.Property(x => x.ItemId).HasMaxLength(128).IsRequired();
         });
     }
 }

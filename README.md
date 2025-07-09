@@ -29,18 +29,19 @@ These value streams are how the overall .NET solution will be broken down. For e
 
 ### An example of value streams, their software modules, technologies used, etc. <a id='3.1'></a>
 
-| Value Stream        | Module(s)  | Wolverine | Marten | EF Core | CRUD or ES | CQRS | Additional Notes       |
-|---------------------|------------|-----------|--------|---------|------------|------|------------------------|
-| 📦 Inventory        | Inbound    | ✅         | ✅      | ⛔       | ES         | ✅    | ...                    |
-| 📦 Inventory        | Receiving  | ✅         | ✅      | ⛔       | ES         | ✅    | ...                    |
-| 📦 Inventory        | Warehouse  | ✅         | ✅      | ⛔       | ES         | ✅    | ...                    |
-| 📝 Catalog          | ...        | ✅         | ✅      | ⛔       | ES         | ✅    | ...                    |
-| 📝 Catalog (Legacy) | ...        | ✅         | ⛔      | ✅       | CRUD       | ⛔    | ...                    |
-| ⬇️ Below are TBD ⬇️ | ...        | ...       | ...    | ...     | ...        | ...  | ...                    |
-| 🏪 Retail           | Storefront | ...       | ...    | ...     | ...        | ...  | Either frontend or BFF |
-| 🏪 Retail           | Cart       | ✅         | ✅      | ⛔       | ES         | ✅    | ...                    |
-| 📨 Orders           | ...        | ✅         | ✅      | ⛔       | ES         | ✅    | Sagas showcased        |
-| 💼 Vendors          | ...        | ✅         | ✅      | ⛔       | ES         | ✅    | Multitenancy showcased |
+| Value Stream          | Module(s)     | Wolverine | Marten | EF Core | CRUD or ES | CQRS | Additional Notes                  |
+|-----------------------|---------------|-----------|--------|---------|------------|------|-----------------------------------|
+| 📦 Inventory          | Inbound       | ✅         | ✅      | ⛔       | ES         | ✅    | ...                               |
+| 📦 Inventory          | Receiving     | ✅         | ✅      | ⛔       | ES         | ✅    | ...                               |
+| 📦 Inventory          | Warehouse     | ✅         | ✅      | ⛔       | ES         | ✅    | ...                               |
+| 📝 Catalog            | ...           | ✅         | ✅      | ⛔       | ES         | ✅    | ...                               |
+| 🧓🏻 (Legacy) Catalog | Catalog       | ✅         | ⛔      | ✅       | CRUD       | ⛔    | No Critter Stack  at all possibly |
+| 🧓🏻 (Legacy) Catalog | SkuManagement | ✅         | ⛔      | ✅       | CRUD       | ⛔    | No Critter Stack  at all possibly |
+| ⬇️ TBD ⬇️             | ...           | ...       | ...    | ...     | ...        | ...  | ...                               |
+| 🏪 Retail             | Storefront    | ...       | ...    | ...     | ...        | ...  | Either frontend or BFF            |
+| 🏪 Retail             | Cart          | ✅         | ✅      | ⛔       | ES         | ✅    | ...                               |
+| 📨 Orders             | ...           | ✅         | ✅      | ⛔       | ES         | ✅    | Sagas showcased                   |
+| 💼 Vendors            | ...           | ✅         | ✅      | ⛔       | ES         | ✅    | Multitenancy showcased            |
 
 
 ## 🏫 Resources <a id='9.0'></a>
