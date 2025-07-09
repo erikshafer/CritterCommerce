@@ -1,0 +1,39 @@
+@HostAddress = http://localhost:5121
+
+###
+
+POST {{HostAddress}}/api/warehouse-inventories
+accept: application/json
+Content-Type: application/json
+
+{
+    "sku": "36606"
+}
+
+> {%
+    client.global.set("ItemInventoryId", response.body.valueOf());
+%}
+
+###
+
+GET {{HostAddress}}/api/warehouse-inventories/{{ItemInventoryId}}
+accept: application/json
+
+###
+
+GET http://localhost:5121/api/warehouse-inventories/live-aggregate/{{ItemInventoryId}}
+accept: application/json
+
+###
+
+POST http://localhost:5121/api/warehouse-inventories/{{ItemInventoryId}}/adjust
+accept: application/json
+Content-Type: application/json
+
+{
+    "itemInventoryId": "0197ed5a-3f31-4805-abf2-6e5f9b7a0087",
+    "quantity": 22
+}
+
+###
+

@@ -1,4 +1,5 @@
 using FluentValidation;
+using JasperFx.Core;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Attributes;
 using Wolverine.Http;
@@ -30,14 +31,17 @@ public static class InitializeItemInventoryEndpoint
     }
 
     [Tags(Tags.WarehouseInventories)]
-    [WolverinePost("/api/inventory")]
+    [WolverinePost("/api/warehouse-inventories")]
     public static (IResult, IStartStream) Post(InitializeItemInventory command)
     {
-        var streamId = Guid.CreateVersion7();
-        var initialized = new ItemInventoryInitialized(streamId, command.Sku, command.FacilityId);
+        var (sku, facilityId) = command;
+
+        var id = CombGuidIdGeneration.NewGuid();
+        var initialized = new ItemInventoryInitialized(id, sku, facilityId);
+
         var start = MartenOps.StartStream<ItemInventory>(initialized);
 
-        var location = $"/api/inventory/{start.StreamId}";
+        var location = $"/api/warehouse-inventories/{start.StreamId}";
         return (Results.Created(location, start.StreamId), start);
     }
 }
