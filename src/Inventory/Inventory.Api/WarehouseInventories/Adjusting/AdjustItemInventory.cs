@@ -5,7 +5,7 @@ using Wolverine.Marten;
 
 namespace Inventory.Api.WarehouseInventories.Adjusting;
 
-public sealed record AdjustItemInventory(Guid InventoryId, int Quantity);
+public sealed record AdjustItemInventory(Guid ItemInventoryId, int Quantity);
 
 public sealed class AdjustItemInventoryValidator : AbstractValidator<AdjustItemInventory>
 {

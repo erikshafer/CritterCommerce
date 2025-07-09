@@ -1,4 +1,5 @@
 ﻿using JasperFx.Events;
+using Marten.Schema;
 
 namespace Inventory.Api.WarehouseInventories;
 
@@ -9,6 +10,7 @@ public record ItemInventoryDecremented(int Quantity);
 
 public sealed record ItemInventory
 {
+    [Identity]
     public Guid Id { get; set; }
     public string Sku { get; set; } = null!;
     public string FacilityId { get; set; } = null!;

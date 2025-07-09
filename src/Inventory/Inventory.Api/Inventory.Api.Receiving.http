@@ -1,0 +1,29 @@
+@HostAddress = http://localhost:5121
+
+###
+
+GET {{HostAddress}}/api/receiving-shipments
+accept: application/json
+
+###
+POST {{HostAddress}}/api/receiving-shipments
+accept: application/json
+Content-Type: application/json
+
+{
+    "shipmentNumber": "SHIP-NUM-123",
+    "inboundShipmentId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "receivedBy": "erik"
+}
+
+> {%
+    client.global.set("ReceivingShipmentId", response.body.valueOf());
+%}
+
+###
+
+GET {{HostAddress}}/api/receiving-shipments/{{ReceivingShipmentId}}
+accept: application/json
+
+###
+

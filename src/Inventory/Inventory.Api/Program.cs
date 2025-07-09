@@ -4,6 +4,7 @@ using Inventory.Api.Inbound;
 using Inventory.Api.Inbound.Views;
 using Inventory.Api.Locations;
 using Inventory.Api.Procurement;
+using Inventory.Api.Receiving;
 using Inventory.Api.Receiving.Views;
 using Inventory.Api.Vendors;
 using Inventory.Api.WarehouseInventories;
@@ -41,15 +42,19 @@ builder.Services.AddMarten(opts =>
         // projections will be batched in a single call to the Postgres database.
         // However, you sacrifice some event metadata usage by doing this.
         opts.Projections
-            .Snapshot<ItemInventory>(SnapshotLifecycle.Inline)
-            .Identity(x => x.Id)
-            .Duplicate(x => x.Sku);
-
-        opts.Projections
             .Snapshot<FreightShipment>(SnapshotLifecycle.Inline)
             .Identity(x => x.Id)
             .Duplicate(x => x.Origin)
             .Duplicate(x => x.Destination);
+
+        opts.Projections
+            .Snapshot<ReceivedShipment>(SnapshotLifecycle.Inline)
+            .Identity(x => x.Id);
+
+        opts.Projections
+            .Snapshot<ItemInventory>(SnapshotLifecycle.Inline)
+            .Identity(x => x.Id)
+            .Duplicate(x => x.Sku);
 
         // The async projections with snapshotting.
         // An async daemon will be running in the background, which yes it can be

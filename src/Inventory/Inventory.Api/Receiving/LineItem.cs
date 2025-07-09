@@ -1,12 +1,12 @@
 namespace Inventory.Api.Receiving;
 
-public sealed record ReceivingLineItem
+public sealed record LineItem
 {
     public string Sku { get; init; }
     public int ExpectedQuantity { get; init; }
     public int ReceivedQuantity { get; init; }
 
-    public ReceivingLineItem(string Sku, int ExpectedQuantity, int ReceivedQuantity)
+    public LineItem(string Sku, int ExpectedQuantity, int ReceivedQuantity)
     {
         this.Sku = Sku;
         this.ExpectedQuantity = ExpectedQuantity;
