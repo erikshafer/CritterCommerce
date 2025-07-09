@@ -1,10 +1,10 @@
 using System.Text.Json.Serialization;
 using Inventory.Api;
 using Inventory.Api.Inbound;
-using Inventory.Api.Inbound.Projections;
+using Inventory.Api.Inbound.Views;
 using Inventory.Api.Locations;
 using Inventory.Api.Procurement;
-using Inventory.Api.Receiving.Projections;
+using Inventory.Api.Receiving.Views;
 using Inventory.Api.Vendors;
 using Inventory.Api.WarehouseInventories;
 using JasperFx;
