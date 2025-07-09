@@ -1,9 +1,48 @@
 @HostAddress = http://localhost:5121
-@ReceivedProcurementOrders = 1001
+@DocumentId = 1001
+@Origin = AustinTxUsa
+@Destination = TepotzotlanEmMex
 
 ###
 
-GET {{HostAddress}}/api/procurement/orders/received/{{ReceivedProcurementOrders}}
+GET {{HostAddress}}/api/procurement/orders/received/{{DocumentId}}
 accept: application/json
 
 ###
+
+GET http://localhost:5121/api/procurement/orders/received
+accept: application/json
+
+###
+
+GET http://localhost:5121/api/procurement/orders/received/origin/{{Origin}}
+accept: application/json
+
+###
+
+GET http://localhost:5121/api/procurement/orders/received/origin/{{Origin}}/destination/{{Destination}}
+accept: application/json
+
+### Page 1, by 5
+
+GET http://localhost:5121/api/procurement/orders/received/paged/1/5
+accept: application/json
+
+### Page 2, by 5
+
+GET http://localhost:5121/api/procurement/orders/received/paged/2/5
+accept: application/json
+
+### Paging through HTTP query parameters (Page 1, by 5)
+
+GET http://localhost:5121/api/procurement/orders/received/paged/query?PageSize=5&PageNumber=1
+accept: application/json
+
+### Paging through HTTP query parameters (Page 2, by 5)
+
+GET http://localhost:5121/api/procurement/orders/received/paged/query?PageSize=5&PageNumber=2
+accept: application/json
+
+###
+
+

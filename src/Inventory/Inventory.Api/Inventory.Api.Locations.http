@@ -13,11 +13,6 @@ accept: application/json
 GET {{HostAddress}}/api/locations/{{LocationId}}
 accept: application/json
 
-### SOFT DELETE, be mindful
-
-GET {{HostAddress}}/api/locations/soft-delete/{{LocationId}}
-accept: application/json
-
 ###
 
 GET {{HostAddress}}/api/locations/name/{{LocationName}}
@@ -26,6 +21,11 @@ accept: application/json
 ###
 
 GET {{HostAddress}}/api/locations/code/{{LocationCode}}
+accept: application/json
+
+### SOFT DELETE, be mindful
+
+GET {{HostAddress}}/api/locations/soft-delete/{{LocationId}}
 accept: application/json
 
 ###
