@@ -4,7 +4,7 @@ using Wolverine.Attributes;
 using Wolverine.Http;
 using Wolverine.Marten;
 
-namespace Inventory.Api.WarehouseInventories;
+namespace Inventory.Api.WarehouseInventories.Initializing;
 
 public sealed record InitializeInventory(string Sku);
 

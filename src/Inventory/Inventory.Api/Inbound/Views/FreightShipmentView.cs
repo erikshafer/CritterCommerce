@@ -1,6 +1,6 @@
 using Marten.Events.Aggregation;
 
-namespace Inventory.Api.Inbound.Projections;
+namespace Inventory.Api.Inbound.Views;
 
 public class FreightShipmentView
 {

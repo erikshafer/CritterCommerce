@@ -2,6 +2,11 @@
 
 ###
 
+GET http://localhost:5121/api/freight-shipments
+accept: application/json
+
+###
+
 POST {{HostAddress}}/api/freight-shipments
 accept: application/json
 Content-Type: application/json

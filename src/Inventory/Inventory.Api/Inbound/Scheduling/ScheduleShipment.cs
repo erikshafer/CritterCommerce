@@ -1,14 +1,14 @@
 using FluentValidation;
-using Inventory.Api.Inbound.Queries;
 using JasperFx.Core;
 using Marten;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Attributes;
 using Wolverine.Http;
 using Wolverine.Marten;
+
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 
-namespace Inventory.Api.Inbound;
+namespace Inventory.Api.Inbound.Scheduling;
 
 public sealed record ScheduleShipment(string Origin, string Destination);
 

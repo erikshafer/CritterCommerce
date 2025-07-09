@@ -1,10 +1,10 @@
 using System.Text.Json.Serialization;
 using Inventory.Api;
 using Inventory.Api.Inbound;
-using Inventory.Api.Inbound.Projections;
+using Inventory.Api.Inbound.Views;
 using Inventory.Api.Locations;
 using Inventory.Api.Procurement;
-using Inventory.Api.Receiving.Projections;
+using Inventory.Api.Receiving.Views;
 using Inventory.Api.Vendors;
 using Inventory.Api.WarehouseInventories;
 using JasperFx;
@@ -76,8 +76,8 @@ builder.Services.AddMarten(opts =>
             .Duplicate(x => x.VendorId) // Consider making this a foreign key to the Vendor docs
             .Duplicate(x => x.TrackingNumber); // Could add the entire document's properties here, but
     })
-    .InitializeWith(new InventoryInitialData(
-        InventoryInitialData.ConcatDataSets(
+    .InitializeWith(new InitialData(
+        InitialData.ConcatDataSets(
             LocationsDatasets.Data,
             VendorsDatasets.Data,
             ReceivedProcurementOrdersDatasets.Data)))

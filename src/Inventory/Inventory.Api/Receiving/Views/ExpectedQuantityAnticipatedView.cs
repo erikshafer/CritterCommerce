@@ -1,7 +1,7 @@
 using JasperFx.Events;
 using Marten.Events.Aggregation;
 
-namespace Inventory.Api.Receiving.Projections;
+namespace Inventory.Api.Receiving.Views;
 
 public record ExpectedQuantityAnticipatedView
 {

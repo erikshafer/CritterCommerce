@@ -1,0 +1,15 @@
+@HostAddress = http://localhost:5121
+@VendorId = 101
+
+###
+
+GET {{HostAddress}}/api/vendors
+accept: application/json
+
+###
+
+GET {{HostAddress}}/api/vendors/{{VendorId}}
+accept: application/json
+
+###
+
