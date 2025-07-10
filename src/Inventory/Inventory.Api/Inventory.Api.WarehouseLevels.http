@@ -60,5 +60,15 @@ Content-Type: application/json
     "facilityLotId": "{{NewFacilityLotId}}"
 }
 
+### Get lots
+
+GET http://localhost:5121/api/inventory-level/warehouse-lots
+accept: application/json
+
+### Get lots at a warehouse (facility)
+
+GET http://localhost:5121/api/inventory-level/warehouse-lots/{{Facility}}
+accept: application/json
+
 ###
 

@@ -1,7 +1,7 @@
 using JasperFx.Events;
 using Marten.Events.Projections;
 
-namespace Inventory.Api.WarehouseLevels.Views;
+namespace Inventory.Api.WarehouseLevels.Lots;
 
 public class WarehouseLotsView
 {
