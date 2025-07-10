@@ -1,13 +1,15 @@
-﻿namespace Inventory.Api.WarehouseLevels;
+﻿using JasperFx.Events;
 
-public sealed record InventoryInitialized(Guid Id, string Sku, string FacilityId);
+namespace Inventory.Api.WarehouseLevels;
+
+public sealed record InventoryInitialized(string Sku, string FacilityId, string FacilityLotId);
 public sealed record InventoryIncremented(int Quantity);
 public sealed record InventoryDecremented(int Quantity);
 
 public sealed record InventoryLevel(Guid Id, string Sku, string FacilityId, int Quantity)
 {
-    public static InventoryLevel Create(InventoryInitialized initialized) =>
-        new (initialized.Id, initialized.Sku, initialized.FacilityId, 0);
+    public static InventoryLevel Create(IEvent<InventoryInitialized> initialized) =>
+        new (initialized.StreamId, initialized.Data.Sku, initialized.Data.FacilityId, 0);
 
     public static InventoryLevel Apply(InventoryLevel current, InventoryIncremented incremented) =>
         current with { Quantity = current.Quantity + incremented.Quantity };

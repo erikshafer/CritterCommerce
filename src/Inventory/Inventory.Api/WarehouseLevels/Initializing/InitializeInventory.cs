@@ -1,4 +1,5 @@
 using FluentValidation;
+using Inventory.Api.Locations;
 using JasperFx.Core;
 using Marten;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,7 @@ using Wolverine.Marten;
 
 namespace Inventory.Api.WarehouseLevels.Initializing;
 
-public sealed record InitializeInventory(string Sku, string FacilityId);
+public sealed record InitializeInventory(string Sku, string Facility, string FacilityLotId);
 
 public sealed class InitializeInventoryValidator : AbstractValidator<InitializeInventory>
 {
@@ -17,30 +18,50 @@ public sealed class InitializeInventoryValidator : AbstractValidator<InitializeI
         RuleFor(x => x.Sku).NotEmpty();
         RuleFor(x => x.Sku).MaximumLength(32);
         RuleFor(x => x.Sku).Matches(@"^[A-Z0-9\-]+$");
+        RuleFor(x => x.Facility).NotEmpty();
+        RuleFor(x => x.FacilityLotId).NotEmpty();
+        RuleFor(x => x.FacilityLotId).Matches(@"^[A-Z0-9\-]+$");
     }
 }
 
 public static class InitializeInventoryHandler
 {
     [WolverineBefore]
-    public static ProblemDetails CheckOnSkuUsage(InitializeInventory command, IQuerySession session)
+    public static async Task<ProblemDetails> CheckFacilityAndLot(
+        InitializeInventory command,
+        IQuerySession session,
+        IFacilityLotService service)
     {
-        // Perhaps some business logic like querying a service to
-        // check if the incoming SKU is active, etc. :)
+        var (_, facility, facilityLotId) = command;
+
+        var facilityLocation = await session
+            .Query<Location>()
+            .Where(loc => loc.Name == facility)
+            .FirstOrDefaultAsync();
+        if (facilityLocation is null)
+            return new ProblemDetails
+            {
+                Detail = $"Facility '{facility}' is not available",
+                Status = StatusCodes.Status412PreconditionFailed
+            };
+
+        var isLotAvailable = service.IsLotAvailable(facilityLotId);
+        if (isLotAvailable is false)
+            return new ProblemDetails
+            {
+                Detail = $"Lot '{facilityLotId}' at Facility '{facility}' is not available",
+                Status = StatusCodes.Status412PreconditionFailed
+            };
 
         return WolverineContinue.NoProblems;
     }
 
-    [Tags(Tags.WarehouseInventories)]
+    [Tags(Tags.WarehouseInventoryLevels)]
     [WolverinePost("/api/inventory-level")]
     public static (IResult, IStartStream) Post(InitializeInventory command)
     {
-        var (sku, facilityId) = command;
-
-        var id = CombGuidIdGeneration.NewGuid();
-        var initialized = new InventoryInitialized(id, sku, facilityId);
-
-        var start = MartenOps.StartStream<InventoryLevel>(id, initialized);
+        var initialized = new InventoryInitialized(command.Sku, command.Facility, command.FacilityLotId);
+        var start = MartenOps.StartStream<InventoryLevel>(initialized);
 
         var location = $"/api/inventory-level/{start.StreamId}";
         return (Results.Created(location, start.StreamId), start);

@@ -1,4 +1,7 @@
 @HostAddress = http://localhost:5121
+@Sku = 36606
+@Facility = OmahaNeUsa
+@FacilityLotId = A2-103
 
 ###
 
@@ -7,7 +10,9 @@ accept: application/json
 Content-Type: application/json
 
 {
-    "sku": "36606"
+    "sku": "{{Sku}}",
+    "facility": "{{Facility}}",
+    "facilityLotId": "{{FacilityLotId}}"
 }
 
 > {%

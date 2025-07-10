@@ -123,6 +123,8 @@ builder.Host.UseWolverine(opts =>
     opts.UseFluentValidation();
 });
 
+builder.Services.AddSingleton<IFacilityLotService, FacilityLotService>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

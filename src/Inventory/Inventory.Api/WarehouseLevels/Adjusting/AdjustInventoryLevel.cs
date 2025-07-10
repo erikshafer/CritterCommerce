@@ -16,7 +16,7 @@ public sealed class AdjustInventoryLevelValidator : AbstractValidator<AdjustInve
 
 public static class AdjustInventoryLevelHandler
 {
-    [Tags(Tags.WarehouseInventories)]
+    [Tags(Tags.WarehouseInventoryLevels)]
     [WolverinePost("/api/inventory-level/{inventoryLevelId}/adjust")]
     [AggregateHandler]
     public static (IResult, Events) Handle(AdjustInventoryLevel command, InventoryLevel inventoryLevel)
