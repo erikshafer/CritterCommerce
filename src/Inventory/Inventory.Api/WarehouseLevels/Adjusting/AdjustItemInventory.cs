@@ -1,9 +1,8 @@
 using FluentValidation;
-using Wolverine;
 using Wolverine.Http;
 using Wolverine.Marten;
 
-namespace Inventory.Api.WarehouseInventories.Adjusting;
+namespace Inventory.Api.WarehouseLevels.Adjusting;
 
 public sealed record AdjustItemInventory(
     Guid ItemInventoryId,

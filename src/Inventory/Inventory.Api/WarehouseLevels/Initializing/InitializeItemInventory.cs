@@ -2,12 +2,11 @@ using FluentValidation;
 using JasperFx.Core;
 using Marten;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
 using Wolverine.Attributes;
 using Wolverine.Http;
 using Wolverine.Marten;
 
-namespace Inventory.Api.WarehouseInventories.Initializing;
+namespace Inventory.Api.WarehouseLevels.Initializing;
 
 public sealed record InitializeItemInventory(string Sku, string FacilityId);
 

@@ -1,4 +1,4 @@
-namespace Inventory.Api.WarehouseInventories;
+namespace Inventory.Api.WarehouseLevels;
 
 public enum ItemInventoryStatus
 {

@@ -1,9 +1,10 @@
+using Inventory.Api.WarehouseInventories;
 using Marten;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;
 using Wolverine.Marten;
 
-namespace Inventory.Api.WarehouseInventories;
+namespace Inventory.Api.WarehouseLevels;
 
 public static class QueryEndpoints
 {

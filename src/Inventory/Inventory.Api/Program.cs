@@ -8,6 +8,7 @@ using Inventory.Api.Receiving;
 using Inventory.Api.Receiving.Views;
 using Inventory.Api.Vendors;
 using Inventory.Api.WarehouseInventories;
+using Inventory.Api.WarehouseLevels;
 using JasperFx;
 using JasperFx.Core;
 using JasperFx.Events.Daemon;

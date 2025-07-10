@@ -1,4 +1,4 @@
-﻿namespace Inventory.Api.WarehouseInventories;
+﻿namespace Inventory.Api.WarehouseLevels;
 
 public sealed record ItemInventoryInitialized(Guid Id, string Sku, string FacilityId);
 public sealed record ItemInventoryIncremented(int Quantity);
