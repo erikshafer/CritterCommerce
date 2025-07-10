@@ -2,7 +2,7 @@ using Marten.Events.Projections;
 
 namespace Inventory.Api.Inbound.Views;
 
-public class DailyShipmentsDeliveredView
+public sealed record DailyShipmentsDeliveredView
 {
     public string Id { get; set; } = null!;
     public DateOnly DeliveredDate { get; set; }

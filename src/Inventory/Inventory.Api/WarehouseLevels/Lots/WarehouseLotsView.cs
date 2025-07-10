@@ -3,7 +3,7 @@ using Marten.Events.Projections;
 
 namespace Inventory.Api.WarehouseLevels.Lots;
 
-public class WarehouseLotsView
+public sealed record WarehouseLotsView
 {
     public Guid Id { get; set; }
     public string Warehouse { get; set; } = null!;
