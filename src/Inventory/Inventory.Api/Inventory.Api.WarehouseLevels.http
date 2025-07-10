@@ -2,6 +2,7 @@
 @Sku = 36606
 @Facility = OmahaNeUsa
 @FacilityLotId = A2-103
+@NewFacilityLotId = A2-107
 
 ###
 
@@ -36,7 +37,6 @@ accept: application/json
 Content-Type: application/json
 
 {
-    "InventoryLevelId": "{{InventoryLevelId}}",
     "quantity": 22
 }
 
@@ -47,8 +47,18 @@ accept: application/json
 Content-Type: application/json
 
 {
-    "InventoryLevelId": "{{InventoryLevelId}}",
     "quantity": -7
 }
 
+### Change lots
+
+POST http://localhost:5121/api/inventory-level/{{InventoryLevelId}}/move
+accept: application/json
+Content-Type: application/json
+
+{
+    "facilityLotId": "{{NewFacilityLotId}}"
+}
+
 ###
+

@@ -1,6 +1,8 @@
+using JasperFx.Events;
+
 namespace Inventory.Api.Inbound;
 
-public sealed record FreightShipmentScheduled(Guid Id, string Origin, string Destination, DateTime ScheduledAt);
+public sealed record FreightShipmentScheduled(string Origin, string Destination, DateTime ScheduledAt);
 public sealed record FreightShipmentPickedUp(DateTime PickedUpAt);
 public sealed record FreightShipmentDelivered(DateTime DeliveredAt);
 public sealed record FreightShipmentCancelled(string Reason, DateTime CancelledAt);
@@ -16,13 +18,13 @@ public sealed record FreightShipment(
     DateTime? CancelledAt,
     string CancellationReason)
 {
-    public static FreightShipment Create(FreightShipmentScheduled @event) =>
+    public static FreightShipment Create(IEvent<FreightShipmentScheduled> @event) =>
         new (
-            @event.Id,
-            @event.Origin,
-            @event.Destination,
+            @event.StreamId,
+            @event.Data.Origin,
+            @event.Data.Destination,
             FreightShipmentStatus.Scheduled,
-            @event.ScheduledAt,
+            @event.Data.ScheduledAt,
             null,
             null,
             null,

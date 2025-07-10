@@ -1,10 +1,12 @@
 using FluentValidation;
+using Wolverine;
 using Wolverine.Http;
+using Wolverine.Http.Marten;
 using Wolverine.Marten;
 
 namespace Inventory.Api.WarehouseLevels.Adjusting;
 
-public sealed record AdjustInventoryLevel(Guid InventoryLevelId, int Quantity);
+public sealed record AdjustInventoryLevel(int Quantity);
 
 public sealed class AdjustInventoryLevelValidator : AbstractValidator<AdjustInventoryLevel>
 {
@@ -18,20 +20,26 @@ public static class AdjustInventoryLevelHandler
 {
     [Tags(Tags.WarehouseInventoryLevels)]
     [WolverinePost("/api/inventory-level/{inventoryLevelId}/adjust")]
-    [AggregateHandler]
-    public static (IResult, Events) Handle(AdjustInventoryLevel command, InventoryLevel inventoryLevel)
+    public static (IResult, Events, OutgoingMessages) Handle(
+        AdjustInventoryLevel command,
+        [Aggregate("inventoryLevelId")] InventoryLevel inventoryLevel)
     {
-        var (_, quantity) = command;
+        var quantity = command.Quantity;
 
-        Events events = [];
+        Events events =
+        [
+            quantity switch
+            {
+                0 => throw new InvalidOperationException("Zero (0) is invalid for inventory adjustment"),
+                > 0 => new InventoryIncremented(quantity),
+                < 0 => new InventoryDecremented(quantity)
+            }
+        ];
+        OutgoingMessages messages =
+        [
+            new InventoryLevelAdjustmentNotification(inventoryLevel.Id, quantity)
+        ];
 
-        if (quantity == 0)
-            throw new InvalidOperationException("Zero (0) is invalid for inventory adjustment");
-        if (quantity > 0)
-            events.Add(new InventoryIncremented(quantity));
-        if (quantity < 0)
-            events.Add(new InventoryDecremented(quantity));
-
-        return (Results.Ok(), events);
+        return (Results.Ok(), events, messages);
     }
 }

@@ -1,6 +1,5 @@
 using FluentValidation;
 using Inventory.Api.Locations;
-using JasperFx.Core;
 using Marten;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Attributes;
