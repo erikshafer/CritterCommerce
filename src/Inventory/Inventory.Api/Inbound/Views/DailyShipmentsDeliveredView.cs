@@ -2,7 +2,7 @@ using Marten.Events.Projections;
 
 namespace Inventory.Api.Inbound.Views;
 
-public class DailyShipmentsDeliveredView
+public sealed record DailyShipmentsDeliveredView
 {
     public string Id { get; set; } = null!;
     public DateOnly DeliveredDate { get; set; }
@@ -13,7 +13,7 @@ public class DailyShipmentsProjection : MultiStreamProjection<DailyShipmentsDeli
 {
     public DailyShipmentsProjection()
     {
-        // Group events by the DateOnly key as string (extracted from DeliveredAt)
+        // Group events by the DateOnly key as a string (extracted from DeliveredAt)
         Identity<FreightShipmentDelivered>(e => e.DeliveredAt.ToString("yyyy-MM-dd"));
     }
 

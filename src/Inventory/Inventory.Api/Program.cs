@@ -7,7 +7,8 @@ using Inventory.Api.Procurement;
 using Inventory.Api.Receiving;
 using Inventory.Api.Receiving.Views;
 using Inventory.Api.Vendors;
-using Inventory.Api.WarehouseInventories;
+using Inventory.Api.WarehouseLevels;
+using Inventory.Api.WarehouseLevels.Lots;
 using JasperFx;
 using JasperFx.Core;
 using JasperFx.Events.Daemon;
@@ -52,7 +53,7 @@ builder.Services.AddMarten(opts =>
             .Identity(x => x.Id);
 
         opts.Projections
-            .Snapshot<ItemInventory>(SnapshotLifecycle.Inline)
+            .Snapshot<InventoryLevel>(SnapshotLifecycle.Inline)
             .Identity(x => x.Id)
             .Duplicate(x => x.Sku);
 
@@ -64,6 +65,7 @@ builder.Services.AddMarten(opts =>
         opts.Projections.Add<ExpectedQuantityAnticipatedProjection>(ProjectionLifecycle.Async);
         opts.Projections.Add<DailyShipmentsProjection>(ProjectionLifecycle.Async);
         opts.Projections.Add<FreightShipmentProjection>(ProjectionLifecycle.Async);
+        opts.Projections.Add<WarehouseLotsProjection>(ProjectionLifecycle.Async);
 
         opts.RegisterDocumentType<Location>();
         opts.Schema.For<Location>()
@@ -80,6 +82,10 @@ builder.Services.AddMarten(opts =>
             .Identity(x => x.Id)
             .Duplicate(x => x.VendorId) // Consider making this a foreign key to the Vendor docs
             .Duplicate(x => x.TrackingNumber); // Could add the entire document's properties here, but
+
+        opts.Schema.For<WarehouseLotsView>()
+            .Duplicate(x => x.Warehouse)
+            .Duplicate(x => x.Lot);
     })
     .InitializeWith(new InitialData(
         InitialData.ConcatDataSets(
@@ -122,6 +128,8 @@ builder.Host.UseWolverine(opts =>
 
     opts.UseFluentValidation();
 });
+
+builder.Services.AddSingleton<IFacilityLotService, FacilityLotService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

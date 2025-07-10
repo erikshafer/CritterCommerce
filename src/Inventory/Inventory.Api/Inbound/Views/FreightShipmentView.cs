@@ -1,3 +1,4 @@
+using JasperFx.Events;
 using Marten.Events.Aggregation;
 
 namespace Inventory.Api.Inbound.Views;
@@ -12,11 +13,11 @@ public class FreightShipmentView
 
 public class FreightShipmentProjection : SingleStreamProjection<FreightShipmentView, Guid>
 {
-    public FreightShipmentView Create(FreightShipmentScheduled @event) => new FreightShipmentView
+    public FreightShipmentView Create(IEvent<FreightShipmentScheduled> @event) => new FreightShipmentView
     {
-        Id = @event.Id,
-        Origin = @event.Origin,
-        Destination = @event.Destination,
+        Id = @event.StreamId,
+        Origin = @event.Data.Origin,
+        Destination = @event.Data.Destination,
         Status = "Scheduled"
     };
 

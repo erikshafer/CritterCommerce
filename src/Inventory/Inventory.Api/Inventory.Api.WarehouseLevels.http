@@ -1,0 +1,74 @@
+@HostAddress = http://localhost:5121
+@Sku = 36606
+@Facility = OmahaNeUsa
+@FacilityLotId = A2-103
+@NewFacilityLotId = A2-107
+
+###
+
+POST {{HostAddress}}/api/inventory-level
+accept: application/json
+Content-Type: application/json
+
+{
+    "sku": "{{Sku}}",
+    "facility": "{{Facility}}",
+    "facilityLotId": "{{FacilityLotId}}"
+}
+
+> {%
+    client.global.set("InventoryLevelId", response.body.valueOf());
+%}
+
+###
+
+GET {{HostAddress}}/api/inventory-level/{{InventoryLevelId}}
+accept: application/json
+
+###
+
+GET http://localhost:5121/api/inventory-level/live-aggregate/{{InventoryLevelId}}
+accept: application/json
+
+### Increment (+)
+
+POST http://localhost:5121/api/inventory-level/{{InventoryLevelId}}/adjust
+accept: application/json
+Content-Type: application/json
+
+{
+    "quantity": 22
+}
+
+### Decrement (-)
+
+POST http://localhost:5121/api/inventory-level/{{InventoryLevelId}}/adjust
+accept: application/json
+Content-Type: application/json
+
+{
+    "quantity": -7
+}
+
+### Change lots
+
+POST http://localhost:5121/api/inventory-level/{{InventoryLevelId}}/move
+accept: application/json
+Content-Type: application/json
+
+{
+    "facilityLotId": "{{NewFacilityLotId}}"
+}
+
+### Get lots
+
+GET http://localhost:5121/api/inventory-level/warehouse-lots
+accept: application/json
+
+### Get lots at a warehouse (facility)
+
+GET http://localhost:5121/api/inventory-level/warehouse-lots/{{Facility}}
+accept: application/json
+
+###
+
