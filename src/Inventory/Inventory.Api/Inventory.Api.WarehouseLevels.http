@@ -29,7 +29,7 @@ accept: application/json
 GET http://localhost:5121/api/inventory-level/live-aggregate/{{InventoryLevelId}}
 accept: application/json
 
-###
+### Increment (+)
 
 POST http://localhost:5121/api/inventory-level/{{InventoryLevelId}}/adjust
 accept: application/json
@@ -40,5 +40,15 @@ Content-Type: application/json
     "quantity": 22
 }
 
-###
+### Decrement (-)
 
+POST http://localhost:5121/api/inventory-level/{{InventoryLevelId}}/adjust
+accept: application/json
+Content-Type: application/json
+
+{
+    "InventoryLevelId": "{{InventoryLevelId}}",
+    "quantity": -7
+}
+
+###
