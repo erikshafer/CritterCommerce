@@ -7,7 +7,6 @@ using Inventory.Api.Procurement;
 using Inventory.Api.Receiving;
 using Inventory.Api.Receiving.Views;
 using Inventory.Api.Vendors;
-using Inventory.Api.WarehouseInventories;
 using Inventory.Api.WarehouseLevels;
 using JasperFx;
 using JasperFx.Core;
@@ -53,7 +52,7 @@ builder.Services.AddMarten(opts =>
             .Identity(x => x.Id);
 
         opts.Projections
-            .Snapshot<ItemInventory>(SnapshotLifecycle.Inline)
+            .Snapshot<InventoryLevel>(SnapshotLifecycle.Inline)
             .Identity(x => x.Id)
             .Duplicate(x => x.Sku);
 

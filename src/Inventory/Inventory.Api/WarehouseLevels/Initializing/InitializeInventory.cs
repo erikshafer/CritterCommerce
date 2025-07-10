@@ -8,11 +8,11 @@ using Wolverine.Marten;
 
 namespace Inventory.Api.WarehouseLevels.Initializing;
 
-public sealed record InitializeItemInventory(string Sku, string FacilityId);
+public sealed record InitializeInventory(string Sku, string FacilityId);
 
-public sealed class InitializeItemInventoryValidator : AbstractValidator<InitializeItemInventory>
+public sealed class InitializeInventoryValidator : AbstractValidator<InitializeInventory>
 {
-    public InitializeItemInventoryValidator()
+    public InitializeInventoryValidator()
     {
         RuleFor(x => x.Sku).NotEmpty();
         RuleFor(x => x.Sku).MaximumLength(32);
@@ -20,10 +20,10 @@ public sealed class InitializeItemInventoryValidator : AbstractValidator<Initial
     }
 }
 
-public static class InitializeItemInventoryHandler
+public static class InitializeInventoryHandler
 {
     [WolverineBefore]
-    public static ProblemDetails CheckOnSkuUsage(InitializeItemInventory command, IQuerySession session)
+    public static ProblemDetails CheckOnSkuUsage(InitializeInventory command, IQuerySession session)
     {
         // Perhaps some business logic like querying a service to
         // check if the incoming SKU is active, etc. :)
@@ -32,17 +32,17 @@ public static class InitializeItemInventoryHandler
     }
 
     [Tags(Tags.WarehouseInventories)]
-    [WolverinePost("/api/warehouse-inventories")]
-    public static (IResult, IStartStream) Post(InitializeItemInventory command)
+    [WolverinePost("/api/inventory-level")]
+    public static (IResult, IStartStream) Post(InitializeInventory command)
     {
         var (sku, facilityId) = command;
 
         var id = CombGuidIdGeneration.NewGuid();
-        var initialized = new ItemInventoryInitialized(id, sku, facilityId);
+        var initialized = new InventoryInitialized(id, sku, facilityId);
 
-        var start = MartenOps.StartStream<ItemInventory>(id, initialized);
+        var start = MartenOps.StartStream<InventoryLevel>(id, initialized);
 
-        var location = $"/api/warehouse-inventories/{start.StreamId}";
+        var location = $"/api/inventory-level/{start.StreamId}";
         return (Results.Created(location, start.StreamId), start);
     }
 }

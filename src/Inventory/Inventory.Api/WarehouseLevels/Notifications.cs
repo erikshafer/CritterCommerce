@@ -1,3 +1,3 @@
 namespace Inventory.Api.WarehouseLevels;
 
-public record InventoryAdjustmentNotification(Guid ItemInventoryId, int Quantity);
+public record InventoryLevelAdjustmentNotification(Guid InventoryLevelId, int Quantity);

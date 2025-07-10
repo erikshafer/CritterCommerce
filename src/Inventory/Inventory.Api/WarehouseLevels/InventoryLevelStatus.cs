@@ -1,6 +1,6 @@
 namespace Inventory.Api.WarehouseLevels;
 
-public enum ItemInventoryStatus
+public enum InventoryLevelStatus
 {
     Available = 1,
     CriticalHold = 2,

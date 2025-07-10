@@ -1,0 +1,39 @@
+@HostAddress = http://localhost:5121
+
+###
+
+POST {{HostAddress}}/api/inventory-level
+accept: application/json
+Content-Type: application/json
+
+{
+    "sku": "36606"
+}
+
+> {%
+    client.global.set("InventoryLevelId", response.body.valueOf());
+%}
+
+###
+
+GET {{HostAddress}}/api/inventory-level/{{InventoryLevelId}}
+accept: application/json
+
+###
+
+GET http://localhost:5121/api/inventory-level/live-aggregate/{{InventoryLevelId}}
+accept: application/json
+
+###
+
+POST http://localhost:5121/api/inventory-level/{{InventoryLevelId}}/adjust
+accept: application/json
+Content-Type: application/json
+
+{
+    "InventoryLevelId": "{{InventoryLevelId}}",
+    "quantity": 22
+}
+
+###
+
