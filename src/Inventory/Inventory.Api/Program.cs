@@ -8,6 +8,7 @@ using Inventory.Api.Receiving;
 using Inventory.Api.Receiving.Views;
 using Inventory.Api.Vendors;
 using Inventory.Api.WarehouseLevels;
+using Inventory.Api.WarehouseLevels.Views;
 using JasperFx;
 using JasperFx.Core;
 using JasperFx.Events.Daemon;
@@ -64,6 +65,7 @@ builder.Services.AddMarten(opts =>
         opts.Projections.Add<ExpectedQuantityAnticipatedProjection>(ProjectionLifecycle.Async);
         opts.Projections.Add<DailyShipmentsProjection>(ProjectionLifecycle.Async);
         opts.Projections.Add<FreightShipmentProjection>(ProjectionLifecycle.Async);
+        opts.Projections.Add<WarehouseLotsProjection>(ProjectionLifecycle.Async);
 
         opts.RegisterDocumentType<Location>();
         opts.Schema.For<Location>()
@@ -80,6 +82,10 @@ builder.Services.AddMarten(opts =>
             .Identity(x => x.Id)
             .Duplicate(x => x.VendorId) // Consider making this a foreign key to the Vendor docs
             .Duplicate(x => x.TrackingNumber); // Could add the entire document's properties here, but
+
+        opts.Schema.For<WarehouseLotsView>()
+            .Duplicate(x => x.Warehouse)
+            .Duplicate(x => x.Lot);
     })
     .InitializeWith(new InitialData(
         InitialData.ConcatDataSets(

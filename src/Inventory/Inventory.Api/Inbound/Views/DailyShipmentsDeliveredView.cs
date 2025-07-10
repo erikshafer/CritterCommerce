@@ -13,7 +13,7 @@ public class DailyShipmentsProjection : MultiStreamProjection<DailyShipmentsDeli
 {
     public DailyShipmentsProjection()
     {
-        // Group events by the DateOnly key as string (extracted from DeliveredAt)
+        // Group events by the DateOnly key as a string (extracted from DeliveredAt)
         Identity<FreightShipmentDelivered>(e => e.DeliveredAt.ToString("yyyy-MM-dd"));
     }
 
