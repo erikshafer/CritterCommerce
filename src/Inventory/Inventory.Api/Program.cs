@@ -129,7 +129,7 @@ builder.Host.UseWolverine(opts =>
 
     opts.UseFluentValidation();
 
-    opts.UseRabbitMq()
+    opts.UseRabbitMq(new Uri("amqp://localhost"))
         .AutoProvision()
         .UseConventionalRouting();
     // opts.UseRabbitMq(rabbit =>
