@@ -8,3 +8,9 @@ services:
       - POSTGRES_DATABASE=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+  rabbitmq:
+    container_name: crittercommerce-rabbitmq
+    image: "rabbitmq:management"
+    ports:
+      - "5672:5672"   # RabbitMQ Messaging Port
+      - "15672:15672" # RabbitMQ Management UI

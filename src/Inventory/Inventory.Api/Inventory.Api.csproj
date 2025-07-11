@@ -16,6 +16,7 @@
         <PackageReference Include="WolverineFx" Version="4.5.3" />
         <PackageReference Include="WolverineFx.Http.FluentValidation" Version="4.5.3" />
         <PackageReference Include="WolverineFx.Http.Marten" Version="4.5.3" />
+        <PackageReference Include="WolverineFx.RabbitMQ" Version="4.5.3" />
     </ItemGroup>
 
 </Project>

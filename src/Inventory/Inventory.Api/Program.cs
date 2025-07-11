@@ -22,11 +22,12 @@ using Wolverine.FluentValidation;
 using Wolverine.Http;
 using Wolverine.Http.FluentValidation;
 using Wolverine.Marten;
+using Wolverine.RabbitMQ;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ApplyJasperFxExtensions();
 
-var martenConnectionString = builder.Configuration.GetConnectionString("marten")
+var martenConnectionString = builder.Configuration.GetConnectionString("Marten")
                              ?? throw new Exception("Marten connection string not found");
 
 builder.Services.AddMarten(opts =>
@@ -127,6 +128,16 @@ builder.Host.UseWolverine(opts =>
         .Then.Discard();
 
     opts.UseFluentValidation();
+
+    opts.UseRabbitMq()
+        .AutoProvision()
+        .UseConventionalRouting();
+    // opts.UseRabbitMq(rabbit =>
+    // {
+    //     rabbit.HostName = builder.Configuration["RabbitMQ:hostname"] ?? throw new Exception("Hostname for RabbitMQ not found");
+    //     rabbit.VirtualHost = builder.Configuration["RabbitMQ:virtualhost"] ?? throw new Exception("Virtualhost for RabbitMQ not found");
+    //     rabbit.UserName = builder.Configuration["RabbitMQ:username"] ?? throw new Exception("Username for RabbitMQ not found");
+    // });
 });
 
 builder.Services.AddSingleton<IFacilityLotService, FacilityLotService>();
