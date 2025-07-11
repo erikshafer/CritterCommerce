@@ -132,12 +132,6 @@ builder.Host.UseWolverine(opts =>
     opts.UseRabbitMq(new Uri("amqp://localhost"))
         .AutoProvision()
         .UseConventionalRouting();
-    // opts.UseRabbitMq(rabbit =>
-    // {
-    //     rabbit.HostName = builder.Configuration["RabbitMQ:hostname"] ?? throw new Exception("Hostname for RabbitMQ not found");
-    //     rabbit.VirtualHost = builder.Configuration["RabbitMQ:virtualhost"] ?? throw new Exception("Virtualhost for RabbitMQ not found");
-    //     rabbit.UserName = builder.Configuration["RabbitMQ:username"] ?? throw new Exception("Username for RabbitMQ not found");
-    // });
 });
 
 builder.Services.AddSingleton<IFacilityLotService, FacilityLotService>();
