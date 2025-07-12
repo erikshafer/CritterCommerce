@@ -1,5 +1,4 @@
 services:
-
   postgres:
     container_name: crittercommerce-postgres
     image: postgres:latest
@@ -23,13 +22,15 @@ services:
       - "MSSQL_PID=Developer"
     networks:
       - sql_network
+    profiles:
+      - sqlserver
 
   rabbitmq:
     container_name: crittercommerce-rabbitmq
     image: "rabbitmq:management"
     ports:
-      - "5672:5672"   # RabbitMQ Messaging Port
-      - "15672:15672" # RabbitMQ Management UI
+      - "5672:5672"
+      - "15672:15672"
     networks:
       - rmq_network
 
