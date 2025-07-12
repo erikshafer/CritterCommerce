@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Text.Json.Serialization;
 using Inventory.Api;
 using Inventory.Api.Inbound;
@@ -17,9 +16,6 @@ using JasperFx.Events.Projections;
 using JasperFx.Resources;
 using Marten;
 using Marten.Events.Projections;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
 using Wolverine;
 using Wolverine.ErrorHandling;
 using Wolverine.FluentValidation;
@@ -116,32 +112,6 @@ builder.Services.ConfigureSystemTextJsonForWolverineOrMinimalApi(opts =>
     opts.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 });
 
-// Add OpenTelemetry configuration
-builder.Services.AddOpenTelemetry()
-    .ConfigureResource(resource => resource
-        .AddService("Inventory.Api"))
-    .WithTracing(tracing => tracing
-        .AddAspNetCoreInstrumentation()
-        .AddSource("Wolverine")
-        .AddConsoleExporter()  // This will show traces in your console
-        .AddOtlpExporter(options =>
-        {
-            options.Endpoint = new Uri("http://localhost:4318");  // Use HTTP endpoint
-            options.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.HttpProtobuf;
-        }))
-    .WithMetrics(metrics => metrics
-        .AddAspNetCoreInstrumentation()
-        .AddOtlpExporter(options =>
-        {
-            options.Endpoint = new Uri("http://localhost:4318");
-            options.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.HttpProtobuf;
-        }));
-
-// Add logging to see OTLP export issues - ADD MORE DETAIL
-builder.Logging.AddFilter("OpenTelemetry", LogLevel.Debug);
-builder.Logging.AddFilter("OpenTelemetry.Exporter.OpenTelemetryProtocol", LogLevel.Trace);
-builder.Logging.AddConsole();
-
 builder.Host.UseWolverine(opts =>
 {
     // This is almost an automatic default to have Wolverine apply transactional
@@ -194,20 +164,5 @@ app.MapGet("/", (HttpResponse response) =>
     response.Headers.Append("Location", "/swagger");
     response.StatusCode = StatusCodes.Status301MovedPermanently;
 }).ExcludeFromDescription();
-
-app.MapGet("/test-trace", () =>
-{
-    using var activity = new System.Diagnostics.Activity("test-trace");
-    activity.Start();
-    activity.SetTag("test", "value");
-    activity.SetTag("service.name", "Inventory.Api");
-    activity.AddEvent(new ActivityEvent("Test trace created"));
-
-    // Also log something
-    var logger = app.Services.GetRequiredService<ILogger<Program>>();
-    logger.LogInformation("Test trace endpoint called");
-
-    return "Trace sent!";
-});
 
 return await app.RunJasperFxCommands(args);

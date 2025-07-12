@@ -33,68 +33,6 @@ services:
     networks:
       - rmq_network
 
-  # OpenTelemetry Observability Stack
-  jaeger:
-    container_name: crittercommerce-jaeger
-    image: jaegertracing/all-in-one:latest
-    ports:
-      - "16686:16686"  # Jaeger UI
-      - "14250:14250"  # Jaeger gRPC
-      - "6831:6831/udp"  # Jaeger agent
-      - "6832:6832/udp"  # Jaeger agent
-    environment:
-      - COLLECTOR_OTLP_ENABLED=true
-    networks:
-      - observability
-
-  prometheus:
-    container_name: crittercommerce-prometheus
-    image: prom/prometheus:latest
-    ports:
-      - "9090:9090"
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/etc/prometheus/console_libraries'
-      - '--web.console.templates=/etc/prometheus/consoles'
-      - '--web.enable-lifecycle'
-      - '--web.enable-remote-write-receiver'
-    networks:
-      - observability
-
-  otel-collector:
-    container_name: crittercommerce-otel-collector
-    image: otel/opentelemetry-collector-contrib:latest
-    command: ["--config=/etc/otel-collector-config.yml"]
-    volumes:
-      - ./otel-collector-config.yml:/etc/otel-collector-config.yml
-    ports:
-      - "4317:4317"   # OTLP gRPC receiver
-      - "4318:4318"   # OTLP HTTP receiver
-      - "8889:8889"   # Prometheus metrics scrape endpoint
-    depends_on:
-      - jaeger
-      - prometheus
-    networks:
-      - observability
-
-  grafana:
-    container_name: crittercommerce-grafana
-    image: grafana/grafana:latest
-    ports:
-      - "3000:3000"
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-    volumes:
-      - grafana-storage:/var/lib/grafana
-    depends_on:
-      - prometheus
-      - jaeger
-    networks:
-      - observability
-
 networks:
   pg_network:
     driver: bridge
@@ -102,10 +40,7 @@ networks:
     driver: bridge
   rmq_network:
     driver: bridge
-  observability:
-    driver: bridge
 
 volumes:
   postgres:
   sqlserver:
-  grafana-storage:
