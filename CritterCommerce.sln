@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".SolutionItems", ".Solution
 		Directory.Build.props = Directory.Build.props
 		LICENSE = LICENSE
 		Claude.md = Claude.md
+		otel_configuration.yml = otel_configuration.yml
+		prometheus.yml = prometheus.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{B44C0F1C-1571-4969-8E71-1FD59E2BEF01}"

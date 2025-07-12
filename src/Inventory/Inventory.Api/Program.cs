@@ -122,7 +122,10 @@ builder.Services.AddOpenTelemetry()
     .WithTracing(tracing => tracing
         .AddAspNetCoreInstrumentation()
         .AddSource("Wolverine")
-        .AddOtlpExporter()); // .AddConsoleExporter() for a busy Console!
+        .AddOtlpExporter())     // .AddConsoleExporter() for a *really* busy Console!
+    .WithMetrics(metrics => metrics
+        .AddAspNetCoreInstrumentation()
+        .AddOtlpExporter());
 
 builder.Host.UseWolverine(opts =>
 {
