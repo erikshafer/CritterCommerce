@@ -1,0 +1,43 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317 # gRPC protocol
+      http:
+        endpoint: 0.0.0.0:4318 # HTTP protocol
+
+processors:
+  batch:
+
+exporters:
+  # Use OTLP exporter for Jaeger
+  otlp/jaeger:
+    endpoint: http://jaeger:14250  # Add http:// prefix
+    tls:
+      insecure: true
+
+  # Export metrics to Prometheus via remote write
+  prometheusremotewrite:
+    endpoint: "http://prometheus:9090/api/v1/write"
+    tls:
+      insecure: true
+
+  # Expose metrics for Prometheus scraping
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+
+  # Add debug exporter for debugging (replaces deprecated logging exporter)
+  debug:
+    verbosity: detailed
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp/jaeger, debug]
+
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [prometheusremotewrite, prometheus]
