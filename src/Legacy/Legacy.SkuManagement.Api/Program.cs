@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var postgresConnectionString = builder.Configuration.GetConnectionString("postgres");
+var postgresConnectionString = builder.Configuration.GetConnectionString("Postgres");
 
 builder.Services.AddDbContext<SkuDbContext>(options =>
 {
