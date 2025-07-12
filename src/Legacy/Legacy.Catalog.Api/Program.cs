@@ -5,12 +5,10 @@ using Wolverine.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var postgresConnectionString = builder.Configuration.GetConnectionString("postgres");
-
 builder.Services.AddDbContext<CatalogDbContext>(options =>
 {
     options.UseNpgsql(
-        postgresConnectionString,
+        builder.Configuration.GetConnectionString("Postgres"),
         x => x.MigrationsHistoryTable("__EFMigrationsHistory", "legacy_catalog"));
     options.UseSnakeCaseNamingConvention();
 });

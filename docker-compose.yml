@@ -1,5 +1,5 @@
 services:
-  postgresql:
+  postgres:
     container_name: crittercommerce-postgres
     image: postgres:latest
     ports:
@@ -8,3 +8,40 @@ services:
       - POSTGRES_DATABASE=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    networks:
+      - pg_network
+
+  sqlserver:
+    container_name: crittercommerce-sqlserver
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    ports:
+      - "1434:1433"
+    environment:
+      - "ACCEPT_EULA=Y"
+      - "SA_PASSWORD=P@55w0rd"
+      - "MSSQL_PID=Developer"
+    networks:
+      - sql_network
+    profiles:
+      - sqlserver
+
+  rabbitmq:
+    container_name: crittercommerce-rabbitmq
+    image: "rabbitmq:management"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - rmq_network
+
+networks:
+  pg_network:
+    driver: bridge
+  sql_network:
+    driver: bridge
+  rmq_network:
+    driver: bridge
+
+volumes:
+  postgres:
+  sqlserver:

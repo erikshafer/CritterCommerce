@@ -22,11 +22,12 @@ using Wolverine.FluentValidation;
 using Wolverine.Http;
 using Wolverine.Http.FluentValidation;
 using Wolverine.Marten;
+using Wolverine.RabbitMQ;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ApplyJasperFxExtensions();
 
-var martenConnectionString = builder.Configuration.GetConnectionString("marten")
+var martenConnectionString = builder.Configuration.GetConnectionString("Marten")
                              ?? throw new Exception("Marten connection string not found");
 
 builder.Services.AddMarten(opts =>
@@ -35,7 +36,7 @@ builder.Services.AddMarten(opts =>
         opts.AutoCreateSchemaObjects = AutoCreate.All; // Dev mode: create tables if missing
         opts.UseSystemTextJsonForSerialization(); // Opt-in, recommended for new projects
 
-        opts.DatabaseSchemaName = "inventory";
+        opts.DatabaseSchemaName = Constants.Inventory;
         opts.DisableNpgsqlLogging = true;
 
         // The inline projections, with snapshots.
@@ -106,9 +107,9 @@ builder.Services.AddMarten(opts =>
 // Do all the necessary database setup on startup
 builder.Services.AddResourceSetupOnStartup();
 
-builder.Services.ConfigureSystemTextJsonForWolverineOrMinimalApi(o =>
+builder.Services.ConfigureSystemTextJsonForWolverineOrMinimalApi(opts =>
 {
-    o.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    opts.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 });
 
 builder.Host.UseWolverine(opts =>
@@ -127,6 +128,14 @@ builder.Host.UseWolverine(opts =>
         .Then.Discard();
 
     opts.UseFluentValidation();
+
+    opts.UseRabbitMq(new Uri("amqp://localhost"))
+        .AutoProvision()
+        .UseConventionalRouting();
+
+    opts.PublishAllMessages()
+        .ToRabbitExchange(Constants.Inventory)
+        .UseDurableOutbox();
 });
 
 builder.Services.AddSingleton<IFacilityLotService, FacilityLotService>();
@@ -138,7 +147,6 @@ builder.Services.AddWolverineHttp();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -148,9 +156,6 @@ if (app.Environment.IsDevelopment())
 
 app.MapWolverineEndpoints(opts =>
 {
-    // Direct Wolverine.HTTP to use Fluent Validation
-    // middleware to validate any request bodies where
-    // there's a known validator (or many validators)
     opts.UseFluentValidationProblemDetailMiddleware();
 });
 

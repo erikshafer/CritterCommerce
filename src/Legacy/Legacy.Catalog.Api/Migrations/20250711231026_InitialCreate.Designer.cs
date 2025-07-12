@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Legacy.Catalog.Api.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    [Migration("20250620035712_InitialCreate")]
+    [Migration("20250711231026_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -21,7 +21,7 @@ namespace Legacy.Catalog.Api.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("legacy_catalog")
-                .HasAnnotation("ProductVersion", "8.0.11")
+                .HasAnnotation("ProductVersion", "8.0.18")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -107,26 +107,6 @@ namespace Legacy.Catalog.Api.Migrations
                     b.ToTable("items", "legacy_catalog");
                 });
 
-            modelBuilder.Entity("Legacy.Catalog.Api.Items.SkuItemAssignment", b =>
-                {
-                    b.Property<int>("Sku")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("sku");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Sku"));
-
-                    b.Property<Guid>("ItemId")
-                        .HasMaxLength(128)
-                        .HasColumnType("uuid")
-                        .HasColumnName("item_id");
-
-                    b.HasKey("Sku")
-                        .HasName("pk_sku_item_assignments");
-
-                    b.ToTable("sku_item_assignments", "legacy_catalog");
-                });
-
             modelBuilder.Entity("Legacy.Catalog.Api.Multimedia.Media", b =>
                 {
                     b.Property<Guid>("Id")
@@ -163,35 +143,6 @@ namespace Legacy.Catalog.Api.Migrations
                         .HasName("pk_prices");
 
                     b.ToTable("prices", "legacy_catalog");
-                });
-
-            modelBuilder.Entity("Legacy.Catalog.Api.SkuReservations.SkuReservation", b =>
-                {
-                    b.Property<int>("Unit")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("unit");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Unit"));
-
-                    b.Property<bool>("IsReserved")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false)
-                        .HasColumnName("is_reserved");
-
-                    b.Property<string>("ReservedByUsername")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasDefaultValue("False")
-                        .HasColumnName("reserved_by_username");
-
-                    b.HasKey("Unit")
-                        .HasName("pk_sku_reservations");
-
-                    b.ToTable("sku_reservations", "legacy_catalog");
                 });
 #pragma warning restore 612, 618
         }

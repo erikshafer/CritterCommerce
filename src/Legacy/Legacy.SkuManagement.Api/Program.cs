@@ -3,12 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var postgresConnectionString = builder.Configuration.GetConnectionString("postgres");
-
 builder.Services.AddDbContext<SkuDbContext>(options =>
 {
     options.UseNpgsql(
-        postgresConnectionString,
+        builder.Configuration.GetConnectionString("Postgres"),
         x => x.MigrationsHistoryTable("__EFMigrationsHistory", "legacy_sku_management"));
     options.UseSnakeCaseNamingConvention();
 });

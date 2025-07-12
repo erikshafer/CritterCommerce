@@ -7,17 +7,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.6" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.7" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Marten" Version="8.3.1" />
-        <PackageReference Include="WolverineFx" Version="4.5.1" />
-        <PackageReference Include="WolverineFx.Http" Version="4.5.1" />
-        <PackageReference Include="WolverineFx.Http.FluentValidation" Version="4.5.1" />
-        <PackageReference Include="WolverineFx.Http.Marten" Version="4.5.1" />
-        <PackageReference Include="WolverineFx.Marten" Version="4.5.1" />
+        <PackageReference Include="WolverineFx" Version="4.5.3" />
+        <PackageReference Include="WolverineFx.Http.FluentValidation" Version="4.5.3" />
+        <PackageReference Include="WolverineFx.Http.Marten" Version="4.5.3" />
+        <PackageReference Include="WolverineFx.RabbitMQ" Version="4.5.3" />
     </ItemGroup>
 
 </Project>

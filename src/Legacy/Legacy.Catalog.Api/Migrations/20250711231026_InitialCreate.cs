@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -93,35 +92,6 @@ namespace Legacy.Catalog.Api.Migrations
                 {
                     table.PrimaryKey("pk_prices", x => x.id);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "sku_item_assignments",
-                schema: "legacy_catalog",
-                columns: table => new
-                {
-                    sku = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    item_id = table.Column<Guid>(type: "uuid", maxLength: 128, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_sku_item_assignments", x => x.sku);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "sku_reservations",
-                schema: "legacy_catalog",
-                columns: table => new
-                {
-                    unit = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    is_reserved = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
-                    reserved_by_username = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false, defaultValue: "False")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_sku_reservations", x => x.unit);
-                });
         }
 
         /// <inheritdoc />
@@ -149,14 +119,6 @@ namespace Legacy.Catalog.Api.Migrations
 
             migrationBuilder.DropTable(
                 name: "prices",
-                schema: "legacy_catalog");
-
-            migrationBuilder.DropTable(
-                name: "sku_item_assignments",
-                schema: "legacy_catalog");
-
-            migrationBuilder.DropTable(
-                name: "sku_reservations",
                 schema: "legacy_catalog");
         }
     }

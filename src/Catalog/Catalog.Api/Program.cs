@@ -8,7 +8,7 @@ builder.Host.ApplyJasperFxExtensions();
 
 builder.Services.AddMarten(options =>
 {
-    var martenConnectionString = builder.Configuration.GetConnectionString("marten")
+    var martenConnectionString = builder.Configuration.GetConnectionString("Marten")
                                  ?? throw new Exception("Marten connection string not found");
     options.Connection(martenConnectionString);
     options.UseSystemTextJsonForSerialization();
