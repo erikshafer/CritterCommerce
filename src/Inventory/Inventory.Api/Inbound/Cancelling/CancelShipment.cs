@@ -43,7 +43,7 @@ public static class CancelShipmentHandler
         FreightShipment shipment)
     {
         var events = new Events { new FreightShipmentCancelled(command.Reason, command.CancelledAt) };
-        var messages = new OutgoingMessages { new InboundShipmentNotification(shipment.Id, "Cancelled") };
+        var messages = new OutgoingMessages { new InboundShipmentMessage(shipment.Id, "Cancelled") };
 
         return (events, messages);
     }

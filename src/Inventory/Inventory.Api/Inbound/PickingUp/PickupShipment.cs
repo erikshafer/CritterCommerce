@@ -45,7 +45,7 @@ public static class PickupShipmentHandler
         OutgoingMessages messages = [];
 
         events.Add(new FreightShipmentPickedUp(command.PickedupAt));
-        messages.Add(new InboundShipmentNotification(shipment.Id, "PickedUp"));
+        messages.Add(new InboundShipmentMessage(shipment.Id, "PickedUp"));
 
         return (Results.Ok(), events, messages);
     }

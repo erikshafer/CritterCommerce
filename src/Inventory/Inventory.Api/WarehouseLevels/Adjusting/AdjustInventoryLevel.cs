@@ -37,7 +37,7 @@ public static class AdjustInventoryLevelHandler
         ];
         OutgoingMessages messages =
         [
-            new InventoryLevelAdjustmentNotification(inventoryLevel.Id, quantity)
+            new InventoryLevelAdjustmentMessage(inventoryLevel.Id, quantity)
         ];
 
         return (Results.Ok(), events, messages);

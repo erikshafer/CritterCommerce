@@ -47,7 +47,7 @@ public static class MoveInventoryLotHandler
         OutgoingMessages messages = [];
 
         events.Add(new InventoryLotMoved(command.FacilityLotId));
-        messages.Add(new InventoryLevelMovedLots(inventoryLevel.Id,
+        messages.Add(new InventoryLevelMovedLotsMessage(inventoryLevel.Id,
             OldFacilityLotId: inventoryLevel.FacilityLotId,
             NewFacilityLotId: command.FacilityLotId));
 

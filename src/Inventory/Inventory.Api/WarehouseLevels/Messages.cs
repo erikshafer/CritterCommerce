@@ -1,11 +1,11 @@
 namespace Inventory.Api.WarehouseLevels;
 
-public sealed record InventoryLevelAdjustmentNotification(
+public sealed record InventoryLevelAdjustmentMessage(
     Guid InventoryLevelId,
     int Quantity
 );
 
-public sealed record InventoryLevelMovedLots(
+public sealed record InventoryLevelMovedLotsMessage(
     Guid InventoryLevelId,
     string OldFacilityLotId,
     string NewFacilityLotId
