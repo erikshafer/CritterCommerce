@@ -16,6 +16,9 @@ using JasperFx.Events.Projections;
 using JasperFx.Resources;
 using Marten;
 using Marten.Events.Projections;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Wolverine;
 using Wolverine.ErrorHandling;
 using Wolverine.FluentValidation;
@@ -111,6 +114,15 @@ builder.Services.ConfigureSystemTextJsonForWolverineOrMinimalApi(opts =>
 {
     opts.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 });
+
+// OpenTelemetry
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(resource => resource
+        .AddService("OtelWebApi"))
+    .WithTracing(tracing => tracing
+        .AddAspNetCoreInstrumentation()
+        .AddSource("Wolverine")
+        .AddOtlpExporter()); // .AddConsoleExporter() for a busy Console!
 
 builder.Host.UseWolverine(opts =>
 {
