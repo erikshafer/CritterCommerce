@@ -132,6 +132,10 @@ builder.Host.UseWolverine(opts =>
     opts.UseRabbitMq(new Uri("amqp://localhost"))
         .AutoProvision()
         .UseConventionalRouting();
+
+    opts.PublishAllMessages()
+        .ToRabbitQueue("outgoing")
+        .UseDurableOutbox();
 });
 
 builder.Services.AddSingleton<IFacilityLotService, FacilityLotService>();
