@@ -27,7 +27,27 @@ Value Streams are a core concept in [Team Topologies](https://teamtopologies.com
 
 These value streams are how the overall .NET solution will be broken down. For example, as of 2025-06-11, there is a `Catalog` and `Supply Chain` solution folders to separate the ~~teams~~ value streams of our imaginary ecommerce business.
 
-### An example of value streams, their software modules, technologies used, etc. <a id='3.1'></a>
+## 🏞️ Value streams and their responsibilities (chart) <a id='3.1'></a>
+
+| Value Stream                  | Responsibility                                          |
+|-------------------------------| ------------------------------------------------------- |
+| 📝 **Catalog**                | Product definitions, SKUs, attributes                   |
+| 📺 **Channels**               | Marketplace listings, syncs, channel-specific logic     |
+| 📨 **Orders**                 | Customer purchases, order lifecycle                     |
+| 🏪 **Checkout**               | Shopping cart, validation, checkout flow                |
+| 📦 **Inventory**              | Stock levels, reservations, fulfillment readiness       |
+| 🛤️ **Fulfillment**           | Shipping, delivery tracking, warehouse orchestration    |
+| 💳 **Payments**               | Payment gateway, capture, refunds                       |
+| 🧓🏻 **Customer Accounts**    | Identity, profile, registration                         |
+| 📒 **Procurement**            | Supply chain, purchase orders, restocking               |
+| 🔎 **Search & Discovery**     | Read-optimized catalog/index views                      |
+| ⚠️ **Promotions & Pricing**   | Discounts, price changes, campaigns                     |
+| 💁🏻‍♂️ **Support / Service** | Tickets, complaints, return handling                    |
+| 📫 **Notifications**          | Email, SMS, webhooks, system messaging                  |
+
+## 🏞️ Modules across the value streams (chart) <a id='3.1'></a>
+
+An example of various proposed modules in this system, highlighting some technologies and techniques that are being used or under proposal.
 
 | Value Stream          | Module(s)     | Wolverine | Marten | EF Core | CRUD or ES | CQRS | Additional Notes                  |
 |-----------------------|---------------|-----------|--------|---------|------------|------|-----------------------------------|
