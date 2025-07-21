@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Legacy.SkuManagement.Api", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.IntegrationTests", "tests\Inventory\Inventory.IntegrationTests\Inventory.IntegrationTests.csproj", "{558A0382-1CCC-4ECA-940E-6D70D8859547}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.UnitTests", "tests\Inventory\Inventory.UnitTests\Inventory.UnitTests.csproj", "{1188BCE9-CAED-407C-86C1-A062E37976B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,7 @@ Global
 		{F808B2D2-6C97-41E1-8FCD-45DDBEED3439} = {E54CD82E-0B91-444B-9910-9833EB3E6416}
 		{7CEF28EC-F10C-4625-BC04-5444D4428700} = {E54CD82E-0B91-444B-9910-9833EB3E6416}
 		{558A0382-1CCC-4ECA-940E-6D70D8859547} = {914DC55A-E4DE-4CEA-9ACE-4A908FB2E0B7}
+		{1188BCE9-CAED-407C-86C1-A062E37976B9} = {914DC55A-E4DE-4CEA-9ACE-4A908FB2E0B7}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F808B2D2-6C97-41E1-8FCD-45DDBEED3439}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -77,5 +80,9 @@ Global
 		{558A0382-1CCC-4ECA-940E-6D70D8859547}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{558A0382-1CCC-4ECA-940E-6D70D8859547}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{558A0382-1CCC-4ECA-940E-6D70D8859547}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1188BCE9-CAED-407C-86C1-A062E37976B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1188BCE9-CAED-407C-86C1-A062E37976B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1188BCE9-CAED-407C-86C1-A062E37976B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1188BCE9-CAED-407C-86C1-A062E37976B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
