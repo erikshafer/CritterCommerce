@@ -8,7 +8,7 @@ public sealed record Email
         @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
         RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-    public string Value { get; internal init; } = string.Empty;
+    public string Value { get; } = string.Empty;
 
     internal Email() { }
 
@@ -30,6 +30,5 @@ public sealed record Email
 
     public static implicit operator string(Email email) => email.Value;
 
-    public bool HasSameValue(string another)
-        => string.Compare(Value, another, StringComparison.CurrentCulture) == 0;
+    public bool HasSameValue(string another) => string.Equals(Value, another, StringComparison.Ordinal);
 }
