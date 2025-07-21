@@ -123,3 +123,5 @@ app.MapGet("/", (HttpResponse response) =>
 }).ExcludeFromDescription();
 
 return await app.RunJasperFxCommands(args);
+
+public partial class Program { }
