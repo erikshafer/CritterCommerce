@@ -10,8 +10,7 @@ services:
       - POSTGRES_PASSWORD=postgres
     networks:
       - pg_network
-    profiles:
-      - all, ci
+    profiles: [ all, ci ]
 
   sqlserver:
     container_name: crittercommerce-sqlserver
@@ -24,8 +23,7 @@ services:
       - "MSSQL_PID=Developer"
     networks:
       - sql_network
-    profiles:
-      - sqlserver, ci
+    profiles: [ sqlserver, ci ]
 
   rabbitmq:
     container_name: crittercommerce-rabbitmq
@@ -35,8 +33,7 @@ services:
       - "15672:15672"
     networks:
       - rmq_network
-    profiles:
-      - all, ci
+    profiles: [ all, ci ]
 
 networks:
   pg_network:
