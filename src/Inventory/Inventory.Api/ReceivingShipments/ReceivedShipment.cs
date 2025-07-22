@@ -31,8 +31,8 @@ public sealed record ReceivedShipmentPutAway(
 public sealed record ReceivedShipment(
     Guid Id,
     ReceivingShipmentStatus Status,
-    string? ShippingNumber,
-    string? Facility,
+    string ShippingNumber,
+    string Facility,
     DateTime? DeliveredAt,
     IReadOnlyList<LineItem> LineItems,
     string? PutawayLotId,
@@ -84,7 +84,6 @@ public sealed record ReceivedShipment(
         };
     }
 
-
     public static ReceivedShipment Apply(ReceivedShipment state, ReceivedShipmentMarkedAsReceived @event)
         => state with
         {
@@ -99,5 +98,4 @@ public sealed record ReceivedShipment(
             PutawayLotId = @event.PutawayLotId,
             PutawayAt = @event.PutawayAt.UtcDateTime
         };
-
 }
