@@ -18,6 +18,6 @@ internal static class Config
 
     internal static void AddReceivingShipmentsServices(this IServiceCollection services)
     {
-        // Register related services here if needed in the future
+        services.AddSingleton<ISkuService, SkuService>();
     }
 }

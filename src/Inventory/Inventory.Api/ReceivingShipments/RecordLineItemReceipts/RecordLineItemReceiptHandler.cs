@@ -1,17 +1,17 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;
+using Wolverine.Http.Marten;
 using Wolverine.Marten;
 
 namespace Inventory.Api.ReceivingShipments.RecordLineItemReceipts;
 
-public sealed record RecordLineItemReceipt(Guid ReceivedShipmentId, string Sku, int ReceivedQuantity);
+public sealed record RecordLineItemReceipt(string Sku, int ReceivedQuantity);
 
 public sealed class RecordLineItemReceiptValidator : AbstractValidator<RecordLineItemReceipt>
 {
     public RecordLineItemReceiptValidator()
     {
-        RuleFor(x => x.ReceivedShipmentId).NotEmpty();
         RuleFor(x => x.Sku).NotEmpty();
         RuleFor(x => x.Sku).MaximumLength(32);
         RuleFor(x => x.Sku).Matches(@"^[A-Z0-9\-]+$");
@@ -21,9 +21,19 @@ public sealed class RecordLineItemReceiptValidator : AbstractValidator<RecordLin
 
 public static class RecordLineItemReceiptHandler
 {
-    public static ProblemDetails Validate(RecordLineItemReceipt command, ReceivedShipment shipment)
+    public static ProblemDetails Validate(
+        RecordLineItemReceipt command,
+        ReceivedShipment shipment,
+        [FromServices] ISkuService skuService)
     {
-        var (_, sku, receivedQuantity) = command;
+        var (sku, receivedQuantity) = command;
+
+        if (receivedQuantity <= 0)
+            return new ProblemDetails
+            {
+                Detail = "Quantity must be greater than zero",
+                Status = StatusCodes.Status412PreconditionFailed
+            };
 
         if (shipment.Status != ReceivingShipmentStatus.Received)
             return new ProblemDetails
@@ -35,7 +45,15 @@ public static class RecordLineItemReceiptHandler
         if (shipment.LineItems.All(li => li.Sku != sku))
             return new ProblemDetails
             {
-                Detail = $"SKU {sku} is not part of this shipment",
+                Detail = $"SKU '{sku}' is not part of this shipment",
+                Status = StatusCodes.Status412PreconditionFailed
+            };
+
+        var isValidSku = skuService.DoesSkuExist(sku);
+        if (isValidSku is false)
+            return new ProblemDetails
+            {
+                Detail = $"SKU '{sku}' could not be located and thus cannot be added",
                 Status = StatusCodes.Status412PreconditionFailed
             };
 
@@ -43,11 +61,12 @@ public static class RecordLineItemReceiptHandler
     }
 
     [Tags(Tags.ReceivingShipments)]
-    [WolverinePost("/api/receiving-shipments/{shipmentId}/line-items/record")]
-    [AggregateHandler]
-    public static object Handle(RecordLineItemReceipt command)
+    [WolverinePost("/api/receiving-shipments/{receivedShipmentId}/line-items/record")]
+    public static object Handle(
+        RecordLineItemReceipt command,
+        [Aggregate("receivedShipmentId")] ReceivedShipment receivedShipment)
     {
-        // To be implemented
+        // TODO: return new Events { new ReceivedShipmentLineItemQuantityRecorded(command.Sku, command.ReceivedQuantity) };
         return new { Success = true };
     }
 }

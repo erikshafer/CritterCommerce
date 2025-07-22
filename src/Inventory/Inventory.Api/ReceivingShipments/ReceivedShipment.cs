@@ -1,13 +1,12 @@
 using System.Collections.Immutable;
+using JasperFx.Events;
 
 namespace Inventory.Api.ReceivingShipments;
 
 public sealed record ReceivedShipmentCreated(
-    Guid ShipmentId,
     string ShippingNumber,
     string Facility,
-    DateTime DeliveredAt,
-    string CreatedBy
+    DateTime DeliveredAt
 );
 
 public sealed record ReceivedShipmentLineItemAdded(
@@ -25,31 +24,29 @@ public sealed record ReceivedShipmentMarkedAsReceived(
 );
 
 public sealed record ReceivedShipmentPutAway(
-    Guid LocationId,
+    string PutawayLotId,
     DateTimeOffset PutawayAt
 );
 
 public sealed record ReceivedShipment(
     Guid Id,
     ReceivingShipmentStatus Status,
+    string? ShippingNumber,
+    string? Facility,
+    DateTime? DeliveredAt,
     IReadOnlyList<LineItem> LineItems,
-    Guid? PutawayLocationId,
+    string? PutawayLotId,
     DateTime? PutawayAt,
     DateTime? ReceivedAt = null
 )
 {
-    private ReceivedShipment() : this(
-        Guid.Empty,
-        ReceivingShipmentStatus.Created,
-        ImmutableList<LineItem>.Empty,
-        null,
-        null)
-    { }
-
-    public static ReceivedShipment Create(ReceivedShipmentCreated @event)
+    public static ReceivedShipment Create(IEvent<ReceivedShipmentCreated> @event)
         => new (
-            @event.ShipmentId,
+            @event.StreamId,
             ReceivingShipmentStatus.Created,
+            @event.Data.ShippingNumber,
+            @event.Data.Facility,
+            @event.Data.DeliveredAt,
             ImmutableList<LineItem>.Empty,
             null,
             null
@@ -99,7 +96,7 @@ public sealed record ReceivedShipment(
         => state with
         {
             Status = ReceivingShipmentStatus.PutAway,
-            PutawayLocationId = @event.LocationId,
+            PutawayLotId = @event.PutawayLotId,
             PutawayAt = @event.PutawayAt.UtcDateTime
         };
 
