@@ -20,7 +20,7 @@ public sealed class PutAwayShipmentValidator : AbstractValidator<PutAwayShipment
 public static class PutAwayShipmentHandler
 {
     [Tags(Tags.ReceivingShipments)]
-    [WolverinePost("/api/receiving-shipments/{receivedShipmentId}/put-away")]
+    [WolverinePost("/api/receiving-shipments/{receivedShipmentId}/putaway")]
     public static Events Handle(
         PutAwayShipment command,
         [Aggregate("receivedShipmentId")] ReceivedShipment receivedShipment)

@@ -1,3 +1,4 @@
+using Inventory.Api.ReceivingShipments.Services;
 using Inventory.Api.ReceivingShipments.Views;
 using JasperFx.Events.Projections;
 using Marten;
@@ -14,6 +15,7 @@ internal static class Config
             .Identity(x => x.Id);
 
         opts.Projections.Add<ExpectedQuantityAnticipatedProjection>(ProjectionLifecycle.Async);
+        opts.Projections.Add<DailyShipmentsDeliveredProjection>(ProjectionLifecycle.Async);
     }
 
     internal static void AddReceivingShipmentsServices(this IServiceCollection services)

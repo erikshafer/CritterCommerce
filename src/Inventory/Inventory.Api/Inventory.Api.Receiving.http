@@ -3,6 +3,7 @@
 @CreatedBy = erik
 @SkuOne = 36606
 @SkuTwo = 133742
+@LotId = A2-103
 
 ###
 
@@ -52,6 +53,35 @@ Content-Type: application/json
     "expectedQuantity": 50
 }
 
-###
+### Record the first SKU (SkuOne)
 
+POST {{HostAddress}}/api/receiving-shipments/{{ReceivedShipmentId}}/line-items/record
+accept: application/json
+Content-Type: application/json
 
+{
+    "sku": "{{SkuOne}}",
+    "receivedQuantity": 13
+}
+
+### Record the second SKU (SkuTwo)
+
+POST {{HostAddress}}/api/receiving-shipments/{{ReceivedShipmentId}}/line-items/record
+accept: application/json
+Content-Type: application/json
+
+{
+    "sku": "{{SkuTwo}}",
+    "receivedQuantity": 49
+}
+
+### Putaway
+
+POST {{HostAddress}}/api/receiving-shipments/{{ReceivedShipmentId}}/putaway
+accept: application/json
+Content-Type: application/json
+
+{
+    "putawayLotId": "{{LotId}}",
+    "putawayAt": "2025-07-22T04:30:00.162Z"
+}

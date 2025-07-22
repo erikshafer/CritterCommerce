@@ -27,10 +27,19 @@ public static class RecordLineItemReceiptHandler
         RecordLineItemReceipt command,
         ReceivedShipment shipment)
     {
+        var (sku, _) = command;
+
         if (shipment.Status != ReceivingShipmentStatus.Receiving)
             return new ProblemDetails
             {
                 Detail = "Can only record line item quantities for shipments in Receiving status",
+                Status = StatusCodes.Status412PreconditionFailed
+            };
+
+        if (shipment.LineItems.All(li => li.Sku != sku))
+            return new ProblemDetails
+            {
+                Detail = $"SKU '{sku}' is not part of this shipment",
                 Status = StatusCodes.Status412PreconditionFailed
             };
 

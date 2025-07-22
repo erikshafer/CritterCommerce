@@ -1,4 +1,5 @@
 using FluentValidation;
+using Inventory.Api.ReceivingShipments.Services;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Attributes;
 using Wolverine.Http;
@@ -37,17 +38,10 @@ public static class AddLineItemHandler
                 Status = StatusCodes.Status412PreconditionFailed
             };
 
-        if (shipment.Status != ReceivingShipmentStatus.Received)
+        if (shipment.Status == ReceivingShipmentStatus.PutAway)
             return new ProblemDetails
             {
-                Detail = "Can only record quantities for received shipments",
-                Status = StatusCodes.Status412PreconditionFailed
-            };
-
-        if (shipment.LineItems.All(li => li.Sku != sku))
-            return new ProblemDetails
-            {
-                Detail = $"SKU '{sku}' is not part of this shipment",
+                Detail = "Can not add line items to a shipment that has been putaway",
                 Status = StatusCodes.Status412PreconditionFailed
             };
 
