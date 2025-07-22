@@ -3,7 +3,11 @@ using System.Collections.Immutable;
 namespace Inventory.Api.ReceivingShipments;
 
 public sealed record ReceivedShipmentCreated(
-    Guid ShipmentId
+    Guid ShipmentId,
+    string ShippingNumber,
+    string Facility,
+    DateTime DeliveredAt,
+    string CreatedBy
 );
 
 public sealed record ReceivedShipmentLineItemAdded(
@@ -28,7 +32,7 @@ public sealed record ReceivedShipmentPutAway(
 public sealed record ReceivedShipment(
     Guid Id,
     ReceivingShipmentStatus Status,
-    IReadOnlyList<ShipmentLineItem> LineItems,
+    IReadOnlyList<LineItem> LineItems,
     Guid? PutawayLocationId,
     DateTime? PutawayAt,
     DateTime? ReceivedAt = null
@@ -37,7 +41,7 @@ public sealed record ReceivedShipment(
     private ReceivedShipment() : this(
         Guid.Empty,
         ReceivingShipmentStatus.Created,
-        ImmutableList<ShipmentLineItem>.Empty,
+        ImmutableList<LineItem>.Empty,
         null,
         null)
     { }
@@ -46,7 +50,7 @@ public sealed record ReceivedShipment(
         => new (
             @event.ShipmentId,
             ReceivingShipmentStatus.Created,
-            ImmutableList<ShipmentLineItem>.Empty,
+            ImmutableList<LineItem>.Empty,
             null,
             null
         );
@@ -56,7 +60,7 @@ public sealed record ReceivedShipment(
         {
             Status = ReceivingShipmentStatus.Receiving,
             LineItems = state.LineItems
-                .Append(new ShipmentLineItem
+                .Append(new LineItem
                 {
                     Sku = @event.Sku,
                     ExpectedQuantity = @event.ExpectedQuantity,
