@@ -1,9 +1,8 @@
 using System.Text.Json.Serialization;
 using Inventory.Api;
-using Inventory.Api.Inbound;
 using Inventory.Api.Locations;
 using Inventory.Api.Procurement;
-using Inventory.Api.Receiving;
+using Inventory.Api.ReceivingShipments;
 using Inventory.Api.Vendors;
 using Inventory.Api.WarehouseLevels;
 using JasperFx;
@@ -35,9 +34,8 @@ builder.Services.AddMarten(opts =>
         opts.DisableNpgsqlLogging = true;
 
         // Add projections
+        opts.AddReceivingShipmentsProjections();
         opts.AddWarehouseProjections();
-        opts.AddReceivingProjections();
-        opts.AddFreightProjections();
 
         // Add documents
         opts.AddLocationDocuments();

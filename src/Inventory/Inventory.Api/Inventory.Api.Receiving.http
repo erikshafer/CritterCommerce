@@ -1,4 +1,8 @@
 @HostAddress = http://localhost:5121
+@Facility = OmahaNeUsa
+@CreatedBy = erik
+@SkuOne = 36606
+@SkuTwo = 133742
 
 ###
 
@@ -11,19 +15,43 @@ accept: application/json
 Content-Type: application/json
 
 {
-    "shipmentNumber": "SHIP-NUM-123",
-    "inboundShipmentId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "receivedBy": "erik"
+    "shippingNumber": "ABC-123-DEF-2025",
+    "facility": "{{Facility}}",
+    "deliveredAt": "2025-07-22T04:11:42.162Z",
+    "createdBy": "{{CreatedBy}}"
 }
 
 > {%
-    client.global.set("ReceivingShipmentId", response.body.valueOf());
+    client.global.set("ReceivedShipmentId", response.body.valueOf());
 %}
 
 ###
 
-GET {{HostAddress}}/api/receiving-shipments/{{ReceivingShipmentId}}
+GET {{HostAddress}}/api/receiving-shipments/{{ReceivedShipmentId}}
 accept: application/json
 
+### Add the first SKU (SkuOne)
+
+POST {{HostAddress}}/api/receiving-shipments/{{ReceivedShipmentId}}/line-items/add
+accept: application/json
+Content-Type: application/json
+
+{
+    "sku": "{{SkuOne}}",
+    "expectedQuantity": 13
+}
+
+### Add the second SKU (SkuTwo)
+
+POST {{HostAddress}}/api/receiving-shipments/{{ReceivedShipmentId}}/line-items/add
+accept: application/json
+Content-Type: application/json
+
+{
+    "sku": "{{SkuTwo}}",
+    "expectedQuantity": 50
+}
+
 ###
+
 

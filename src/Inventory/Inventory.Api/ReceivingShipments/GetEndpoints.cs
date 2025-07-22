@@ -3,7 +3,7 @@ using Marten.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Http;
 
-namespace Inventory.Api.Receiving;
+namespace Inventory.Api.ReceivingShipments;
 
 public static class GetEndpoints
 {
