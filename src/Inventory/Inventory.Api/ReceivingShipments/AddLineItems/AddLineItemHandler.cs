@@ -1,4 +1,5 @@
 using FluentValidation;
+using Inventory.Api.ReceivingShipments.Services;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine.Attributes;
 using Wolverine.Http;
@@ -57,12 +58,10 @@ public static class AddLineItemHandler
 
     [Tags(Tags.ReceivingShipments)]
     [WolverinePost("/api/receiving-shipments/{receivedShipmentId}/line-items/add")]
-    public static object Handle(
+    public static Events Handle(
         AddLineItem command,
         [Aggregate("receivedShipmentId")] ReceivedShipment receivedShipment)
     {
-        // Business logic for adding a line item.
-        // To be implemented.
-        return new { Success = true };
+        return new Events { new ReceivedShipmentLineItemAdded(command.Sku, command.ExpectedQuantity) };
     }
 }

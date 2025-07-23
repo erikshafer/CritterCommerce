@@ -9,9 +9,9 @@ public sealed record DailyShipmentsDeliveredView
     public int DeliveredCount { get; set; }
 }
 
-public class DailyShipmentsProjection : MultiStreamProjection<DailyShipmentsDeliveredView, string>
+public class DailyShipmentsDeliveredProjection : MultiStreamProjection<DailyShipmentsDeliveredView, string>
 {
-    public DailyShipmentsProjection()
+    public DailyShipmentsDeliveredProjection()
     {
         // Group events by the DateOnly key as a string (extracted from DeliveredAt)
         Identity<ReceivedShipmentCreated>(e => e.DeliveredAt.ToString("yyyy-MM-dd"));

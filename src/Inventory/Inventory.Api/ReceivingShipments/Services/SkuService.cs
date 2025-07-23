@@ -1,4 +1,4 @@
-namespace Inventory.Api.ReceivingShipments;
+namespace Inventory.Api.ReceivingShipments.Services;
 
 public interface ISkuService
 {

@@ -1,5 +1,6 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Wolverine.Attributes;
 using Wolverine.Http;
 using Wolverine.Http.Marten;
 using Wolverine.Marten;
@@ -21,24 +22,17 @@ public sealed class RecordLineItemReceiptValidator : AbstractValidator<RecordLin
 
 public static class RecordLineItemReceiptHandler
 {
+    [WolverineBefore]
     public static ProblemDetails Validate(
         RecordLineItemReceipt command,
-        ReceivedShipment shipment,
-        [FromServices] ISkuService skuService)
+        ReceivedShipment shipment)
     {
-        var (sku, receivedQuantity) = command;
+        var (sku, _) = command;
 
-        if (receivedQuantity <= 0)
+        if (shipment.Status != ReceivingShipmentStatus.Receiving)
             return new ProblemDetails
             {
-                Detail = "Quantity must be greater than zero",
-                Status = StatusCodes.Status412PreconditionFailed
-            };
-
-        if (shipment.Status != ReceivingShipmentStatus.Received)
-            return new ProblemDetails
-            {
-                Detail = "Can only record quantities for received shipments",
+                Detail = "Can only record line item quantities for shipments in Receiving status",
                 Status = StatusCodes.Status412PreconditionFailed
             };
 
@@ -49,24 +43,15 @@ public static class RecordLineItemReceiptHandler
                 Status = StatusCodes.Status412PreconditionFailed
             };
 
-        var isValidSku = skuService.DoesSkuExist(sku);
-        if (isValidSku is false)
-            return new ProblemDetails
-            {
-                Detail = $"SKU '{sku}' could not be located and thus cannot be added",
-                Status = StatusCodes.Status412PreconditionFailed
-            };
-
         return WolverineContinue.NoProblems;
     }
 
     [Tags(Tags.ReceivingShipments)]
     [WolverinePost("/api/receiving-shipments/{receivedShipmentId}/line-items/record")]
-    public static object Handle(
+    public static Events Handle(
         RecordLineItemReceipt command,
         [Aggregate("receivedShipmentId")] ReceivedShipment receivedShipment)
     {
-        // TODO: return new Events { new ReceivedShipmentLineItemQuantityRecorded(command.Sku, command.ReceivedQuantity) };
-        return new { Success = true };
+        return new Events { new ReceivedShipmentLineItemQuantityRecorded(command.Sku, command.ReceivedQuantity) };
     }
 }

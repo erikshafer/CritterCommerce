@@ -31,8 +31,8 @@ public sealed record ReceivedShipmentPutAway(
 public sealed record ReceivedShipment(
     Guid Id,
     ReceivingShipmentStatus Status,
-    string? ShippingNumber,
-    string? Facility,
+    string ShippingNumber,
+    string Facility,
     DateTime? DeliveredAt,
     IReadOnlyList<LineItem> LineItems,
     string? PutawayLotId,
