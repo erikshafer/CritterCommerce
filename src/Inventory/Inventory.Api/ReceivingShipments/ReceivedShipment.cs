@@ -84,7 +84,6 @@ public sealed record ReceivedShipment(
         };
     }
 
-
     public static ReceivedShipment Apply(ReceivedShipment state, ReceivedShipmentMarkedAsReceived @event)
         => state with
         {
