@@ -27,7 +27,7 @@ Value Streams are a core concept in [Team Topologies](https://teamtopologies.com
 
 These value streams are how the overall .NET solution will be broken down. For example, as of 2025-06-11, there is a `Catalog` and `Supply Chain` solution folders to separate the ~~teams~~ value streams of our imaginary ecommerce business.
 
-## 🏞️ Value streams and their responsibilities (chart) <a id='3.1'></a>
+### 🏞️ Value streams and their responsibilities (chart) <a id='3.1'></a>
 
 | Value Stream                  | Responsibility                                          |
 |-------------------------------| ------------------------------------------------------- |
@@ -45,7 +45,7 @@ These value streams are how the overall .NET solution will be broken down. For e
 | 💁🏻‍♂️ **Support / Service** | Tickets, complaints, return handling                    |
 | 📫 **Notifications**          | Email, SMS, webhooks, system messaging                  |
 
-## 🏞️ Modules across the value streams (chart) <a id='3.1'></a>
+### 🏞️ Modules across the value streams (chart) <a id='3.2'></a>
 
 An example of various proposed modules in this system, highlighting some technologies and techniques that are being used or under proposal.
 
@@ -63,6 +63,39 @@ An example of various proposed modules in this system, highlighting some technol
 | 📨 Orders             | ...           | ✅         | ✅      | ⛔       | ES         | ✅    | Sagas showcased                   |
 | 💼 Vendors            | ...           | ✅         | ✅      | ⛔       | ES         | ✅    | Multitenancy showcased            |
 
+## ➡️ Diagrams <a id='8.0'></a>
+
+**Work-in-progress.**
+
+I would like to outline some of the business workflows as well as the technical aspects like architecture.
+
+### Receiving Shipments workflow <a id='8.1'></a>
+
+This diagram visualizes the **ReceivingShipments** workflow and the typical status transitions for a `ReceivedShipment` aggregate. It can be visualized as a simple state machine:
+
+```text
+stateDiagram-v2
+    [*] --> Created : ReceivedShipmentCreated
+    Created --> Receiving : ReceivedShipmentLineItemAdded
+    Receiving --> Receiving : ReceivedShipmentLineItemAdded
+    Receiving --> Receiving : ReceivedShipmentLineItemQuantityRecorded\n(not all items received)
+    Receiving --> Received : ReceivedShipmentLineItemQuantityRecorded\n(all items received)
+    Receiving --> Received : ReceivedShipmentMarkedAsReceived
+    Received --> PutAway : ReceivedShipmentPutAway
+    Created --> [*]
+    Receiving --> [*]
+    Received --> [*]
+    PutAway --> [*]
+```
+
+#### **Status Transitions Explained**
+- **Created**: Shipment initiated, but no items yet.
+- **Receiving**: At least one line item added. Remains here as line items and their received quantities are added.
+- **Received**: All line items have been recorded as received (automatically, or via explicit "Mark as Received").
+- **PutAway**: The shipment is assigned to a putaway lot/location—no further receiving actions possible.
+
+**Note:**
+- Returning to [ * ] just represents an end state; in practice, transitions are unidirectional.
 
 ## 🏫 Resources <a id='9.0'></a>
 
