@@ -99,5 +99,4 @@ public sealed record ReceivedShipment(
             PutawayLotId = @event.PutawayLotId,
             PutawayAt = @event.PutawayAt.UtcDateTime
         };
-
 }
