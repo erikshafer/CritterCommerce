@@ -94,6 +94,7 @@ builder.Host.UseWolverine(opts =>
 
 // Add services (domain, etc)
 builder.Services.AddWarehouseServices();
+builder.Services.AddReceivingShipmentsServices();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -14,6 +14,8 @@ internal static class Config
             .Identity(x => x.Id);
 
         opts.Projections.Add<ExpectedQuantityAnticipatedProjection>(ProjectionLifecycle.Async);
+
+        opts.Projections.Add<OutstandingReceivedShipmentsProjection>(ProjectionLifecycle.Async);
     }
 
     internal static void AddReceivingShipmentsServices(this IServiceCollection services)
