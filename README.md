@@ -29,21 +29,22 @@ These value streams are how the overall .NET solution will be broken down. For e
 
 ### 🏞️ Value streams and their responsibilities (chart) <a id='3.1'></a>
 
-| Value Stream                  | Responsibility                                       |
-|-------------------------------|------------------------------------------------------|
-| 📝 **Catalog**                | Product definitions, SKUs, attributes                |
-| 📺 **Channels**               | Marketplace listings, syncs, channel-specific logic  |
-| 📨 **Orders**                 | Customer purchases, order lifecycle                  |
-| 🏪 **Checkout**               | Shopping cart, validation, checkout flow             |
-| 📦 **Inventory**              | Stock levels, reservations, fulfillment readiness    |
-| 🛤️ **Fulfillment**           | Shipping, delivery tracking, warehouse orchestration |
-| 💳 **Payments**               | Payment gateway, capture, refunds                    |
-| 🧓🏻 **Customer Accounts**    | Identity, profile, registration                      |
-| 📒 **Procurement**            | Supply chain, purchase orders, restocking            |
-| 🔎 **Search & Discovery**     | Read-optimized catalog/index views                   |
-| ⚠️ **Promotions & Pricing**   | Discounts, price changes, campaigns                  |
-| 💁🏻‍♂️ **Support / Service** | Tickets, complaints, return handling                 |
-| 📫 **Notifications**          | Email, SMS, webhooks, system messaging               |
+| Value Stream                | Responsibility                                       |
+|-----------------------------|------------------------------------------------------|
+| 📝 **Catalog**              | Product definitions, SKUs, attributes                |
+| 📺 **Channels**             | Marketplace listings, syncs, channel-specific logic  |
+| 📨 **Orders**               | Customer purchases, order lifecycle                  |
+| 🏪 **Checkout**             | Shopping cart, validation, checkout flow             |
+| 📦 **Inventory**            | Stock levels, reservations, fulfillment readiness    |
+| 📒 **Procurement**          | Supply chain, purchase orders, restocking            |
+| 🛤️ **Fulfillment**         | Shipping, delivery tracking, warehouse orchestration |
+| 💳 **Payments**             | Payment gateway, capture, refunds                    |
+| ⚠️ **Promotions & Pricing** | Discounts, price changes, campaigns                  |
+| 🔎 **Search & Discovery**   | Read-optimized catalog/index views                   |
+| 💼 **Vendor Portal**        | B2B portal, performance dashboards and stats         |
+| 🧓🏻 **Customer Accounts**  | Identity, profile, registration                      |
+| 💁🏻‍♂️ **Support **        | Tickets, complaints, return handling                 |
+| 📫 **Notifications**        | Email, SMS, webhooks, system messaging               |
 
 ### 🏞️ Modules across the value streams (chart) <a id='3.2'></a>
 
