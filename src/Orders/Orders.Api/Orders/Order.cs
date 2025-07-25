@@ -5,6 +5,13 @@ using Marten.Schema;
 
 public record OrderLine(Guid SkuId, int Quantity, decimal UnitPrice);
 public record ShippingInfo(string Address, string City, string PostalCode, string Country);
+public record OrderFulfilled(
+    Guid OrderId,
+    DateTimeOffset FulfilledAt,
+    IEnumerable<FulfilledLine> FulfilledLines
+);
+
+public record FulfilledLine(Guid SkuId, int QuantityShipped);
 
 public class Order
 {
