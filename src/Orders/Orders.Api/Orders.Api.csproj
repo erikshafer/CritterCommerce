@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Marten" Version="8.3.3" />
+        <PackageReference Include="Marten" Version="8.4.0" />
         <PackageReference Include="WolverineFx" Version="4.7.0" />
         <PackageReference Include="WolverineFx.Http.FluentValidation" Version="4.7.0" />
         <PackageReference Include="WolverineFx.Http.Marten" Version="4.7.0" />
