@@ -15,8 +15,4 @@
         <PackageReference Include="WolverineFx.Http.Marten" Version="4.7.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Catalog\Catalog.csproj" />
-    </ItemGroup>
-
 </Project>
