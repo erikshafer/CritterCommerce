@@ -43,7 +43,7 @@ These value streams are how the overall .NET solution will be broken down. For e
 | 🔎 **Search & Discovery**   | Read-optimized catalog/index views                   |
 | 💼 **Vendor Portal**        | B2B portal, performance dashboards and stats         |
 | 🧓🏻 **Customer Accounts**  | Identity, profile, registration                      |
-| 💁🏻‍♂️ **Support **        | Tickets, complaints, return handling                 |
+| 💁🏻‍♂️ **Support**         | Tickets, complaints, return handling                 |
 | 📫 **Notifications**        | Email, SMS, webhooks, system messaging               |
 
 ### 🏞️ Modules across the value streams (chart) <a id='3.2'></a>
