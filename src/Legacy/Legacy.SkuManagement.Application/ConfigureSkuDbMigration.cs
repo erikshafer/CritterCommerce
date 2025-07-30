@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Legacy.SkuManagement.Api;
+namespace Legacy.SkuManagement;
 
-internal static class ConfigureSkuDbMigration
+public static class ConfigureSkuDbMigration
 {
     public static void ApplyEfDbMigration(this IApplicationBuilder app)
     {

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace Legacy.SkuManagement.Api.SkuReservations;
+namespace Legacy.SkuManagement.SkuReservations;
 
 public sealed record UnreserveSku(int Unit, string Username);
 

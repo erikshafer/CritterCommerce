@@ -1,4 +1,4 @@
-using Legacy.SkuManagement.Api;
+using Legacy.SkuManagement;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

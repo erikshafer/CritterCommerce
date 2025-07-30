@@ -1,6 +1,7 @@
+using Legacy.SkuManagement.Domain.SkuReservations;
 using Microsoft.EntityFrameworkCore;
 
-namespace Legacy.SkuManagement.Api.SkuReservations;
+namespace Legacy.SkuManagement.SkuReservations;
 
 public sealed record ReserveSku(int Unit, string Username);
 
