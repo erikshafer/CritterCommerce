@@ -1,12 +1,22 @@
 # Development Guidelines for .NET
 
+This file provides guidance to Claude when working within this .NET (C#) code repository.
+
 ## Core Philosophy
 
-I follow a belief that Event Sourcing, CQRS, and Event-Driven Architecture can simplify what many software developers may consider a "complex domain" by unraveling the complexity by identifying specific, step-by-step business operations. That is, persisting the decisions made through the logic with events to the event store and publishing related messages. The event store is managed by Marten and the event-driven aspect with messages being published is handled by Wolverine. 
+This repository of code largely reflects how I believe modern systems using dotnet (.NET) should be built. Which is to say by leveraging Event-Driven Architecture, Event Sourcing, and Command Query Responsibility Segregation (CQRS) the software can not only follow business processes more directly, but can be easier to extend and maintain thanks to the incremental and reactive nature of these software design techniques.
 
-This places a strong emphasis on the behavior of components, with logic encapsulated in small functions (methods in C#). With these loosely coupled pieces along with thoughtful naming of code and events, ideally even a non-technical stakeholder could understand what the code is doing. 
+With concepts from Domain-Driven Design (DDD) sprinkled in where appropriate, these techniques when used with JasperFX's open-source software [Wolverine](https://wolverine.netlify.app/), [Marten](https://martendb.io/), and [Alba](https://jasperfx.github.io/alba/), provide a recipe for success. One that gets out of the way of the software developer so they can focus on the task at hand instead of copy-and-pasting boilerplate code and repetitive infrastructure configuration.
 
-We are leveraging the "Critter Stack", AKA Marten and Wolverine, as much as possible throughout this system. We are building a reference architecture on how event sourcing and event-driven systems are built and how the Critter Stack can simplify much of the work through its low-ceremony code.
+With Wolverine, we can follow a [Railway Oriented Programming](https://fsharpforfunandprofit.com/posts/recipe-part2/) like methodology. It's popular in F# development and gives us a functional-like way to breaking our code into smaller, more "pure" like functions (pure functions). We may have a Before, or Validate function before our primary Handler, and may even have an After function. This breaks up responsibility of checking up on dependencies such as calling an external service, making sure an entity we query for isn't null, or what have you. We want our developers to "fall into the pit of success", and by breaking up these responsibilities and creating a pipeline of functions that each encapsulate a specific responsibility. This leads to simpler code and simpler tests.
+
+By leveraging the "Critter Stack", AKA Marten + Wolverine, we can write code that reduces the boilerplate needed to build robust event-driven systems. Largely this is done by identifying, modeling, and naming functions in our code after actual business processes. For many of these processes, also known as workflows, we follow a form of the [Decider Pattern](https://thinkbeforecoding.com/post/2021/12/17/functional-event-sourcing-decider). This is done by using the [Wolverine Aggregate Handler Workflow](https://wolverinefx.net/guide/durability/marten/event-sourcing.html) for a low ceremony approach to the "Decider" pattern with Marten. For longer running workflows, or ones that need to break large, logical transactions into a series of smaller states, we leverage Wolverine's [Saga](https://wolverinefx.net/guide/durability/sagas.html) capabilities. Sagas are sometimes called Process Managers in ecosystems. Here we are not too hung up on what is "correct" and go with the fact Wolverine calls persisting state for such a long transaction as a Saga.
+
+## What This Repository Is
+
+As mentioned, we're leveraging certain software techniques and technologies, but for what? We are building a reference system that others can look at to improve their understanding of not just these software concepts, but how technologies like Wolverine and Marten can simplify their development experiences.
+
+With the domain of this project being in e-commerce, we have many opportunities to demonstrate the above. From recording the logistics of the supply chain, to cataloging products with granular details, to capturing user-behavior with a shopping cart. Since we will be persisting most of our data through Event Sourcing, we can leverage said data and providing meaningful information to various decision makers across this imaginary company through event subscriptions (projections, etc).
 
 ## Quick Reference
 
@@ -55,13 +65,13 @@ Wolverine has a lot of specific functionality to move infrastructure concerns ou
 - Test through the public API exclusively - internals should be invisible to tests
 - Create tests in a separate project directory underneath the `tests` directory
 - Tests that examine internal implementation details are wasteful and should be avoided
-- Tests must document expected business behaviour
+- Tests must document expected business behavior
 
 ### Testing Tools
 
 - **xUnit** for testing framework
 - **Shouldly** for readable assertions
-- **Moq** for mocking when absolutely necessary (prefer real implementations)
+- **NSubstitute** for mocking, only when it's necessary, as we prefer real implementations
 - All test code must follow the same C# standards as production code
 
 ### Test Organization
@@ -69,14 +79,15 @@ Wolverine has a lot of specific functionality to move infrastructure concerns ou
 ```
 src/
   Payments/
-    PaymentProcessorApplication/
-      PaymentProcessorApplication.csproj
+    PaymentProcessor/
+      PaymentProcessor.csproj
       PaymentProcessor.cs
       PaymentValidator.cs
 tests/
   Payments/
-    PaymentProcessorApplication.Tests/
-      PaymentProcessor.Tests.cs // The validator is an implementation detail. Validation is fully covered, but by testing the expected business behaviour
+    PaymentProcessor.Tests/
+      PaymentProcessor.Tests.csproj
+      PaymentProcessorTests.cs  // The validator (PaymentValidator.cs) is an implementation detail. Validation is fully covered, but by testing the expected business behavior.
 ```
 
 ### Test Data Pattern
@@ -260,7 +271,11 @@ tests/
   YourApp.Tests/                    # Tests for ensuring the value objects and other low-level primitives function exactly as expected.
 ```
 
-Inside the .Core library, DO NOT create folders based on technical feature (Entities, DTO's, Services). Instead, create folders based on the actual business value that grouped set of code performs. Loosely following a vertical slice architecture style. A new developer should be able to look at the files/folders inside a project and understand what is is that the application does.
+#### Avoid Having Folders Based on Technical Features
+
+Inside our projects, we want to avoid creating folders (directories) based on technical feature (Entities, Models, Controllers, DTO's). Instead, create folders based on the actual business value that grouped set of code performs. Loosely following a vertical slice architecture style. A new developer should be able to look at the files/folders inside a project and understand what is is that the application does.
+
+If there is a folder based on a technical feature, treat it as temporary and that its contents will be moved to a better-fitting namespace soon.
 
 ### C# Language Features
 
@@ -581,7 +596,7 @@ public static class ScheduleFreightShipmentEndpoint
 ```
 ### Identity (ID) Generation
 
-Do not use the standard `Guid.NewGuid()` operation of creating a random identity for an event stream id.
+Do not use the standard `Guid.NewGuid()` operation of creating a random identity for an event stream or document.
 
 Instead, use Marten's built in COMB GUID Id Generator. It is essentially a combination of GUID with embedded data and timestamp of its creation. This gives us a sequential GUID, with each GUID being sequentially after the previous GUID.  This works great for indexing and sorting. 
 
