@@ -54,6 +54,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Procurement", "src\Procurem
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Procurement.Tests", "tests\Procurement\Procurement.Tests\Procurement.Tests.csproj", "{1BCC3026-2990-4154-9B49-1C0465A04ADF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Legacy.Catalog.Api.Tests", "tests\Legacy\Legacy.Catalog.Api.Tests\Legacy.Catalog.Api.Tests.csproj", "{6953888D-5A61-44C1-A8BF-E934FFDF1554}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,7 @@ Global
 		{141CAE76-0382-40C8-BE34-DAE23E318D49} = {E54CD82E-0B91-444B-9910-9833EB3E6416}
 		{4510C017-E48B-4E3E-BC98-F33938A95805} = {DBCB1D7B-7428-4701-BB07-51E48D65A079}
 		{1BCC3026-2990-4154-9B49-1C0465A04ADF} = {DBCB1D7B-7428-4701-BB07-51E48D65A079}
+		{6953888D-5A61-44C1-A8BF-E934FFDF1554} = {E54CD82E-0B91-444B-9910-9833EB3E6416}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F808B2D2-6C97-41E1-8FCD-45DDBEED3439}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -132,5 +135,9 @@ Global
 		{1BCC3026-2990-4154-9B49-1C0465A04ADF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BCC3026-2990-4154-9B49-1C0465A04ADF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BCC3026-2990-4154-9B49-1C0465A04ADF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6953888D-5A61-44C1-A8BF-E934FFDF1554}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6953888D-5A61-44C1-A8BF-E934FFDF1554}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6953888D-5A61-44C1-A8BF-E934FFDF1554}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6953888D-5A61-44C1-A8BF-E934FFDF1554}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
