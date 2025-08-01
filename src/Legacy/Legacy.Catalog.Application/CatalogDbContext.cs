@@ -1,12 +1,7 @@
-using Legacy.Catalog.Api.Brands;
-using Legacy.Catalog.Api.Categories;
-using Legacy.Catalog.Api.Inventories;
-using Legacy.Catalog.Api.Items;
-using Legacy.Catalog.Api.Multimedia;
-using Legacy.Catalog.Api.Prices;
+using Legacy.Catalog.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Legacy.Catalog.Api;
+namespace Legacy.Catalog.Application;
 
 public class CatalogDbContext : DbContext
 {

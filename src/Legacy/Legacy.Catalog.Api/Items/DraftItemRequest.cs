@@ -1,13 +1,13 @@
 using JasperFx.Core;
-using Wolverine.Attributes;
+using Legacy.Catalog.Application;
+using Legacy.Catalog.Domain.Entities;
 using Wolverine.Http;
-using Wolverine.Persistence;
 
 namespace Legacy.Catalog.Api.Items;
 
-public sealed record DraftItem(string Name);
+public sealed record DraftItemRequest(string Name);
 
-public sealed record ItemDrafted(Guid Id);
+public sealed record ItemDraftedEvent(Guid Id);
 
 public sealed record ItemDraftedResponse(Guid Id)
     : CreationResponse("/api/items/" + Id);
@@ -15,8 +15,8 @@ public sealed record ItemDraftedResponse(Guid Id)
 public static class DraftItemEndpoint
 {
     [WolverinePost("/api/items")]
-    public static (ItemDraftedResponse, ItemDrafted) Handle(
-        DraftItem command,
+    public static (ItemDraftedResponse, ItemDraftedEvent) Handle(
+        DraftItemRequest command,
         CatalogDbContext db)
     {
         var item = new Item
@@ -31,14 +31,14 @@ public static class DraftItemEndpoint
 
         return (
             new ItemDraftedResponse(item.Id),
-            new ItemDrafted(item.Id)
+            new ItemDraftedEvent(item.Id)
         );
     }
 }
 
 public class ItemDraftedHandler
 {
-    public void Handle(ItemDrafted @event)
+    public void Handle(ItemDraftedEvent @event)
     {
         Console.WriteLine("You created a new item with id {0}", @event.Id);
     }

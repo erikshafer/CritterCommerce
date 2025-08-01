@@ -1,4 +1,4 @@
-namespace Legacy.Catalog.Api.Prices;
+namespace Legacy.Catalog.Domain.Entities;
 
 public class Price
 {

@@ -1,6 +1,6 @@
-namespace Legacy.Catalog.Api.Categories;
+namespace Legacy.Catalog.Domain.Entities;
 
-public class Category
+public class Brand
 {
     public Guid Id { get; set; }
     public string? Name { get; set; }

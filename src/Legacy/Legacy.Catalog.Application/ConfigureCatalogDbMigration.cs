@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Legacy.Catalog.Api;
+namespace Legacy.Catalog.Application;
 
-internal static class ConfigureCatalogDbMigration
+public static class ConfigureCatalogDbMigration
 {
     public static void ApplyEfDbMigration(this IApplicationBuilder app)
     {

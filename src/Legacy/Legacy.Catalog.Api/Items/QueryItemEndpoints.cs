@@ -1,3 +1,5 @@
+using Legacy.Catalog.Application;
+using Legacy.Catalog.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Wolverine.Http;
 

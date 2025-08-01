@@ -1,4 +1,4 @@
-namespace Legacy.Catalog.Api.Items;
+namespace Legacy.Catalog.Domain.Entities;
 
 public class Item
 {

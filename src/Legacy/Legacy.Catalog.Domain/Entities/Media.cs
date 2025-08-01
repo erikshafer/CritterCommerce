@@ -1,4 +1,4 @@
-namespace Legacy.Catalog.Api.Multimedia;
+namespace Legacy.Catalog.Domain.Entities;
 
 public class Media
 {
