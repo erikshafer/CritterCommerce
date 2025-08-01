@@ -56,6 +56,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Procurement.Tests", "tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Legacy.Catalog.Api.Tests", "tests\Legacy\Legacy.Catalog.Api.Tests\Legacy.Catalog.Api.Tests.csproj", "{6953888D-5A61-44C1-A8BF-E934FFDF1554}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Legacy.Catalog.Domain", "src\Legacy\Legacy.Catalog.Domain\Legacy.Catalog.Domain.csproj", "{35793B1D-4543-4F53-A663-CBEDAEFE1A96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Legacy.Catalog.Application", "src\Legacy\Legacy.Catalog.Application\Legacy.Catalog.Application.csproj", "{23611DBE-4C18-467C-B0E6-02530FB085C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +81,8 @@ Global
 		{4510C017-E48B-4E3E-BC98-F33938A95805} = {DBCB1D7B-7428-4701-BB07-51E48D65A079}
 		{1BCC3026-2990-4154-9B49-1C0465A04ADF} = {DBCB1D7B-7428-4701-BB07-51E48D65A079}
 		{6953888D-5A61-44C1-A8BF-E934FFDF1554} = {E54CD82E-0B91-444B-9910-9833EB3E6416}
+		{35793B1D-4543-4F53-A663-CBEDAEFE1A96} = {E54CD82E-0B91-444B-9910-9833EB3E6416}
+		{23611DBE-4C18-467C-B0E6-02530FB085C3} = {E54CD82E-0B91-444B-9910-9833EB3E6416}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F808B2D2-6C97-41E1-8FCD-45DDBEED3439}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -139,5 +145,13 @@ Global
 		{6953888D-5A61-44C1-A8BF-E934FFDF1554}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6953888D-5A61-44C1-A8BF-E934FFDF1554}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6953888D-5A61-44C1-A8BF-E934FFDF1554}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35793B1D-4543-4F53-A663-CBEDAEFE1A96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35793B1D-4543-4F53-A663-CBEDAEFE1A96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35793B1D-4543-4F53-A663-CBEDAEFE1A96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35793B1D-4543-4F53-A663-CBEDAEFE1A96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23611DBE-4C18-467C-B0E6-02530FB085C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23611DBE-4C18-467C-B0E6-02530FB085C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23611DBE-4C18-467C-B0E6-02530FB085C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23611DBE-4C18-467C-B0E6-02530FB085C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
