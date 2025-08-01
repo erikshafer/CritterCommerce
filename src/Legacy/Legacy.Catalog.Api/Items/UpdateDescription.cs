@@ -1,3 +1,4 @@
+using Legacy.Catalog.Application;
 using Wolverine.Http;
 
 namespace Legacy.Catalog.Api.Items;
