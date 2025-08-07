@@ -3,11 +3,11 @@ using Wolverine.Http;
 
 namespace Legacy.Catalog.Api.Items;
 
-public sealed record UpdateDescription(Guid Id, string Description);
+public sealed record UpdateDescription(int Id, string Description);
 
-public sealed record DescriptionUpdated(Guid Id, bool Accepted);
+public sealed record DescriptionUpdated(int Id, bool Accepted);
 
-public sealed record DescriptionUpdatedResponse(Guid Id, bool Accepted)
+public sealed record DescriptionUpdatedResponse(int Id, bool Accepted)
     : AcceptResponse("/api/items/" + Id);
 
 public static class UpdateDescriptionEndpoint

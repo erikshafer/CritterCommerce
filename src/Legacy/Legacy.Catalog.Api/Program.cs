@@ -1,18 +1,10 @@
-using Legacy.Catalog.Api;
 using Legacy.Catalog.Application;
-using Microsoft.EntityFrameworkCore;
 using Wolverine;
 using Wolverine.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<CatalogDbContext>(options =>
-{
-    options.UseNpgsql(
-        builder.Configuration.GetConnectionString("Postgres"),
-        x => x.MigrationsHistoryTable("__EFMigrationsHistory", "legacy_catalog"));
-    options.UseSnakeCaseNamingConvention();
-});
+builder.Services.AddLegacyCatalogData(builder.Configuration);
 
 builder.Host.UseWolverine();
 

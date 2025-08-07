@@ -1,15 +1,14 @@
-using JasperFx.Core;
 using Legacy.Catalog.Application;
 using Legacy.Catalog.Domain.Entities;
 using Wolverine.Http;
 
 namespace Legacy.Catalog.Api.Items;
 
-public sealed record DraftItemRequest(string Name);
+public sealed record DraftItemRequest(string Name, int Id);
 
-public sealed record ItemDraftedEvent(Guid Id);
+public sealed record ItemDraftedEvent(int Id);
 
-public sealed record ItemDraftedResponse(Guid Id)
+public sealed record ItemDraftedResponse(int Id)
     : CreationResponse("/api/items/" + Id);
 
 public static class DraftItemEndpoint
@@ -22,7 +21,7 @@ public static class DraftItemEndpoint
         var item = new Item
         {
             Name = command.Name,
-            Id = CombGuidIdGeneration.NewGuid(),
+            Id = command.Id,
             Description = string.Empty
         };
 

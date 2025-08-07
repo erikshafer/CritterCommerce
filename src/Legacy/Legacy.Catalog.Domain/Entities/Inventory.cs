@@ -2,6 +2,7 @@ namespace Legacy.Catalog.Domain.Entities;
 
 public class Inventory
 {
-    public Guid Id { get; set; }
-    public int Value { get; set; }
+    public int Id { get; set; }
+    public int ItemId { get; set; }
+    public int Quantity { get; set; }
 }
