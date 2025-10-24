@@ -12,9 +12,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="WolverineFx.Http.FluentValidation" Version="4.12.3" />
-        <PackageReference Include="WolverineFx.Http.Marten" Version="4.12.3" />
-        <PackageReference Include="WolverineFx.RabbitMQ" Version="4.12.3" />
+        <PackageReference Include="WolverineFx.Http.FluentValidation" Version="5.0.0" />
+        <PackageReference Include="WolverineFx.Http.Marten" Version="5.0.0" />
+        <PackageReference Include="WolverineFx.RabbitMQ" Version="5.0.0" />
     </ItemGroup>
 
 </Project>

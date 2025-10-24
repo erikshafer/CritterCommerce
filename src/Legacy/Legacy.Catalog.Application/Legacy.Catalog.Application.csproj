@@ -25,7 +25,7 @@
 
     <ItemGroup>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
-        <PackageReference Include="WolverineFx" Version="4.12.3" />
+        <PackageReference Include="WolverineFx" Version="5.0.0" />
     </ItemGroup>
 
     <ItemGroup>
