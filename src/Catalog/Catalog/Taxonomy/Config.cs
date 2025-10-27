@@ -8,8 +8,10 @@ internal static class Config
     internal static void AddCategoryProjections(this StoreOptions opts)
     {
         opts.Projections
-            .Snapshot<DraftCategory>(SnapshotLifecycle.Inline)
-            .Identity(x => x.Id);
+            .Snapshot<Category>(SnapshotLifecycle.Inline)
+            .Identity(x => x.Id)
+            .Duplicate(x => x.ParentId)
+            .Duplicate(x => x.Code);
 
         // projections
 

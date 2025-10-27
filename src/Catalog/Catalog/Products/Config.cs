@@ -8,9 +8,10 @@ internal static class Config
     internal static void AddProductProjections(this StoreOptions opts)
     {
         opts.Projections
-            .Snapshot<DraftProduct>(SnapshotLifecycle.Inline)
+            .Snapshot<Product>(SnapshotLifecycle.Inline)
             .Identity(x => x.Id)
-            .Duplicate(x => x.Sku);
+            .Duplicate(x => x.Sku)
+            .Duplicate(x => x.BrandId);
 
         // projections
 

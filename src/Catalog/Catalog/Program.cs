@@ -1,4 +1,7 @@
 using Catalog;
+using Catalog.Brands;
+using Catalog.DraftProducts;
+using Catalog.DraftTaxonomy;
 using Catalog.Products;
 using Catalog.Taxonomy;
 using JasperFx;
@@ -24,8 +27,11 @@ builder.Services.AddMarten(opts =>
     opts.DisableNpgsqlLogging = true;
 
     // Add projections
+    opts.AddDraftProductProjections();
     opts.AddProductProjections();
+    opts.AddDraftCategoryProjections();
     opts.AddCategoryProjections();
+    opts.AddBrandProjections();
 });
 
 builder.Host.UseWolverine(opts =>
@@ -48,8 +54,11 @@ builder.Host.UseWolverine(opts =>
 
 
 // Add services (domain, etc)
+builder.Services.AddDraftProductServices();
 builder.Services.AddProductServices();
+builder.Services.AddDraftCategoryServices();
 builder.Services.AddCategoryServices();
+builder.Services.AddBrandServices();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
