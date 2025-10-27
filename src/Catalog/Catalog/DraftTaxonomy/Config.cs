@@ -1,3 +1,4 @@
+using Catalog.DraftTaxonomy.Services;
 using Marten;
 using Marten.Events.Projections;
 
@@ -18,6 +19,6 @@ internal static class Config
 
     internal static void AddDraftCategoryServices(this IServiceCollection services)
     {
-
+        services.AddSingleton<ICategoryLookupService, CategoryLookupService>();
     }
 }

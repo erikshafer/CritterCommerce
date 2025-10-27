@@ -1,11 +1,11 @@
 namespace Catalog.DraftProducts.Services;
 
-public interface ICategoryService
+public interface ICategoryLookupService
 {
     bool DoesCategoryExist(Guid categoryId);
 }
 
-public class CategoryService : ICategoryService
+public class CategoryLookupService : ICategoryLookupService
 {
     public bool DoesCategoryExist(Guid categoryId)
     {

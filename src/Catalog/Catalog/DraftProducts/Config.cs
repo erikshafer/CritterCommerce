@@ -21,6 +21,6 @@ internal static class Config
     {
         services.AddSingleton<ISkuService, SkuService>();
         services.AddSingleton<IBrandService, BrandService>();
-        services.AddSingleton<ICategoryService, CategoryService>();
+        services.AddSingleton<ICategoryLookupService, CategoryLookupService>();
     }
 }
