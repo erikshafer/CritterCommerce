@@ -1,11 +1,11 @@
 using Marten;
 using Marten.Events.Projections;
 
-namespace Catalog.Taxonomy;
+namespace Catalog.DraftTaxonomy;
 
 internal static class Config
 {
-    internal static void AddCategoryProjections(this StoreOptions opts)
+    internal static void AddDraftCategoryProjections(this StoreOptions opts)
     {
         opts.Projections
             .Snapshot<DraftCategory>(SnapshotLifecycle.Inline)
@@ -16,7 +16,7 @@ internal static class Config
         // views
     }
 
-    internal static void AddCategoryServices(this IServiceCollection services)
+    internal static void AddDraftCategoryServices(this IServiceCollection services)
     {
 
     }
