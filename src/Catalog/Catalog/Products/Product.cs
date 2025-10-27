@@ -14,11 +14,11 @@ public sealed record Product(
     string Sku,
     Guid BrandId)
 {
-    public static Product Create(IEvent<ProductInitialized> drafted) =>
+    public static Product Create(IEvent<ProductInitialized> @event) =>
         new (
-            drafted.StreamId,
-            drafted.Data.Name,
-            drafted.Data.Sku,
-            drafted.Data.BrandId
+            @event.StreamId,
+            @event.Data.Name,
+            @event.Data.Sku,
+            @event.Data.BrandId
             );
 }

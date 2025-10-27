@@ -21,13 +21,13 @@ public sealed record DraftProduct(
     bool BrandHasBeenValidated = false,
     bool HasBeenApproved = false)
 {
-    public static DraftProduct Create(IEvent<ProductDrafted> drafted) =>
+    public static DraftProduct Create(IEvent<ProductDrafted> @event) =>
         new (
-            drafted.StreamId,
-            drafted.Data.Name,
-            drafted.Data.InternalNotes,
-            drafted.Data.Sku,
-            drafted.Data.BrandId
+            @event.StreamId,
+            @event.Data.Name,
+            @event.Data.InternalNotes,
+            @event.Data.Sku,
+            @event.Data.BrandId
             );
 
     public static DraftProduct Apply(DraftProduct current, DraftProductNamedChanged @event) =>

@@ -19,13 +19,13 @@ public sealed record DraftCategory(
     string? ParentCode = null,
     bool HasBeenApproved = false)
 {
-    public static DraftCategory Create(IEvent<CategoryDrafted> drafted) =>
+    public static DraftCategory Create(IEvent<CategoryDrafted> @event) =>
         new (
-            drafted.StreamId,
-            drafted.Data.Name,
-            drafted.Data.Shorthand,
-            drafted.Data.Description,
-            drafted.Data.ParentId
+            @event.StreamId,
+            @event.Data.Name,
+            @event.Data.Shorthand,
+            @event.Data.Description,
+            @event.Data.ParentId
             );
 
     public static DraftCategory Apply(DraftCategory current, DraftCategoryNameChanged @event) =>
