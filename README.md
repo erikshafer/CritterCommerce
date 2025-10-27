@@ -67,13 +67,13 @@ An example of various proposed modules in this system, highlighting some technol
 | 🧓🏻 **(Legacy) Catalog**  | Sku Management           | ✅         | ⛔      | ✅       | CRUD       | ⛔    | No Critter Stack  at all possibly |
 | 🤔 More TBD                | ...                      | ...       | ...    | ...     | ...        | ...  | ...                               |
 
-## ➡️ Diagrams <a id='8.0'></a>
+## ➡️ Diagrams <a id='4.0'></a>
 
 **Work-in-progress.**
 
 I would like to outline some of the business workflows as well as the technical aspects like architecture.
 
-### Receiving Shipments workflow <a id='8.1'></a>
+### Receiving Shipments workflow <a id='4.1'></a>
 
 This diagram visualizes the **ReceivingShipments** workflow and the typical status transitions for a `ReceivedShipment` aggregate. It can be visualized as a simple state machine:
 
@@ -100,6 +100,14 @@ stateDiagram-v2
 
 **Note:**
 - Returning to [ * ] just represents an end state; in practice, transitions are unidirectional.
+
+## 🛠️ Local Development <a id='5.0'></a>
+
+WIP. To launch Docker with the `all` profile, use this `docker-compose` command:
+
+```bash
+docker-compose --profile all up -d
+```
 
 ## 🏫 Resources <a id='9.0'></a>
 
