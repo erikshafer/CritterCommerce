@@ -2,6 +2,7 @@ using Catalog;
 using Catalog.DraftProducts;
 using Catalog.DraftTaxonomy;
 using Catalog.Products;
+using Catalog.Taxonomy;
 using JasperFx;
 using JasperFx.Core;
 using Marten;
@@ -28,6 +29,7 @@ builder.Services.AddMarten(opts =>
     opts.AddDraftProductProjections();
     opts.AddProductProjections();
     opts.AddDraftCategoryProjections();
+    opts.AddCategoryProjections();
 });
 
 builder.Host.UseWolverine(opts =>
@@ -53,6 +55,7 @@ builder.Host.UseWolverine(opts =>
 builder.Services.AddDraftProductServices();
 builder.Services.AddProductServices();
 builder.Services.AddDraftCategoryServices();
+builder.Services.AddCategoryServices();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

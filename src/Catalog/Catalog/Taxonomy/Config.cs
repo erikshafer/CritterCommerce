@@ -18,7 +18,7 @@ internal static class Config
         // views
     }
 
-    internal static void AddDraftCategoryServices(this IServiceCollection services)
+    internal static void AddCategoryServices(this IServiceCollection services)
     {
 
     }
