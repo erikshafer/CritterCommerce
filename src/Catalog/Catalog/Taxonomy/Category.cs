@@ -11,12 +11,12 @@ public sealed record Category(
     string Description,
     Guid ParentId)
 {
-    public static Category Create(IEvent<CategoryInitialized> drafted) =>
+    public static Category Create(IEvent<CategoryInitialized> @event) =>
         new (
-            drafted.StreamId,
-            drafted.Data.Name,
-            drafted.Data.Shorthand,
-            drafted.Data.Description,
-            drafted.Data.ParentId
+            @event.StreamId,
+            @event.Data.Name,
+            @event.Data.Shorthand,
+            @event.Data.Description,
+            @event.Data.ParentId
         );
 }
